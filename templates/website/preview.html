@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if website.meta_title %}{{ website.meta_title }}{% else %}{{ website.name }}{% endif %}</title>
+    {% if website.meta_description %}
+    <meta name="description" content="{{ website.meta_description }}">
+    {% endif %}
+    {% if website.meta_keywords %}
+    <meta name="keywords" content="{{ website.meta_keywords }}">
+    {% endif %}
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: {{ website.primary_color|default:"#007bff" }};
+            --secondary-color: {{ website.secondary_color|default:"#6c757d" }};
+        }
+        
+        .navbar-custom {
+            background-color: var(--primary-color) !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 100px 0;
+        }
+        
+        .slider-item {
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        
+        .slider-content {
+            background: rgba(0,0,0,0.5);
+            padding: 40px;
+            border-radius: 10px;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0 20px 0;
+        }
+        
+        .admin-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #dc3545;
+            color: white;
+            padding: 5px 0;
+            text-align: center;
+            font-size: 12px;
+            z-index: 9999;
+        }
+        
+        body {
+            margin-top: 35px;
+        }
+        
+        .preview-badge {
+            position: fixed;
+            top: 45px;
+            right: 20px;
+            z-index: 1000;
+            background: #ffc107;
+            color: #212529;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Preview Bar -->
+    <div class="admin-bar">
+        <strong>PREVIEW MODE</strong> - This is how your website will look to visitors
+        <a href="/tenant-admin/" style="color: #fff; margin-left: 20px; text-decoration: underline;">Back to Admin</a>
+    </div>
+    
+    <!-- Preview Badge -->
+    <div class="preview-badge">
+        <i class="fas fa-eye"></i> Preview
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#"><i class="fas fa-globe"></i> {{ website.name }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero/Slider Section -->
+    {% if slider_items %}
+    <section id="home">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for item in slider_items %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %} slider-item" 
+                     {% if item.image %}style="background-image: url('{{ item.image.url }}');"{% endif %}>
+                    <div class="container">
+                        <div class="slider-content">
+                            <h1 class="display-4 fw-bold mb-3">{{ item.title }}</h1>
+                            {% if item.subtitle %}
+                            <h2 class="h4 mb-3">{{ item.subtitle }}</h2>
+                            {% endif %}
+                            {% if item.description %}
+                            <p class="lead mb-4">{{ item.description }}</p>
+                            {% endif %}
+                            {% if item.button_text and item.button_url %}
+                            <a href="{{ item.button_url }}" class="btn btn-primary btn-lg">{{ item.button_text }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if slider_items.count > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+            {% endif %}
+        </div>
+    </section>
+    {% else %}
+    <section id="home" class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">Welcome to {{ website.name }}</h1>
+            {% if website.description %}
+            <p class="lead mb-4">{{ website.description }}</p>
+            {% else %}
+            <p class="lead mb-4">Your amazing website powered by AI</p>
+            {% endif %}
+            <a href="#about" class="btn btn-light btn-lg">Learn More</a>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Homepage Content -->
+    {% if homepage and homepage.content %}
+    <section class="py-5">
+        <div class="container">
+            {{ homepage.content|safe }}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="display-5 fw-bold mb-4">About {{ website.name }}</h2>
+                    <p class="lead mb-4">
+                        {% if website.description %}
+                            {{ website.description }}
+                        {% else %}
+                            We are dedicated to providing excellent service and building lasting relationships with our customers.
+                        {% endif %}
+                    </p>
+                    <p class="mb-4">
+                        This is an example website created with JustCodeWorks.EU's AI-powered platform. 
+                        Customize this content through your admin panel.
+                    </p>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <i class="fas fa-building fa-10x text-muted"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Our Services</h2>
+                <p class="lead text-muted">What we offer to help your business grow</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-cog fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Service 1</h5>
+                            <p class="card-text">Description of your first service offering.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Service 2</h5>
+                            <p class="card-text">Description of your second service offering.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Service 3</h5>
+                            <p class="card-text">Description of your third service offering.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Contact Us</h2>
+                <p class="lead text-muted">Get in touch with us today</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-5">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Subject</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Message</label>
+                                    <textarea class="form-control" rows="5" required></textarea>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="fw-bold mb-3">{{ website.name }}</h5>
+                    <p class="text-light">
+                        {% if website.description %}
+                            {{ website.description }}
+                        {% else %}
+                            Built with JustCodeWorks.EU - AI-powered website creation platform.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="#about" class="text-light text-decoration-none">About</a></li>
+                        <li><a href="#services" class="text-light text-decoration-none">Services</a></li>
+                        <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="fw-bold mb-3">Contact Info</h6>
+                    <p class="text-light mb-1">
+                        <i class="fas fa-envelope"></i> 
+                        {% if website.settings.contact_email %}
+                            {{ website.settings.contact_email }}
+                        {% else %}
+                            info@{{ website.domain }}
+                        {% endif %}
+                    </p>
+                    {% if website.settings.contact_phone %}
+                    <p class="text-light mb-1">
+                        <i class="fas fa-phone"></i> {{ website.settings.contact_phone }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: #495057;">
+            <div class="text-center">
+                <p class="text-light mb-0">&copy; 2025 {{ website.name }}. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

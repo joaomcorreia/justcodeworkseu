@@ -1,0 +1,73 @@
+<aside class="admin-sidebar" role="navigation" aria-label="Admin tools sidebar">
+    <div class="module">
+        <h2>DASHBOARD</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin:websites_website_changelist' %}">Overview</a></li>
+            <li><a href="{% url 'tenant_dashboard' %}">Dashboard</a></li>
+        </ul>
+
+        <h2>EDIT WEBSITE</h2>
+        <ul class="actionlist">
+            <li{% if request.resolver_match.url_name == 'edit_homepage' %} class="active"{% endif %}><a href="{% url 'edit_homepage' %}">Edit Homepage</a></li>
+            <li><a href="{% url 'admin:websites_homeslider_changelist' %}">- Main Slider</a></li>
+            <li><a href="{% url 'admin:websites_homecarouselitem_changelist' %}">- Home carousel items</a></li>
+            <li><a href="{% url 'admin:websites_homeaboutpanel_changelist' %}">- Homepage about panel</a></li>
+            <li><a href="{% url 'admin:websites_homevalueblock_changelist' %}">- Homepage value block</a></li>
+            <li><a href="{% url 'admin:websites_aboutpage_changelist' %}">Edit About Page</a></li>
+            <li><a href="{% url 'admin:websites_aboutbenefit_changelist' %}">- About benefits</a></li>
+            <li><a href="{% url 'admin:websites_page_changelist' %}">- All Pages</a></li>
+        </ul>
+
+        <h2>SUBSCRIPTIONS</h2>
+        <ul class="actionlist">
+            <li{% if request.resolver_match.url_name == 'subscription_overview' %} class="active"{% endif %}><a href="{% url 'subscription_overview' %}">Overview</a></li>
+            <li{% if request.resolver_match.url_name == 'domain_settings' %} class="active"{% endif %}><a href="{% url 'domain_settings' %}">Domain</a></li>
+            <li{% if request.resolver_match.url_name == 'hosting_settings' %} class="active"{% endif %}><a href="{% url 'hosting_settings' %}">Hosting</a></li>
+            <li{% if request.resolver_match.url_name == 'website_settings' %} class="active"{% endif %}><a href="{% url 'website_settings' %}">Website</a></li>
+            <li{% if request.resolver_match.url_name == 'seo_settings' %} class="active"{% endif %}><a href="{% url 'seo_settings' %}">SEO</a></li>
+            <li{% if request.resolver_match.url_name == 'social_networks' %} class="active"{% endif %}><a href="{% url 'social_networks' %}">Social Networks</a></li>
+        </ul>
+
+        <h2>AI FEATURES</h2>
+        <ul class="actionlist">
+            <li{% if request.resolver_match.url_name == 'ai_overview' %} class="active"{% endif %}><a href="{% url 'ai_overview' %}">AI Overview</a></li>
+            <li{% if request.resolver_match.url_name == 'ai_content_generator' %} class="active"{% endif %}><a href="{% url 'ai_content_generator' %}">Content Generator</a></li>
+            <li{% if request.resolver_match.url_name == 'ai_design_assistant' %} class="active"{% endif %}><a href="{% url 'ai_design_assistant' %}">Design Assistant</a></li>
+        </ul>
+
+        <h2>ANALYTICS</h2>
+        <ul class="actionlist">
+            <li{% if request.resolver_match.url_name == 'google_analytics' %} class="active"{% endif %}><a href="{% url 'google_analytics' %}">Google Analytics</a></li>
+            <li{% if request.resolver_match.url_name == 'facebook_insights' %} class="active"{% endif %}><a href="{% url 'facebook_insights' %}">Facebook Insights</a></li>
+            <li{% if request.resolver_match.url_name == 'visitor_stats' %} class="active"{% endif %}><a href="{% url 'visitor_stats' %}">Visitor Statistics</a></li>
+        </ul>
+
+        <h2>SETTINGS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin:websites_settings_changelist' %}">Site Settings</a></li>
+            <li{% if request.resolver_match.url_name == 'profile_settings' %} class="active"{% endif %}><a href="{% url 'profile_settings' %}">Profile</a></li>
+        </ul>
+
+        <h2>USERS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin:auth_user_changelist' %}">Overview</a></li>
+            <li{% if request.resolver_match.url_name == 'user_management' %} class="active"{% endif %}><a href="{% url 'user_management' %}">Users</a></li>
+        </ul>
+
+        <h2>TOOLS</h2>
+        <ul class="actionlist">
+            <li{% if request.resolver_match.url_name == 'qr_maker' %} class="active"{% endif %}><a href="{% url 'qr_maker' %}">QR Code Maker</a></li>
+            <li{% if request.resolver_match.url_name == 'image_resizer' %} class="active"{% endif %}><a href="{% url 'image_resizer' %}">Image Resizer</a></li>
+            <li{% if request.resolver_match.url_name == 'backup_restore' %} class="active"{% endif %}><a href="{% url 'backup_restore' %}">Backup & Restore</a></li>
+        </ul>
+
+        <h2>PREVIEW</h2>
+        <ul class="actionlist">
+            <li>
+                <a href="{% url 'website_preview' %}" target="_blank" class="preview-website-btn" style="background: #007bff; color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none; display: inline-block; margin: 5px 0;">
+                    <i class="fas fa-external-link-alt"></i> View Website
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>

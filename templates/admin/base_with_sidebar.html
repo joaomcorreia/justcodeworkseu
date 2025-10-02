@@ -1,0 +1,113 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    .admin-sidebar {
+        width: 280px;
+        background: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow-y: auto;
+        z-index: 1000;
+        padding-top: 60px;
+    }
+    
+    .admin-sidebar .module {
+        padding: 20px;
+    }
+    
+    .admin-sidebar h2 {
+        color: #495057;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 20px 0 10px 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .admin-sidebar .actionlist {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+    }
+    
+    .admin-sidebar .actionlist li {
+        margin: 0;
+    }
+    
+    .admin-sidebar .actionlist a {
+        display: block;
+        padding: 8px 12px;
+        color: #6c757d;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        font-size: 13px;
+    }
+    
+    .admin-sidebar .actionlist a:hover {
+        background: #e9ecef;
+        color: #495057;
+    }
+    
+    .admin-sidebar .actionlist li.active a {
+        background: #007bff;
+        color: white;
+    }
+    
+    .admin-sidebar .actionlist a[href*="-"] {
+        padding-left: 24px;
+        font-size: 12px;
+        color: #868e96;
+    }
+    
+    .main-content {
+        margin-left: 280px;
+        min-height: 100vh;
+    }
+    
+    .preview-website-btn {
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    .preview-website-btn:hover {
+        background: #0056b3 !important;
+        transform: translateY(-1px);
+    }
+    
+    @media (max-width: 768px) {
+        .admin-sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .admin-sidebar.show {
+            transform: translateX(0);
+        }
+        
+        .main-content {
+            margin-left: 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-layout">
+    {% include "admin/sidebar.html" %}
+    
+    <div class="main-content">
+        <div style="padding: 20px;">
+            {{ block.super }}
+        </div>
+    </div>
+</div>
+{% endblock %}
