@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_tenants.models import TenantMixin, DomainMixin
 
 
-class Tenant(models.Model):
+class Tenant(TenantMixin):
     """
     Tenant model for website owners (simplified for development)
     """
@@ -33,7 +34,7 @@ class Tenant(models.Model):
         return self.name
 
 
-class Domain(models.Model):
+class Domain(DomainMixin):
     """
     Domain model for tenant domains (simplified for development)
     """
