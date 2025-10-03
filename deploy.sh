@@ -28,7 +28,7 @@ cd /var/www/justcodeworks || cd /home/justcodeworks
 # Clone or update repository
 echo "📥 Setting up application code..."
 if [ ! -d "justcodeworkseu" ]; then
-    git clone https://github.com/yourusername/justcodeworkseu.git
+    git clone https://github.com/joaomcorreia/justcodeworkseu.git
 else
     cd justcodeworkseu
     git pull origin main
