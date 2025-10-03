@@ -74,9 +74,18 @@ python manage.py collectstatic --noinput --settings=justcodeworks.settings_prod
 python manage.py migrate_schemas --shared --settings=justcodeworks.settings_prod
 python manage.py migrate_schemas --settings=justcodeworks.settings_prod
 
-# Create superuser (interactive)
+# Create superuser (non-interactive)
 echo "👑 Create superuser account..."
-python manage.py createsuperuser --settings=justcodeworks.settings_prod
+echo "⚠️  Creating superuser with default credentials. Change password after deployment!"
+python manage.py shell --settings=justcodeworks.settings_prod << EOF
+from django.contrib.auth import get_user_model
+User = get_user_model()
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser('admin', 'admin@justcodeworks.eu', 'admin123456')
+    print('Superuser created successfully')
+else:
+    print('Superuser already exists')
+EOF
 
 # Set up Gunicorn service
 echo "🔧 Setting up Gunicorn service..."
