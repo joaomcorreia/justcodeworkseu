@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from shared import views as shared_views
 
 urlpatterns = [
-    path('admin5689/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('tenant-admin/', include('websites.urls')),
     path('coming-soon/', shared_views.coming_soon_view, name='coming_soon'),
     path('', shared_views.main_site_view, name='main_site'),
