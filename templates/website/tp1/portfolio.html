@@ -1,0 +1,739 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Portfolio - {{ company_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .portfolio-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 6rem 0 4rem;
+    }
+    
+    .filter-buttons .btn {
+        margin: 0 0.5rem 1rem 0;
+        border-radius: 25px;
+        padding: 0.5rem 1.5rem;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        background: white;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .filter-buttons .btn.active,
+    .filter-buttons .btn:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(44,82,130,0.3);
+    }
+    
+    .portfolio-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform, opacity;
+        backface-visibility: hidden;
+    }
+    
+    .portfolio-filter-item {
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform, opacity;
+    }
+    
+    .portfolio-item:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .portfolio-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .portfolio-item:hover .portfolio-image {
+        transform: scale(1.08);
+    }
+    
+    .portfolio-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(44,82,130,0.9), rgba(66,153,225,0.9));
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transform: translateY(20px);
+    }
+    
+    .portfolio-item:hover .portfolio-overlay {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .portfolio-overlay h5 {
+        color: white;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    .portfolio-overlay .btn {
+        margin: 0.25rem;
+    }
+    
+    .stats-section {
+        background: #f8f9fa;
+        padding: 4rem 0;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        display: block;
+    }
+    
+    .image-editor-modal .modal-dialog {
+        max-width: 90%;
+    }
+    
+    .editor-toolbar {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .editor-toolbar .btn {
+        margin: 0 0.25rem;
+    }
+    
+    .canvas-container {
+        position: relative;
+        text-align: center;
+        background: #f8f9fa;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #imageCanvas {
+        max-width: 100%;
+        max-height: 500px;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+    }
+    
+    .filter-preview {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        margin: 0.25rem;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+    
+    .filter-preview:hover,
+    .filter-preview.active {
+        border-color: var(--primary-color);
+        transform: scale(1.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Portfolio Hero Section -->
+<section class="portfolio-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-4">Our Portfolio</h1>
+                <p class="lead mb-4">Showcasing our best work and creative projects. Each piece represents our commitment to excellence and innovation in digital solutions.</p>
+                <div class="d-flex align-items-center">
+                    <div class="me-4">
+                        <span class="stat-number">{{ projects_completed|default:"150+" }}</span>
+                        <small>Projects Completed</small>
+                    </div>
+                    <div class="me-4">
+                        <span class="stat-number">{{ happy_clients|default:"95%" }}</span>
+                        <small>Client Satisfaction</small>
+                    </div>
+                    <div>
+                        <span class="stat-number">{{ awards_won|default:"12" }}</span>
+                        <small>Awards Won</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Filter & Grid -->
+<section class="py-5">
+    <div class="container">
+        <!-- Filter Buttons -->
+        <div class="text-center mb-5">
+            <h2 class="section-title">Browse Our Work</h2>
+            <div class="filter-buttons">
+                <button class="btn active" data-filter="all">All Projects</button>
+                <button class="btn" data-filter="web-design">Web Design</button>
+                <button class="btn" data-filter="branding">Branding</button>
+                <button class="btn" data-filter="photography">Photography</button>
+                <button class="btn" data-filter="print">Print Design</button>
+                <button class="btn" data-filter="ecommerce">E-commerce</button>
+            </div>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="row" id="portfolioGrid">
+            <!-- Web Design Projects -->
+            <div class="col-lg-4 col-md-6 portfolio-filter-item" data-category="web-design">
+                <div class="portfolio-item">
+                    <img src="{% static 'images/portfolio/port1.png' %}" alt="Modern Business Website" class="portfolio-image" onerror="this.src='https://via.placeholder.com/400x250/2c5282/ffffff?text=Web+Design+Project'">
+                    <div class="portfolio-overlay">
+                        <h5>Modern Business Website</h5>
+                        <p class="text-center text-white mb-3">Responsive corporate website with modern design</p>
+                        <div>
+                            <button class="btn btn-outline-light btn-sm" onclick="openImageEditor(this.previousElementSibling.previousElementSibling.src, 'Modern Business Website')">
+                                <i class="bi bi-pencil me-1"></i> Edit Image
+                            </button>
+                            <button class="btn btn-light btn-sm" onclick="viewProject('web-design', 'project1')">
+                                <i class="bi bi-eye me-1"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Branding Projects -->
+            <div class="col-lg-4 col-md-6 portfolio-filter-item" data-category="branding">
+                <div class="portfolio-item">
+                    <img src="{% static 'images/portfolio/port2.png' %}" alt="Corporate Logo Design" class="portfolio-image" onerror="this.src='https://via.placeholder.com/400x250/4299e1/ffffff?text=Logo+Design'">
+                    <div class="portfolio-overlay">
+                        <h5>Corporate Logo Design</h5>
+                        <p class="text-center text-white mb-3">Professional branding and identity design</p>
+                        <div>
+                            <button class="btn btn-outline-light btn-sm" onclick="openImageEditor(this.previousElementSibling.previousElementSibling.src, 'Corporate Logo Design')">
+                                <i class="bi bi-palette me-1"></i> Edit Logo
+                            </button>
+                            <button class="btn btn-light btn-sm" onclick="viewProject('branding', 'logo1')">
+                                <i class="bi bi-eye me-1"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photography Projects -->
+            <div class="col-lg-4 col-md-6 portfolio-filter-item" data-category="photography">
+                <div class="portfolio-item">
+                    <img src="{% static 'images/portfolio/port3.png' %}" alt="Product Photography" class="portfolio-image" onerror="this.src='https://via.placeholder.com/400x250/ed8936/ffffff?text=Photography'">
+                    <div class="portfolio-overlay">
+                        <h5>Product Photography</h5>
+                        <p class="text-center text-white mb-3">Professional product and commercial photography</p>
+                        <div>
+                            <button class="btn btn-outline-light btn-sm" onclick="openImageEditor(this.previousElementSibling.previousElementSibling.src, 'Product Photography')">
+                                <i class="bi bi-camera me-1"></i> Edit Photo
+                            </button>
+                            <button class="btn btn-light btn-sm" onclick="viewProject('photography', 'photo1')">
+                                <i class="bi bi-eye me-1"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Print Design Projects -->
+            <div class="col-lg-4 col-md-6 portfolio-filter-item" data-category="print">
+                <div class="portfolio-item">
+                    <img src="{% static 'images/portfolio/port4.png' %}" alt="Business Brochure" class="portfolio-image" onerror="this.src='https://via.placeholder.com/400x250/38a169/ffffff?text=Print+Design'">
+                    <div class="portfolio-overlay">
+                        <h5>Business Brochure Design</h5>
+                        <p class="text-center text-white mb-3">Professional print marketing materials</p>
+                        <div>
+                            <button class="btn btn-outline-light btn-sm" onclick="openImageEditor(this.previousElementSibling.previousElementSibling.src, 'Business Brochure')">
+                                <i class="bi bi-file-earmark-image me-1"></i> Edit Design
+                            </button>
+                            <button class="btn btn-light btn-sm" onclick="viewProject('print', 'brochure1')">
+                                <i class="bi bi-eye me-1"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E-commerce Projects -->
+            <div class="col-lg-4 col-md-6 portfolio-filter-item" data-category="ecommerce">
+                <div class="portfolio-item">
+                    <img src="{% static 'images/portfolio/port5.png' %}" alt="Online Store" class="portfolio-image" onerror="this.src='https://via.placeholder.com/400x250/9f7aea/ffffff?text=E-commerce+Store'">
+                    <div class="portfolio-overlay">
+                        <h5>E-commerce Platform</h5>
+                        <p class="text-center text-white mb-3">Custom online store with payment integration</p>
+                        <div>
+                            <button class="btn btn-outline-light btn-sm" onclick="openImageEditor(this.previousElementSibling.previousElementSibling.src, 'E-commerce Platform')">
+                                <i class="bi bi-cart me-1"></i> Edit Store
+                            </button>
+                            <button class="btn btn-light btn-sm" onclick="viewProject('ecommerce', 'store1')">
+                                <i class="bi bi-eye me-1"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More Web Design -->
+            <div class="col-lg-4 col-md-6 portfolio-filter-item" data-category="web-design">
+                <div class="portfolio-item">
+                    <img src="{% static 'images/portfolio/port6.png' %}" alt="Restaurant Website" class="portfolio-image" onerror="this.src='https://via.placeholder.com/400x250/2c5282/ffffff?text=Restaurant+Website'">
+                    <div class="portfolio-overlay">
+                        <h5>Restaurant Website</h5>
+                        <p class="text-center text-white mb-3">Elegant dining website with online reservations</p>
+                        <div>
+                            <button class="btn btn-outline-light btn-sm" onclick="openImageEditor(this.previousElementSibling.previousElementSibling.src, 'Restaurant Website')">
+                                <i class="bi bi-pencil me-1"></i> Edit Image
+                            </button>
+                            <button class="btn btn-light btn-sm" onclick="viewProject('web-design', 'project2')">
+                                <i class="bi bi-eye me-1"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-5">
+            <button class="btn btn-primary btn-lg" onclick="loadMoreProjects()">
+                <i class="bi bi-plus-circle me-2"></i>Load More Projects
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card">
+                    <span class="stat-number">{{ projects_completed|default:"150+" }}</span>
+                    <p class="text-muted">Projects Completed</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card">
+                    <span class="stat-number">{{ happy_clients|default:"120+" }}</span>
+                    <p class="text-muted">Happy Clients</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card">
+                    <span class="stat-number">{{ years_experience|default:"8+" }}</span>
+                    <p class="text-muted">Years Experience</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card">
+                    <span class="stat-number">{{ awards_won|default:"12" }}</span>
+                    <p class="text-muted">Awards Won</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Ready to Start Your Project?</h2>
+                <p class="lead mb-4">Let's work together to create something amazing for your business. Our team is ready to bring your vision to life.</p>
+                <a href="/contact/" class="btn btn-light btn-lg me-3">Get Started Today</a>
+                <a href="/services/" class="btn btn-outline-light btn-lg">View Our Services</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Advanced Image Editor Modal -->
+<div class="modal fade" id="imageEditorModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-image me-2"></i>Advanced Image Editor - <span id="imageTitle">Image</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <!-- Editor Toolbar -->
+                <div class="editor-toolbar">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="btn-group me-3" role="group">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="resetImage()" title="Reset">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="rotateImage(90)" title="Rotate Right">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="rotateImage(-90)" title="Rotate Left">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                </button>
+                            </div>
+                            <div class="btn-group me-3" role="group">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="flipImage('horizontal')" title="Flip Horizontal">
+                                    <i class="bi bi-symmetry-horizontal"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="flipImage('vertical')" title="Flip Vertical">
+                                    <i class="bi bi-symmetry-vertical"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 text-end">
+                            <button class="btn btn-success btn-sm me-2" onclick="downloadImage()">
+                                <i class="bi bi-download me-1"></i>Download
+                            </button>
+                            <button class="btn btn-primary btn-sm" onclick="saveImageChanges()">
+                                <i class="bi bi-check-circle me-1"></i>Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Canvas Container -->
+                <div class="canvas-container">
+                    <canvas id="imageCanvas"></canvas>
+                </div>
+                
+                <!-- Filters Panel -->
+                <div class="editor-toolbar">
+                    <h6 class="mb-3">Quick Filters:</h6>
+                    <div class="d-flex flex-wrap" id="filtersContainer">
+                        <!-- Filter previews will be generated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Advanced Controls -->
+                <div class="editor-toolbar">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="form-label">Brightness</label>
+                            <input type="range" class="form-range" min="-100" max="100" value="0" id="brightnessSlider" onchange="applyFilters()">
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="form-label">Contrast</label>
+                            <input type="range" class="form-range" min="-100" max="100" value="0" id="contrastSlider" onchange="applyFilters()">
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="form-label">Saturation</label>
+                            <input type="range" class="form-range" min="-100" max="100" value="0" id="saturationSlider" onchange="applyFilters()">
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="form-label">Blur</label>
+                            <input type="range" class="form-range" min="0" max="10" value="0" id="blurSlider" onchange="applyFilters()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Portfolio filtering
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial load animation for portfolio items
+    const portfolioItems = document.querySelectorAll('.portfolio-filter-item');
+    portfolioItems.forEach((item, index) => {
+        // Set initial state without transition
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(30px)';
+        item.style.transition = 'none';
+        
+        // Force reflow
+        item.offsetHeight;
+        
+        // Then animate with stagger
+        setTimeout(() => {
+            item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 120); // Slightly faster stagger
+    });
+
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-buttons .btn');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            const filterValue = this.getAttribute('data-filter');
+            
+            // First, hide all items that should be hidden
+            const itemsToHide = [];
+            const itemsToShow = [];
+            
+            portfolioItems.forEach(item => {
+                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                    itemsToShow.push(item);
+                } else {
+                    itemsToHide.push(item);
+                }
+            });
+            
+            // Hide items first (no flicker)
+            itemsToHide.forEach(item => {
+                item.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(-20px) scale(0.9)';
+            });
+            
+            // After hide animation completes, set display none
+            setTimeout(() => {
+                itemsToHide.forEach(item => {
+                    item.style.display = 'none';
+                });
+                
+                // Now show the items that should be visible
+                itemsToShow.forEach((item, index) => {
+                    // Ensure item is block but invisible first
+                    item.style.display = 'block';
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(30px) scale(0.9)';
+                    item.style.transition = 'none'; // Remove transition temporarily
+                    
+                    // Force reflow to apply the initial state
+                    item.offsetHeight;
+                    
+                    // Then animate in with stagger
+                    setTimeout(() => {
+                        item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0) scale(1)';
+                    }, index * 80); // Reduced stagger for smoother feel
+                });
+            }, 200); // Wait for hide animation to mostly complete
+        });
+    });
+});
+
+// Image Editor Variables
+let canvas, ctx, originalImage, currentImage;
+let rotation = 0, scaleX = 1, scaleY = 1;
+
+// Open Image Editor
+function openImageEditor(imageSrc, imageTitle) {
+    document.getElementById('imageTitle').textContent = imageTitle;
+    const modal = new bootstrap.Modal(document.getElementById('imageEditorModal'));
+    
+    canvas = document.getElementById('imageCanvas');
+    ctx = canvas.getContext('2d');
+    
+    // Load image
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+        originalImage = img;
+        currentImage = img;
+        
+        // Set canvas size
+        canvas.width = Math.min(800, img.width);
+        canvas.height = (canvas.width / img.width) * img.height;
+        
+        drawImage();
+        generateFilterPreviews();
+    };
+    img.src = imageSrc;
+    
+    modal.show();
+}
+
+// Draw image on canvas
+function drawImage() {
+    if (!currentImage) return;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    
+    // Apply transformations
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(rotation * Math.PI / 180);
+    ctx.scale(scaleX, scaleY);
+    
+    ctx.drawImage(currentImage, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+    ctx.restore();
+}
+
+// Reset image
+function resetImage() {
+    rotation = 0;
+    scaleX = 1;
+    scaleY = 1;
+    document.getElementById('brightnessSlider').value = 0;
+    document.getElementById('contrastSlider').value = 0;
+    document.getElementById('saturationSlider').value = 0;
+    document.getElementById('blurSlider').value = 0;
+    currentImage = originalImage;
+    drawImage();
+}
+
+// Rotate image
+function rotateImage(degrees) {
+    rotation += degrees;
+    drawImage();
+}
+
+// Flip image
+function flipImage(direction) {
+    if (direction === 'horizontal') {
+        scaleX *= -1;
+    } else {
+        scaleY *= -1;
+    }
+    drawImage();
+}
+
+// Apply filters
+function applyFilters() {
+    if (!originalImage) return;
+    
+    const brightness = document.getElementById('brightnessSlider').value;
+    const contrast = document.getElementById('contrastSlider').value;
+    const saturation = document.getElementById('saturationSlider').value;
+    const blur = document.getElementById('blurSlider').value;
+    
+    // Create temporary canvas for filtering
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    
+    // Apply CSS filters
+    tempCtx.filter = `brightness(${100 + parseInt(brightness)}%) contrast(${100 + parseInt(contrast)}%) saturate(${100 + parseInt(saturation)}%) blur(${blur}px)`;
+    tempCtx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+    
+    // Create new image from filtered canvas
+    const filteredImg = new Image();
+    filteredImg.onload = function() {
+        currentImage = filteredImg;
+        drawImage();
+    };
+    filteredImg.src = tempCanvas.toDataURL();
+}
+
+// Generate filter previews
+function generateFilterPreviews() {
+    const filtersContainer = document.getElementById('filtersContainer');
+    const filters = [
+        {name: 'Original', filter: 'none'},
+        {name: 'Sepia', filter: 'sepia(100%)'},
+        {name: 'Grayscale', filter: 'grayscale(100%)'},
+        {name: 'Vintage', filter: 'sepia(50%) contrast(1.2) brightness(1.1)'},
+        {name: 'Cool', filter: 'hue-rotate(180deg) saturate(1.2)'},
+        {name: 'Warm', filter: 'hue-rotate(30deg) saturate(1.3) brightness(1.1)'},
+        {name: 'High Contrast', filter: 'contrast(1.5) brightness(1.1)'},
+        {name: 'Soft', filter: 'blur(1px) brightness(1.2)'}
+    ];
+    
+    filtersContainer.innerHTML = '';
+    
+    filters.forEach(filterObj => {
+        const filterDiv = document.createElement('div');
+        filterDiv.className = 'filter-preview';
+        filterDiv.title = filterObj.name;
+        filterDiv.style.backgroundImage = `url(${originalImage.src})`;
+        filterDiv.style.backgroundSize = 'cover';
+        filterDiv.style.backgroundPosition = 'center';
+        filterDiv.style.filter = filterObj.filter;
+        
+        filterDiv.addEventListener('click', function() {
+            // Remove active class from other previews
+            document.querySelectorAll('.filter-preview').forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Apply filter to main canvas
+            applyQuickFilter(filterObj.filter);
+        });
+        
+        filtersContainer.appendChild(filterDiv);
+        
+        // Add label
+        const label = document.createElement('small');
+        label.textContent = filterObj.name;
+        label.className = 'd-block text-center mt-1';
+        filterDiv.appendChild(label);
+    });
+}
+
+// Apply quick filter
+function applyQuickFilter(filterStyle) {
+    if (!originalImage) return;
+    
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    
+    tempCtx.filter = filterStyle;
+    tempCtx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+    
+    const filteredImg = new Image();
+    filteredImg.onload = function() {
+        currentImage = filteredImg;
+        drawImage();
+    };
+    filteredImg.src = tempCanvas.toDataURL();
+}
+
+// Download image
+function downloadImage() {
+    const link = document.createElement('a');
+    link.download = 'edited-image.png';
+    link.href = canvas.toDataURL();
+    link.click();
+}
+
+// Save image changes
+function saveImageChanges() {
+    // In a real application, this would save to the server
+    alert('Image changes saved successfully!');
+    bootstrap.Modal.getInstance(document.getElementById('imageEditorModal')).hide();
+}
+
+// View project details
+function viewProject(category, projectId) {
+    alert(`Viewing ${category} project: ${projectId}\n\nThis would open a detailed project view with:\n- Full project description\n- Technologies used\n- Client testimonial\n- More project images`);
+}
+
+// Load more projects
+function loadMoreProjects() {
+    alert('Loading more projects...\n\nThis would load additional portfolio items via AJAX.');
+}
+</script>
+{% endblock %}

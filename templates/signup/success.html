@@ -1,0 +1,351 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Website Created! - JustCodeWorks.EU{% endblock %}
+
+{% block content %}
+<div class="success-container py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Success Card -->
+                <div class="card success-card shadow-lg text-center">
+                    <div class="card-body p-5">
+                        <!-- Success Animation -->
+                        <div class="success-animation mb-4">
+                            <div class="success-checkmark">
+                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                                    <path class="checkmark-check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <h1 class="display-4 text-success fw-bold mb-3">
+                            🎉 Congratulations!
+                        </h1>
+                        
+                        <p class="lead mb-4">
+                            Your website for <strong>{{ business_name }}</strong> has been created successfully!
+                        </p>
+
+                        <!-- Website Info -->
+                        <div class="website-info bg-light rounded p-4 mb-4">
+                            <h4 class="fw-bold text-primary mb-3">
+                                <i class="bi bi-globe me-2"></i>Your New Website
+                            </h4>
+                            <div class="website-url mb-3">
+                                <div class="url-display">
+                                    <i class="bi bi-link-45deg me-2"></i>
+                                    <a href="{{ subdomain_url }}" target="_blank" class="website-link">
+                                        {{ subdomain_url }}
+                                    </a>
+                                </div>
+                                <small class="text-muted">Click to visit your new website!</small>
+                            </div>
+                            
+                            <div class="admin-url mb-3">
+                                <div class="url-display">
+                                    <i class="bi bi-gear me-2"></i>
+                                    <a href="{{ admin_url }}" target="_blank" class="admin-link">
+                                        Admin Panel: {{ admin_url }}
+                                    </a>
+                                </div>
+                                <small class="text-muted">Customize your website content here</small>
+                            </div>
+                        </div>
+
+                        <!-- Next Steps -->
+                        <div class="next-steps mb-4">
+                            <h5 class="fw-bold text-primary mb-3">
+                                <i class="bi bi-list-check me-2"></i>What's Next?
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="next-step-item">
+                                        <div class="step-icon">
+                                            <i class="bi bi-eye fs-4 text-primary"></i>
+                                        </div>
+                                        <div class="step-content">
+                                            <h6>1. Visit Your Website</h6>
+                                            <p class="mb-0">See how it looks to your customers</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="next-step-item">
+                                        <div class="step-icon">
+                                            <i class="bi bi-pencil fs-4 text-success"></i>
+                                        </div>
+                                        <div class="step-content">
+                                            <h6>2. Customize Content</h6>
+                                            <p class="mb-0">Edit text, images, and contact info</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="next-step-item">
+                                        <div class="step-icon">
+                                            <i class="bi bi-images fs-4 text-warning"></i>
+                                        </div>
+                                        <div class="step-content">
+                                            <h6>3. Add Your Portfolio</h6>
+                                            <p class="mb-0">Showcase your work and projects</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="next-step-item">
+                                        <div class="step-icon">
+                                            <i class="bi bi-share fs-4 text-info"></i>
+                                        </div>
+                                        <div class="step-content">
+                                            <h6>4. Share Your Site</h6>
+                                            <p class="mb-0">Start attracting customers!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <a href="{{ subdomain_url }}" target="_blank" class="btn btn-primary btn-lg w-100">
+                                        <i class="bi bi-eye me-2"></i>View Website
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{{ admin_url }}" target="_blank" class="btn btn-success btn-lg w-100">
+                                        <i class="bi bi-gear me-2"></i>Admin Panel
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="/" class="btn btn-outline-secondary btn-lg w-100">
+                                        <i class="bi bi-house me-2"></i>Back to Main Site
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Included -->
+                <div class="features-included mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-center mb-4">
+                                <i class="bi bi-check-circle me-2"></i>What's Included in Your Website
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="feature-item d-flex">
+                                        <i class="bi bi-check text-success me-3 fs-5"></i>
+                                        <span>Professional homepage with your branding</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="feature-item d-flex">
+                                        <i class="bi bi-check text-success me-3 fs-5"></i>
+                                        <span>About page to tell your story</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="feature-item d-flex">
+                                        <i class="bi bi-check text-success me-3 fs-5"></i>
+                                        <span>Services page to showcase offerings</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="feature-item d-flex">
+                                        <i class="bi bi-check text-success me-3 fs-5"></i>
+                                        <span>Portfolio to display your work</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="feature-item d-flex">
+                                        <i class="bi bi-check text-success me-3 fs-5"></i>
+                                        <span>Contact page with forms</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="feature-item d-flex">
+                                        <i class="bi bi-check text-success me-3 fs-5"></i>
+                                        <span>WhatsApp integration for customers</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="feature-item d-flex">
+                                        <i class="bi bi-check text-success me-3 fs-5"></i>
+                                        <span>Mobile-responsive design</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="feature-item d-flex">
+                                        <i class="bi bi-check text-success me-3 fs-5"></i>
+                                        <span>SSL security and fast loading</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support Info -->
+                <div class="support-info mt-4 text-center">
+                    <p class="text-muted">
+                        <i class="bi bi-question-circle me-2"></i>
+                        Need help getting started? 
+                        <a href="/contact/" class="text-decoration-none">Contact our support team</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.success-container {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    min-height: 100vh;
+}
+
+.success-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.success-animation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.success-checkmark {
+    width: 80px;
+    height: 80px;
+}
+
+.checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #28a745;
+    stroke-miterlimit: 10;
+    animation: checkmark-fill 0.4s ease-in-out 0.4s forwards, checkmark-scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #28a745;
+    fill: none;
+    animation: checkmark-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: checkmark-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes checkmark-stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes checkmark-scale {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes checkmark-fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #28a745;
+    }
+}
+
+.website-url, .admin-url {
+    margin-bottom: 1rem;
+}
+
+.url-display {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.website-link, .admin-link {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    text-decoration: none;
+    color: #007bff;
+    word-break: break-all;
+}
+
+.website-link:hover, .admin-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.next-step-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    height: 100%;
+}
+
+.step-icon {
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.step-content h6 {
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+}
+
+.step-content p {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.feature-item {
+    padding: 0.5rem 0;
+    align-items: flex-start;
+}
+
+.action-buttons {
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .url-display {
+        font-size: 1rem;
+    }
+    
+    .next-step-item {
+        text-align: center;
+        flex-direction: column;
+    }
+    
+    .step-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+}
+</style>
+{% endblock %}

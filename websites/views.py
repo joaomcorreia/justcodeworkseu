@@ -8,6 +8,73 @@ from .models import Website, Page, HomeSlider, Settings
 from .forms import WebsiteForm, PageForm, HomeSliderForm, SettingsForm
 
 
+def get_sidebar_context():
+    """Helper function to get sidebar widget data"""
+    return {
+        'sidebar_services': [
+            {
+                'name': 'Web Design',
+                'slug': 'web-design',
+                'icon': 'bi-palette',
+                'description': 'Custom website design and development'
+            },
+            {
+                'name': 'Digital Marketing',
+                'slug': 'digital-marketing',
+                'icon': 'bi-graph-up',
+                'description': 'SEO, social media, and online advertising'
+            },
+            {
+                'name': 'Branding',
+                'slug': 'branding',
+                'icon': 'bi-award',
+                'description': 'Logo design and brand identity'
+            },
+            {
+                'name': 'E-commerce',
+                'slug': 'e-commerce',
+                'icon': 'bi-cart',
+                'description': 'Online store development'
+            }
+        ],
+        'sidebar_contact': {
+            'phone': '+420 123 456 789',
+            'email': 'info@justcodeworks.eu',
+            'address': 'Prague, Czech Republic',
+            'hours': 'Mon-Fri: 9:00-17:00',
+            'whatsapp_number': '+420123456789'
+        },
+        'sidebar_portfolio': [
+            {'image': 'portfolio/web1.jpg', 'title': 'Corporate Website'},
+            {'image': 'portfolio/web2.jpg', 'title': 'E-commerce Store'},
+            {'image': 'portfolio/web3.jpg', 'title': 'Portfolio Site'},
+            {'image': 'portfolio/web4.jpg', 'title': 'Restaurant Website'},
+            {'image': 'portfolio/web5.jpg', 'title': 'Tech Startup'},
+            {'image': 'portfolio/web6.jpg', 'title': 'Creative Agency'}
+        ],
+        'sidebar_announcements': [
+            {
+                'title': 'New AI Website Builder Launched',
+                'date': '2024-01-15',
+                'excerpt': 'Create professional websites using our AI-powered platform...',
+                'link': '#'
+            },
+            {
+                'title': 'EU Grant Program Available',
+                'date': '2024-01-10',
+                'excerpt': 'Apply for digital transformation grants for SMEs...',
+                'link': '#'
+            },
+            {
+                'title': 'Free SEO Audit Offer',
+                'date': '2024-01-05',
+                'excerpt': 'Get a comprehensive SEO analysis for your website...',
+                'link': '#'
+            }
+        ]
+    }
+
+
 @login_required
 def tenant_dashboard(request):
     """Dashboard overview for tenant"""
@@ -290,3 +357,259 @@ def website_preview(request):
         'slider_items': HomeSlider.objects.filter(website=website, is_active=True),
     }
     return render(request, 'website/preview.html', context)
+
+
+def home_page(request):
+    """Home page for customer websites"""
+    context = {
+        'company_name': 'JustCodeWorks.EU',
+        'projects_completed': '150+',
+        'happy_clients': '120+',
+        'years_experience': '8+',
+        'page_title': 'Professional Web Solutions',
+        'page_description': 'Create stunning websites and digital experiences that help your business grow.',
+    }
+    # Add sidebar data
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp1/home.html', context)
+
+
+def about_page(request):
+    """About page for customer websites"""
+    # Get tenant-specific settings (in future, this will come from Settings model)
+    # For simple setup without tenants, use default values
+    context = {
+        'company_name': 'JustCodeWorks.EU',
+        'about_title': 'About Our Company',
+        'about_description': 'We are a professional company dedicated to providing excellent services to our clients.',
+        'years_experience': '10+',
+        'projects_completed': '500+',
+        'mission_text': 'To provide exceptional services that exceed our clients\' expectations while maintaining the highest standards of quality.',
+        'vision_text': 'To be the leading company in our industry, recognized for innovation, quality, and customer satisfaction.',
+    }
+    # Add sidebar data
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp1/about.html', context)
+
+
+def portfolio_page(request):
+    """Portfolio page showcasing projects and image editing capabilities"""
+    context = {
+        'company_name': 'JustCodeWorks.EU',
+        'projects_completed': '150+',
+        'happy_clients': '120+',
+        'years_experience': '8+',
+        'awards_won': '12',
+        'page_title': 'Our Portfolio',
+        'page_description': 'Browse our collection of web design, branding, and digital projects.',
+    }
+    # Add sidebar data
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp1/portfolio.html', context)
+
+
+def contact_page(request):
+    """Contact page with form and business information"""
+    context = {
+        'company_name': 'JustCodeWorks.EU',
+        'company_phone': '+31 6 1234 5678',
+        'company_email': 'info@justcodeworks.eu',
+        'company_address': '1234 Innovation District<br>Amsterdam, Netherlands',
+        'company_website': 'www.justcodeworks.eu',
+        'page_title': 'Contact Us',
+        'page_description': 'Get in touch with our team for your next web project.',
+    }
+    # Add sidebar data
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp1/contact.html', context)
+
+
+def quote_page(request):
+    """Advanced quote form with multi-step wizard"""
+    if request.method == 'POST':
+        # Handle form submission (for now, just redirect back with success)
+        # In a real implementation, this would save to database and send emails
+        return render(request, 'website/tp1/quote.html', {
+            'company_name': 'JustCodeWorks.EU',
+            'success': True,
+            **get_sidebar_context()
+        })
+    
+    context = {
+        'company_name': 'JustCodeWorks.EU',
+        'page_title': 'Get Quote',
+        'page_description': 'Get a detailed quote for your project with our advanced quote wizard.',
+    }
+    # Add sidebar data
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp1/quote.html', context)
+
+
+def services_page(request):
+    """Services page showcasing all offerings"""
+    context = {
+        'company_name': 'JustCodeWorks.EU',
+        'services_offered': '6',
+        'projects_delivered': '150+',
+        'satisfaction_rate': '98%',
+        'page_title': 'Our Services',
+        'page_description': 'Comprehensive digital solutions for your business growth.',
+    }
+    # Add sidebar data
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp1/services.html', context)
+
+
+def service_detail_page(request, service_slug):
+    """Service detail page with pricing and features"""
+    # Service data (in real app, this would come from database)
+    services_data = {
+        'web-design': {
+            'title': 'Web Design',
+            'slug': 'web-design',
+            'icon': 'bi bi-palette-fill',
+            'description': 'Beautiful, responsive websites that convert visitors into customers. Custom designs tailored to your brand and business goals.',
+            'features': []  # Using default features in template
+        },
+        'web-development': {
+            'title': 'Web Development',
+            'slug': 'web-development', 
+            'icon': 'bi bi-code-slash',
+            'description': 'Robust, scalable web applications built with modern technologies. From simple sites to complex platforms.',
+            'features': []
+        },
+        'ecommerce': {
+            'title': 'E-commerce Solutions',
+            'slug': 'ecommerce',
+            'icon': 'bi bi-cart-fill',
+            'description': 'Complete online stores with payment processing, inventory management, and marketing tools to boost your sales.',
+            'features': []
+        },
+        'seo': {
+            'title': 'SEO & Marketing',
+            'slug': 'seo',
+            'icon': 'bi bi-search',
+            'description': 'Improve your search rankings and drive organic traffic with our comprehensive SEO and digital marketing services.',
+            'features': []
+        },
+        'branding': {
+            'title': 'Branding & Logo Design',
+            'slug': 'branding',
+            'icon': 'bi bi-award-fill',
+            'description': 'Create a memorable brand identity that resonates with your audience. From logos to complete brand guidelines.',
+            'features': []
+        },
+        'maintenance': {
+            'title': 'Website Maintenance',
+            'slug': 'maintenance',
+            'icon': 'bi bi-tools',
+            'description': 'Keep your website secure, updated, and performing at its best with our comprehensive maintenance services.',
+            'features': []
+        }
+    }
+    
+    service = services_data.get(service_slug)
+    if not service:
+        # Return 404 or redirect to services page
+        from django.shortcuts import redirect
+        return redirect('services')
+    
+    context = {
+        'company_name': 'JustCodeWorks.EU',
+        'service': service,
+        'page_title': service['title'],
+        'page_description': service['description'],
+    }
+    # Add sidebar data
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp1/service-detail.html', context)
+
+
+# TP2 Template Views (Dutch Construction Theme)
+def tp2_home(request):
+    """TP2 Home page - Dutch construction services theme"""
+    context = {
+        'company_name': 'VakWerk Pro',
+        'projects_completed': '200+',
+        'years_experience': '15+',
+        'satisfaction_rate': '98%',
+    }
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp2/home.html', context)
+
+def tp2_about(request):
+    """TP2 About page"""
+    context = {
+        'company_name': 'VakWerk Pro',
+        'founding_year': '2008',
+        'years_experience': '15+',
+        'team_member_1_name': 'Jan van der Berg',
+        'team_member_1_role': 'Eigenaar & Projectleider',
+        'team_member_2_name': 'Piet Bakker',
+        'team_member_2_role': 'Hoofd Schilder',
+    }
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp2/about.html', context)
+
+def tp2_services(request):
+    """TP2 Services page"""
+    context = {
+        'company_name': 'VakWerk Pro',
+    }
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp2/services.html', context)
+
+def tp2_portfolio(request):
+    """TP2 Portfolio page"""
+    context = {
+        'company_name': 'VakWerk Pro',
+    }
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp2/portfolio.html', context)
+
+def tp2_contact(request):
+    """TP2 Contact page"""
+    context = {
+        'company_name': 'VakWerk Pro',
+    }
+    context.update(get_sidebar_context())
+    return render(request, 'website/tp2/contact.html', context)
+
+
+# Customer Admin Interface
+@login_required
+def customer_admin_home(request):
+    """Customer admin dashboard"""
+    context = {
+        'company_name': 'Customer Portal',
+        'user': request.user,
+    }
+    return render(request, 'website/customer-admin/dashboard.html', context)
+
+@login_required 
+def customer_template_selection(request):
+    """Template selection for customer"""
+    templates = [
+        {
+            'id': 'tp1',
+            'name': 'Professional Tech',
+            'description': 'Modern template for tech companies and agencies',
+            'preview_url': '/tp1/',
+            'thumbnail': 'templates/tp1-thumb.jpg',
+            'features': ['Multi-page layout', 'Quote system', 'Portfolio showcase', 'Contact forms']
+        },
+        {
+            'id': 'tp2', 
+            'name': 'Construction Pro',
+            'description': 'Perfect template for construction and service companies',
+            'preview_url': '/tp2/',
+            'thumbnail': 'templates/tp2-thumb.jpg',
+            'features': ['Dutch language', 'Service showcase', 'Project portfolio', 'Quote modal']
+        }
+    ]
+    
+    context = {
+        'templates': templates,
+        'company_name': 'Template Selection',
+    }
+    return render(request, 'website/customer-admin/template-selection.html', context)

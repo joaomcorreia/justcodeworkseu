@@ -1,0 +1,384 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Get Quote - {{ company_name }}{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/quote-form.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <!-- Quote Hero Section -->
+    <section class="quote-hero py-5">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">Get Your Free Quote</h1>
+                    <p class="lead mb-4">Tell us about your project and we'll provide you with a detailed quote within 24 hours. No hidden fees, no surprises.</p>
+                    <div class="quote-stats row g-4 justify-content-center">
+                        <div class="col-4 col-md-3">
+                            <h3 class="fw-bold text-primary">Free</h3>
+                            <p class="mb-0">Quote</p>
+                        </div>
+                        <div class="col-4 col-md-3">
+                            <h3 class="fw-bold text-primary">24h</h3>
+                            <p class="mb-0">Response</p>
+                        </div>
+                        <div class="col-4 col-md-3">
+                            <h3 class="fw-bold text-primary">No</h3>
+                            <p class="mb-0">Obligation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Form Section -->
+    <section class="quote-form-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <form id="quote-form" class="quote-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Progress Bar -->
+                        <div class="form-progress mb-4">
+                            <div class="progress-steps">
+                                <div class="step active" data-step="1">
+                                    <span class="step-number">1</span>
+                                    <span class="step-label">Project Type</span>
+                                </div>
+                                <div class="step" data-step="2">
+                                    <span class="step-number">2</span>
+                                    <span class="step-label">Requirements</span>
+                                </div>
+                                <div class="step" data-step="3">
+                                    <span class="step-number">3</span>
+                                    <span class="step-label">Details</span>
+                                </div>
+                                <div class="step" data-step="4">
+                                    <span class="step-number">4</span>
+                                    <span class="step-label">Contact</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 25%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Step 1: Project Type -->
+                        <div class="form-step active" data-step="1">
+                            <div class="step-header">
+                                <h3>What type of project do you need?</h3>
+                                <p class="text-muted">Select the service that best describes your project</p>
+                            </div>
+                            
+                            <div class="service-selection">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="service-card">
+                                            <input type="radio" name="project_type" value="web_design" required>
+                                            <div class="card-content">
+                                                <div class="service-icon">
+                                                    <i class="bi bi-palette-fill"></i>
+                                                </div>
+                                                <h5>Web Design</h5>
+                                                <p>Custom website design and development</p>
+                                                <div class="price-range">Starting at €1,500</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="service-card">
+                                            <input type="radio" name="project_type" value="ecommerce" required>
+                                            <div class="card-content">
+                                                <div class="service-icon">
+                                                    <i class="bi bi-cart-fill"></i>
+                                                </div>
+                                                <h5>E-commerce</h5>
+                                                <p>Online store with payment integration</p>
+                                                <div class="price-range">Starting at €3,500</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="service-card">
+                                            <input type="radio" name="project_type" value="web_app" required>
+                                            <div class="card-content">
+                                                <div class="service-icon">
+                                                    <i class="bi bi-code-slash"></i>
+                                                </div>
+                                                <h5>Web Application</h5>
+                                                <p>Custom web application development</p>
+                                                <div class="price-range">Starting at €5,000</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="service-card">
+                                            <input type="radio" name="project_type" value="mobile_app" required>
+                                            <div class="card-content">
+                                                <div class="service-icon">
+                                                    <i class="bi bi-phone-fill"></i>
+                                                </div>
+                                                <h5>Mobile App</h5>
+                                                <p>iOS and Android mobile applications</p>
+                                                <div class="price-range">Starting at €8,000</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="service-card">
+                                            <input type="radio" name="project_type" value="branding" required>
+                                            <div class="card-content">
+                                                <div class="service-icon">
+                                                    <i class="bi bi-award-fill"></i>
+                                                </div>
+                                                <h5>Branding</h5>
+                                                <p>Logo design and brand identity</p>
+                                                <div class="price-range">Starting at €800</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="service-card">
+                                            <input type="radio" name="project_type" value="seo" required>
+                                            <div class="card-content">
+                                                <div class="service-icon">
+                                                    <i class="bi bi-graph-up-arrow"></i>
+                                                </div>
+                                                <h5>SEO & Marketing</h5>
+                                                <p>Search engine optimization and digital marketing</p>
+                                                <div class="price-range">Starting at €500/month</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Requirements -->
+                        <div class="form-step" data-step="2">
+                            <div class="step-header">
+                                <h3>Project Requirements</h3>
+                                <p class="text-muted">Help us understand your specific needs</p>
+                            </div>
+                            
+                            <!-- Dynamic Requirements based on project type -->
+                            <div id="requirements-content">
+                                <!-- Content will be loaded dynamically based on project type selection -->
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Project Details -->
+                        <div class="form-step" data-step="3">
+                            <div class="step-header">
+                                <h3>Project Details</h3>
+                                <p class="text-muted">Tell us more about your project</p>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Project Budget Range</label>
+                                    <select name="budget_range" class="form-select" required>
+                                        <option value="">Select budget range</option>
+                                        <option value="under_1000">Under €1,000</option>
+                                        <option value="1000_3000">€1,000 - €3,000</option>
+                                        <option value="3000_5000">€3,000 - €5,000</option>
+                                        <option value="5000_10000">€5,000 - €10,000</option>
+                                        <option value="10000_25000">€10,000 - €25,000</option>
+                                        <option value="over_25000">Over €25,000</option>
+                                        <option value="discuss">Let's discuss</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">Project Timeline</label>
+                                    <select name="timeline" class="form-select" required>
+                                        <option value="">Select timeline</option>
+                                        <option value="asap">As soon as possible</option>
+                                        <option value="1_month">Within 1 month</option>
+                                        <option value="2_3_months">2-3 months</option>
+                                        <option value="3_6_months">3-6 months</option>
+                                        <option value="6_months_plus">6+ months</option>
+                                        <option value="flexible">Flexible</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label">Project Description</label>
+                                    <textarea name="project_description" 
+                                              class="form-control" 
+                                              rows="4" 
+                                              placeholder="Please describe your project in detail. Include any specific requirements, features, or goals you have in mind..."
+                                              required></textarea>
+                                    <div class="character-count">
+                                        <span id="char-count">0</span>/500 characters
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">Existing Website (if any)</label>
+                                    <input type="url" name="existing_website" class="form-control" placeholder="https://example.com">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">Inspiration/Reference Sites</label>
+                                    <input type="text" name="reference_sites" class="form-control" placeholder="URLs separated by commas">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label">File Attachments</label>
+                                    <div class="file-upload-area">
+                                        <input type="file" name="attachments" id="file-input" multiple accept=".pdf,.doc,.docx,.jpg,.png,.gif">
+                                        <div class="upload-placeholder">
+                                            <i class="bi bi-cloud-upload display-1 text-muted"></i>
+                                            <p>Drag and drop files here or click to browse</p>
+                                            <small class="text-muted">Supported: PDF, DOC, DOCX, JPG, PNG, GIF (Max 10MB each)</small>
+                                        </div>
+                                        <div id="file-list" class="file-list"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Contact Information -->
+                        <div class="form-step" data-step="4">
+                            <div class="step-header">
+                                <h3>Contact Information</h3>
+                                <p class="text-muted">How can we reach you?</p>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">First Name *</label>
+                                    <input type="text" name="first_name" class="form-control" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">Last Name *</label>
+                                    <input type="text" name="last_name" class="form-control" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" name="phone" class="form-control">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">Company Name</label>
+                                    <input type="text" name="company" class="form-control">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">Job Title</label>
+                                    <input type="text" name="job_title" class="form-control">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label">How did you hear about us?</label>
+                                    <select name="referral_source" class="form-select">
+                                        <option value="">Select source</option>
+                                        <option value="google">Google Search</option>
+                                        <option value="social_media">Social Media</option>
+                                        <option value="referral">Friend/Colleague Referral</option>
+                                        <option value="advertisement">Advertisement</option>
+                                        <option value="event">Event/Conference</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="newsletter_subscribe" class="form-check-input" id="newsletter">
+                                        <label class="form-check-label" for="newsletter">
+                                            Subscribe to our newsletter for web development tips and updates
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="terms_accepted" class="form-check-input" id="terms" required>
+                                        <label class="form-check-label" for="terms">
+                                            I agree to the <a href="/terms/" target="_blank">Terms of Service</a> and <a href="/privacy/" target="_blank">Privacy Policy</a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Navigation -->
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-outline-secondary" id="prev-btn" style="display: none;">
+                                <i class="bi bi-arrow-left me-2"></i>Previous
+                            </button>
+                            <button type="button" class="btn btn-primary" id="next-btn">
+                                Next<i class="bi bi-arrow-right ms-2"></i>
+                            </button>
+                            <button type="submit" class="btn btn-success btn-lg" id="submit-btn" style="display: none;">
+                                <i class="bi bi-check-circle me-2"></i>Submit Quote Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <!-- Quote Summary -->
+                    <div class="widget quote-summary-widget">
+                        <div class="widget-header">
+                            <h4><i class="bi bi-calculator me-2"></i>Quote Summary</h4>
+                        </div>
+                        <div class="widget-content">
+                            <div id="quote-summary">
+                                <div class="summary-item">
+                                    <span>Service Type:</span>
+                                    <span id="selected-service">Not selected</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Estimated Budget:</span>
+                                    <span id="estimated-budget">TBD</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Timeline:</span>
+                                    <span id="selected-timeline">TBD</span>
+                                </div>
+                                <hr>
+                                <div class="summary-total">
+                                    <strong>Estimated Total: <span id="total-estimate">Contact for quote</span></strong>
+                                </div>
+                            </div>
+                            
+                            <div class="quote-benefits mt-4">
+                                <h6>What's Included:</h6>
+                                <ul class="benefit-list">
+                                    <li><i class="bi bi-check-circle text-success"></i> Free consultation</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> Detailed project proposal</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> 24/7 support</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> 30-day money-back guarantee</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Include other sidebar widgets -->
+                    {% include "website/includes/sidebar.html" %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/quote-form.js' %}"></script>
+{% endblock %}

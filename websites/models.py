@@ -183,3 +183,64 @@ class Settings(models.Model):
     
     def __str__(self):
         return f"{self.website.name} - Settings"
+
+
+class SiteSettings(models.Model):
+    """
+    Site-wide settings for each tenant - editable business information
+    """
+    # Company Information
+    company_name = models.CharField(max_length=200, help_text="Your company name")
+    company_email = models.EmailField(help_text="Main business email")
+    company_phone = models.CharField(max_length=20, blank=True, help_text="Main phone number")
+    whatsapp_number = models.CharField(max_length=20, blank=True, help_text="WhatsApp business number")
+    company_address = models.TextField(blank=True, help_text="Full business address")
+    
+    # Business Hours
+    opening_hours = models.TextField(blank=True, help_text="Business opening hours (e.g., Mon-Fri: 9:00-17:00)")
+    
+    # Pricing & Services
+    hourly_rate = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, help_text="Hourly service rate")
+    currency = models.CharField(max_length=10, default='EUR', help_text="Currency for pricing")
+    
+    # Social Media Links
+    facebook_url = models.URLField(blank=True, help_text="Facebook page URL")
+    instagram_url = models.URLField(blank=True, help_text="Instagram profile URL")
+    linkedin_url = models.URLField(blank=True, help_text="LinkedIn company page URL")
+    twitter_url = models.URLField(blank=True, help_text="Twitter/X profile URL")
+    youtube_url = models.URLField(blank=True, help_text="YouTube channel URL")
+    
+    # Automation Settings
+    domain_auto_registration = models.BooleanField(default=False, help_text="Enable automatic domain registration")
+    hosting_auto_provision = models.BooleanField(default=False, help_text="Enable automatic hosting setup")
+    search_engine_submission = models.BooleanField(default=True, help_text="Automatically submit to search engines")
+    
+    # SEO Settings
+    seo_plan = models.CharField(
+        max_length=20,
+        choices=[
+            ('basic', 'Basic SEO (Free)'),
+            ('premium', 'Premium SEO'),
+        ],
+        default='basic'
+    )
+    
+    # Multi-language Settings
+    enabled_languages = models.JSONField(default=list, help_text="List of enabled languages for this site")
+    default_language = models.CharField(max_length=10, default='en', help_text="Default site language")
+    
+    # Watermark Settings
+    watermark_enabled = models.BooleanField(default=False, help_text="Add watermark to uploaded images")
+    watermark_text = models.CharField(max_length=100, blank=True, help_text="Watermark text (company name)")
+    watermark_opacity = models.IntegerField(default=50, help_text="Watermark opacity (0-100)")
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Site Settings"
+        verbose_name_plural = "Site Settings"
+    
+    def __str__(self):
+        return f"Settings for {self.company_name}"

@@ -2,6 +2,50 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django_tenants.utils import get_tenant_model
+from websites.views import (
+    home_page, about_page, services_page, portfolio_page, 
+    contact_page, quote_page, service_detail_page,
+    tp2_home, tp2_about, tp2_services, tp2_portfolio, tp2_contact,
+    get_sidebar_context
+)
+
+
+# Template routing functions
+def route_template_request(request, template_path):
+    """Route template requests based on path"""
+    
+    # TP1 Routes (JustCodeWorks theme)
+    if template_path == '' or template_path == 'tp1/':
+        return home_page(request)
+    elif template_path == 'about/':
+        return about_page(request)
+    elif template_path == 'services/':
+        return services_page(request)
+    elif template_path == 'portfolio/':
+        return portfolio_page(request)
+    elif template_path == 'contact/':
+        return contact_page(request)
+    elif template_path == 'get-quote/':
+        return quote_page(request)
+    elif template_path.startswith('services/'):
+        service_slug = template_path.replace('services/', '').rstrip('/')
+        return service_detail_page(request, service_slug)
+    
+    # TP2 Routes (Dutch Construction theme)  
+    elif template_path == 'tp2/':
+        return tp2_home(request)
+    elif template_path == 'tp2/about/':
+        return tp2_about(request)
+    elif template_path == 'tp2/services/':
+        return tp2_services(request)
+    elif template_path == 'tp2/portfolio/':
+        return tp2_portfolio(request)
+    elif template_path == 'tp2/contact/':
+        return tp2_contact(request)
+    
+    else:
+        # Default to home if no match
+        return home_page(request)
 
 
 def coming_soon_view(request):

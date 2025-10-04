@@ -1,0 +1,16 @@
+# Add these lines to your Windows hosts file (requires admin access)
+# Location: C:\Windows\System32\drivers\etc\hosts
+# 
+# Instructions:
+# 1. Right-click Notepad and "Run as Administrator" 
+# 2. Open C:\Windows\System32\drivers\etc\hosts
+# 3. Add these lines at the bottom:
+
+127.0.0.1 vakwerkpro.justcodeworks.eu
+127.0.0.1 bouwbedrijf-amsterdam.justcodeworks.eu  
+127.0.0.1 techsolutions.justcodeworks.eu
+127.0.0.1 webstudio-delft.justcodeworks.eu
+127.0.0.1 schilder-partners.justcodeworks.eu
+
+# 4. Save the file
+# 5. Restart your browser or run: ipconfig /flushdns

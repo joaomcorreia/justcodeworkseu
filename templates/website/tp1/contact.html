@@ -1,0 +1,627 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Contact Us - {{ company_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 6rem 0 4rem;
+    }
+    
+    .contact-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+    }
+    
+    .contact-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    }
+    
+    .contact-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        font-size: 2rem;
+        transition: all 0.4s ease;
+    }
+    
+    .contact-card:hover .contact-icon {
+        transform: rotate(10deg) scale(1.1);
+    }
+    
+    .form-control, .form-select {
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(44,82,130,0.15);
+        background: white;
+        transform: translateY(-2px);
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.75rem;
+    }
+    
+    .btn-send {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        padding: 1rem 3rem;
+        border-radius: 50px;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        box-shadow: 0 8px 25px rgba(44,82,130,0.3);
+    }
+    
+    .btn-send:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(44,82,130,0.4);
+        color: white;
+    }
+    
+    .btn-send:active {
+        transform: translateY(-1px);
+    }
+    
+    .map-container {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        height: 400px;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .social-link {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .social-link:hover {
+        transform: translateY(-5px) rotate(10deg);
+        color: white;
+        box-shadow: 0 10px 25px rgba(44,82,130,0.4);
+    }
+    
+    .contact-info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+    
+    .contact-info-item:hover {
+        background: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateX(5px);
+    }
+    
+    .contact-info-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .office-hours {
+        background: linear-gradient(45deg, #f8f9fa, white);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .form-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .form-animate.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .success-message {
+        background: linear-gradient(45deg, #10b981, #34d399);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        margin-top: 1rem;
+        display: none;
+        animation: slideDown 0.5s ease;
+    }
+    
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .floating-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+    }
+    
+    .floating-shape {
+        position: absolute;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .floating-shape:nth-child(1) {
+        width: 80px;
+        height: 80px;
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+    
+    .floating-shape:nth-child(2) {
+        width: 120px;
+        height: 120px;
+        top: 60%;
+        right: 15%;
+        animation-delay: 2s;
+    }
+    
+    .floating-shape:nth-child(3) {
+        width: 60px;
+        height: 60px;
+        bottom: 30%;
+        left: 70%;
+        animation-delay: 4s;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Contact Hero Section -->
+<section class="contact-hero position-relative">
+    <div class="floating-shapes">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Get In Touch</h1>
+                <p class="lead mb-4">Ready to start your project? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+                <div class="d-flex align-items-center">
+                    <div class="me-4">
+                        <i class="bi bi-telephone-fill fs-4 me-2"></i>
+                        <span>{{ company_phone|default:"+1 (555) 123-4567" }}</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-envelope-fill fs-4 me-2"></i>
+                        <span>{{ company_email|default:"info@justcodeworks.eu" }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="bi bi-chat-dots display-1 text-white opacity-75"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form & Information -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="col-lg-8 mb-5">
+                <div class="contact-card form-animate">
+                    <h2 class="mb-4 text-center">Send Us a Message</h2>
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">First Name *</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Last Name *</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="company" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="company" name="company">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="service" class="form-label">Service Interested In *</label>
+                                <select class="form-select" id="service" name="service" required>
+                                    <option value="">Choose a service...</option>
+                                    <option value="web-design">Web Design</option>
+                                    <option value="web-development">Web Development</option>
+                                    <option value="ecommerce">E-commerce Solutions</option>
+                                    <option value="seo">SEO & Marketing</option>
+                                    <option value="branding">Branding & Logo Design</option>
+                                    <option value="maintenance">Website Maintenance</option>
+                                    <option value="consulting">Consulting</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="budget" class="form-label">Project Budget</label>
+                                <select class="form-select" id="budget" name="budget">
+                                    <option value="">Select budget range...</option>
+                                    <option value="under-5k">Under €5,000</option>
+                                    <option value="5k-10k">€5,000 - €10,000</option>
+                                    <option value="10k-25k">€10,000 - €25,000</option>
+                                    <option value="25k-50k">€25,000 - €50,000</option>
+                                    <option value="over-50k">Over €50,000</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="timeline" class="form-label">Project Timeline</label>
+                            <select class="form-select" id="timeline" name="timeline">
+                                <option value="">When do you need this completed?</option>
+                                <option value="asap">ASAP (Rush Job)</option>
+                                <option value="1-month">Within 1 Month</option>
+                                <option value="2-3months">2-3 Months</option>
+                                <option value="3-6months">3-6 Months</option>
+                                <option value="6months+">6+ Months</option>
+                                <option value="flexible">Flexible Timeline</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label">Project Description *</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" 
+                                placeholder="Tell us about your project, goals, and any specific requirements..." required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    Subscribe to our newsletter for web design tips and updates
+                                </label>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-send">
+                                <i class="bi bi-send me-2"></i>Send Message
+                            </button>
+                        </div>
+                        <div id="successMessage" class="success-message">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="col-lg-4">
+                <!-- Contact Details Card -->
+                <div class="contact-card form-animate">
+                    <h3 class="text-center mb-4">Contact Information</h3>
+                    
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Office Address</h6>
+                            <p class="mb-0 text-muted">{{ company_address|default:"123 Business Street, Suite 100<br>Your City, State 12345" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Phone Number</h6>
+                            <p class="mb-0 text-muted">{{ company_phone|default:"+1 (555) 123-4567" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Email Address</h6>
+                            <p class="mb-0 text-muted">{{ company_email|default:"info@justcodeworks.eu" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="bi bi-globe"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Website</h6>
+                            <p class="mb-0 text-muted">{{ company_website|default:"www.justcodeworks.eu" }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Office Hours -->
+                    <div class="office-hours">
+                        <h5 class="text-center mb-3">
+                            <i class="bi bi-clock me-2"></i>Office Hours
+                        </h5>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <strong>Monday - Friday</strong><br>
+                                <span class="text-muted">9:00 AM - 6:00 PM</span>
+                            </div>
+                            <div class="col-6">
+                                <strong>Saturday</strong><br>
+                                <span class="text-muted">10:00 AM - 4:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <small class="text-muted">Sunday - Closed</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Links -->
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Twitter">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" title="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Find Our Office</h2>
+            <p class="lead text-muted">Visit us at our convenient location or schedule a virtual meeting</p>
+        </div>
+        <div class="map-container">
+            <div class="text-center">
+                <i class="bi bi-map display-1 text-muted mb-3"></i>
+                <h4 class="text-muted">Interactive Map</h4>
+                <p class="text-muted">Map integration would be added here<br>(Google Maps, OpenStreetMap, etc.)</p>
+                <button class="btn btn-primary" onclick="openDirections()">
+                    <i class="bi bi-navigation me-2"></i>Get Directions
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Contact Cards -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Quick Contact Options</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="contact-card text-center">
+                    <div class="contact-icon">
+                        <i class="bi bi-chat-dots-fill"></i>
+                    </div>
+                    <h4>Live Chat</h4>
+                    <p class="text-muted mb-4">Get instant answers to your questions with our live chat support.</p>
+                    <button class="btn btn-outline-primary" onclick="openLiveChat()">
+                        Start Chatting
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="contact-card text-center">
+                    <div class="contact-icon">
+                        <i class="bi bi-calendar-check-fill"></i>
+                    </div>
+                    <h4>Schedule Meeting</h4>
+                    <p class="text-muted mb-4">Book a consultation call at your convenience using our calendar.</p>
+                    <button class="btn btn-outline-primary" onclick="scheduleMeeting()">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="contact-card text-center">
+                    <div class="contact-icon">
+                        <i class="bi bi-whatsapp"></i>
+                    </div>
+                    <h4>WhatsApp</h4>
+                    <p class="text-muted mb-4">Message us directly on WhatsApp for quick responses and updates.</p>
+                    <button class="btn btn-outline-primary" onclick="openWhatsApp()">
+                        Message Us
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Intersection Observer for animations
+const observeElements = () => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.form-animate').forEach(el => observer.observe(el));
+};
+
+// Initialize animations on page load
+document.addEventListener('DOMContentLoaded', function() {
+    observeElements();
+    
+    // Add smooth focus animations to form elements
+    const formElements = document.querySelectorAll('.form-control, .form-select');
+    formElements.forEach(element => {
+        element.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        element.addEventListener('blur', function() {
+            this.parentElement.classList.remove('focused');
+        });
+    });
+});
+
+// Form submission handler
+function handleFormSubmit(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    
+    // Simulate form submission with loading state
+    const submitBtn = event.target.querySelector('.btn-send');
+    const originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="bi bi-arrow-clockwise spin me-2"></i>Sending...';
+    submitBtn.disabled = true;
+    
+    // Simulate API call
+    setTimeout(() => {
+        // Show success message
+        document.getElementById('successMessage').style.display = 'block';
+        
+        // Reset form
+        event.target.reset();
+        
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+            document.getElementById('successMessage').style.display = 'none';
+        }, 5000);
+        
+        console.log('Form submitted:', data);
+    }, 2000);
+}
+
+// Quick contact functions
+function openLiveChat() {
+    alert('Live chat would open here.\n\nIntegration options:\n- Intercom\n- Zendesk Chat\n- Tawk.to\n- Custom chat widget');
+}
+
+function scheduleeMeeting() {
+    alert('Calendar booking would open here.\n\nIntegration options:\n- Calendly\n- Acuity Scheduling\n- Microsoft Bookings\n- Google Calendar');
+}
+
+function openWhatsApp() {
+    const phoneNumber = '1234567890'; // Replace with actual WhatsApp number
+    const message = 'Hello! I\'m interested in your services.';
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
+
+function openDirections() {
+    alert('Directions would open here.\n\nOptions:\n- Google Maps integration\n- Apple Maps\n- Custom map with directions API');
+}
+
+// Add spinning animation for loading states
+const style = document.createElement('style');
+style.textContent = `
+    .spin {
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

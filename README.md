@@ -1,33 +1,73 @@
-# JustCodeWorks.EU - AI Website Builder
+# 🚀 JustCodeWorks.EU - European SME Digital Transformation Platform
 
-A Django multi-tenant application that allows users to create AI-powered websites with ease.
+**Government Grant Demo Ready** | **Live Clients** | **Production Deployment**
 
-## Project Structure
+A comprehensive Django platform combining **automated SaaS website creation** with **professional custom development services** for European SMEs.
+
+## 🎯 **Business Model Overview**
+
+### **Two-Tier Service Strategy:**
+
+#### 🤖 **Automated SaaS Platform** 
+- Self-service website creation flow
+- Multi-tenant subdomain architecture  
+- Instant template deployment
+- **Revenue**: €29-99/month subscriptions
+
+#### 🏢 **Professional Custom Development**
+- Direct client management system
+- Custom Django applications  
+- Premium website development
+- **Revenue**: €500-2000/project
+
+## 📊 **Current Status (October 2025)**
+
+### **Live Client Portfolio:**
+- ✅ **HMD Klusbedrijf** (hmdklusbedrijf.nl) - Converting to Django
+- ✅ **Taxi Pro Service** (taxiproservice.nl) - 90% Django Ready  
+- ✅ **AutoFix Garage** (autofixgarage.nl) - Migration Pipeline
+- ✅ **Oficina Paulo** (oficinapaulocalibra.pt) - E-commerce Expansion
+
+### **Government Meeting Demo:** October 7, 2025
+
+## 🏗️ **Technical Architecture**
 
 ```
 justcodeworkseu/
-├── justcodeworks/          # Main Django project
+├── justcodeworks/          # Main Django project + settings
 ├── shared/                 # Shared apps (public schema)
-├── tenants/               # Tenant management
-├── websites/              # Tenant website functionality  
-├── templates/             # HTML templates
-│   ├── admin/            # Admin interface templates
-│   ├── main_site/        # Main site templates
-│   └── website/          # Tenant website templates
-├── static/               # Static files
-├── media/                # User uploaded files
-└── requirements.txt      # Python dependencies
+├── tenants/               # Multi-tenant management
+├── websites/              # Tenant website functionality + signup flow
+├── templates/             # Professional templates system
+│   ├── admin/            # Unified admin interface
+│   ├── main_site/        # Landing page + signup
+│   └── website/          # TP1 (Tech) + TP2 (Construction) templates
+├── static/               # Assets + professional styling
+├── media/                # Client uploads
+└── requirements.txt      # Production dependencies
 ```
 
-## Features
+## ✨ **Platform Capabilities**
 
-### Multi-Tenant Architecture
-- Each user gets their own isolated website space
-- Subdomain-based tenant separation
-- Shared admin interface for all tenants
+### **Automated SaaS Features:**
+- ✅ Complete signup flow (Business Info → Domain → Template → Live Site)
+- ✅ Multi-tenant subdomain system
+- ✅ Professional template library (TP1, TP2)  
+- ✅ Customer admin dashboard
+- ✅ CSRF-protected form handling
 
-### Admin Interface
-- Unified sidebar navigation for all tenant backends
+### **Professional Services Features:**
+- ✅ Custom client website development
+- ✅ Integrated admin dashboard management
+- ✅ Real-time content management
+- ✅ Client project tracking
+- ✅ Revenue management system
+
+### **Technical Infrastructure:**
+- ✅ Django 5.2.7 with multi-tenant architecture
+- ✅ Bootstrap-based responsive templates
+- ✅ Production-ready deployment system
+- ✅ Zero-downtime migration capabilities
 - Dashboard with website statistics
 - Content management system
 - SEO settings

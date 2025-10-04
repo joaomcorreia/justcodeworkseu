@@ -1,0 +1,395 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Customer Admin Theme */
+:root {
+    --admin-primary: #6366f1;
+    --admin-secondary: #06b6d4; 
+    --admin-success: #10b981;
+    --admin-warning: #f59e0b;
+    --admin-danger: #ef4444;
+    --admin-dark: #1f2937;
+}
+
+.admin-theme {
+    --primary-color: var(--admin-primary);
+    --secondary-color: var(--admin-secondary);
+}
+
+.admin-header {
+    background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-secondary) 100%);
+    padding: 3rem 0;
+    color: white;
+    margin-bottom: 0;
+}
+
+.admin-breadcrumb {
+    background: #f8fafc;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-sidebar {
+    background: white;
+    min-height: 80vh;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    padding: 0;
+}
+
+.admin-nav-item {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #374151;
+}
+
+.admin-nav-item:hover,
+.admin-nav-item.active {
+    background: linear-gradient(90deg, var(--admin-primary), var(--admin-secondary));
+    color: white;
+    text-decoration: none;
+}
+
+.admin-nav-item i {
+    width: 20px;
+    margin-right: 0.75rem;
+}
+
+.admin-main-content {
+    padding: 2rem;
+    background: #f8fafc;
+    min-height: 80vh;
+}
+
+.admin-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+.admin-stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+    border-left: 4px solid;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-primary { border-left-color: var(--admin-primary); }
+.stat-success { border-left-color: var(--admin-success); }
+.stat-warning { border-left-color: var(--admin-warning); }
+.stat-danger { border-left-color: var(--admin-danger); }
+
+.admin-stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.icon-primary { background: var(--admin-primary); }
+.icon-success { background: var(--admin-success); }
+.icon-warning { background: var(--admin-warning); }
+.icon-danger { background: var(--admin-danger); }
+
+.btn-admin-primary {
+    background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 10px 25px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-admin-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+    color: white;
+}
+
+.website-preview {
+    background: #f1f5f9;
+    border: 2px dashed #cbd5e1;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.activity-item {
+    padding: 1rem;
+    border-left: 3px solid var(--admin-primary);
+    margin-bottom: 1rem;
+    background: #f8fafc;
+    border-radius: 0 8px 8px 0;
+}
+
+.quick-action-btn {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: #374151;
+    transition: all 0.3s ease;
+    display: block;
+    text-align: center;
+    height: 100%;
+}
+
+.quick-action-btn:hover {
+    border-color: var(--admin-primary);
+    color: var(--admin-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-theme">
+    <!-- Admin Header -->
+    <section class="admin-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="h2 fw-bold mb-2">{{ company_name }} Admin</h1>
+                    <p class="mb-0 opacity-75">Welcome back! Manage your website and grow your business.</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a href="/?customer={{ tenant.schema_name }}" target="_blank" class="btn btn-light">
+                        <i class="bi bi-eye me-2"></i>View Website
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <section class="admin-breadcrumb">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 p-0">
+                <div class="admin-sidebar">
+                    <a href="?customer={{ tenant.schema_name }}" class="admin-nav-item active">
+                        <i class="bi bi-speedometer2"></i>Dashboard
+                    </a>
+                    <a href="?customer={{ tenant.schema_name }}&page=edit-homepage" class="admin-nav-item">
+                        <i class="bi bi-house-door"></i>Edit Homepage
+                    </a>
+                    <a href="?customer={{ tenant.schema_name }}&page=edit-services" class="admin-nav-item">
+                        <i class="bi bi-tools"></i>Services
+                    </a>
+                    <a href="?customer={{ tenant.schema_name }}&page=edit-portfolio" class="admin-nav-item">
+                        <i class="bi bi-images"></i>Portfolio
+                    </a>
+                    <a href="?customer={{ tenant.schema_name }}&page=messages" class="admin-nav-item">
+                        <i class="bi bi-envelope"></i>Messages
+                        <span class="badge bg-danger ms-auto">5</span>
+                    </a>
+                    <a href="?customer={{ tenant.schema_name }}&page=analytics" class="admin-nav-item">
+                        <i class="bi bi-graph-up"></i>Analytics
+                    </a>
+                    <a href="?customer={{ tenant.schema_name }}&page=settings" class="admin-nav-item">
+                        <i class="bi bi-gear"></i>Settings
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <div class="admin-main-content">
+                    <!-- Stats Row -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="admin-stat-card stat-primary">
+                                <div class="admin-stat-icon icon-primary">
+                                    <i class="bi bi-eye"></i>
+                                </div>
+                                <h3 class="fw-bold mb-1">{{ stats.total_views }}</h3>
+                                <p class="text-muted mb-0 small">Total Views</p>
+                                <small class="text-success">+{{ stats.views_today }} today</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="admin-stat-card stat-success">
+                                <div class="admin-stat-icon icon-success">
+                                    <i class="bi bi-person-plus"></i>
+                                </div>
+                                <h3 class="fw-bold mb-1">{{ stats.total_inquiries }}</h3>
+                                <p class="text-muted mb-0 small">Total Inquiries</p>
+                                <small class="text-success">+{{ stats.inquiries_today }} today</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="admin-stat-card stat-warning">
+                                <div class="admin-stat-icon icon-warning">
+                                    <i class="bi bi-lightning"></i>
+                                </div>
+                                <h3 class="fw-bold mb-1">{{ stats.quote_requests }}</h3>
+                                <p class="text-muted mb-0 small">Quote Requests</p>
+                                <small class="text-warning">This month</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="admin-stat-card stat-danger">
+                                <div class="admin-stat-icon icon-danger">
+                                    <i class="bi bi-graph-up-arrow"></i>
+                                </div>
+                                <h3 class="fw-bold mb-1">{{ stats.conversion_rate }}</h3>
+                                <p class="text-muted mb-0 small">Conversion Rate</p>
+                                <small class="text-info">Last 30 days</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <!-- Quick Actions -->
+                            <div class="admin-card">
+                                <h4 class="fw-bold mb-3">Quick Actions</h4>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <a href="?customer={{ tenant.schema_name }}&page=edit-homepage" class="quick-action-btn">
+                                            <i class="bi bi-house-door fs-2 text-primary mb-2 d-block"></i>
+                                            <h6 class="fw-bold">Edit Homepage</h6>
+                                            <small class="text-muted">Update content & images</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="?customer={{ tenant.schema_name }}&page=edit-services" class="quick-action-btn">
+                                            <i class="bi bi-tools fs-2 text-success mb-2 d-block"></i>
+                                            <h6 class="fw-bold">Manage Services</h6>
+                                            <small class="text-muted">Add or edit services</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="?customer={{ tenant.schema_name }}&page=edit-portfolio" class="quick-action-btn">
+                                            <i class="bi bi-images fs-2 text-warning mb-2 d-block"></i>
+                                            <h6 class="fw-bold">Update Portfolio</h6>
+                                            <small class="text-muted">Showcase your work</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity -->
+                            <div class="admin-card">
+                                <h4 class="fw-bold mb-3">Recent Activity</h4>
+                                <div class="activity-item">
+                                    <div class="d-flex align-items-start">
+                                        <div class="bg-primary rounded-circle p-2 me-3">
+                                            <i class="bi bi-person text-white small"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">New Contact Form</h6>
+                                            <p class="text-muted mb-0 small">Jan Janssen requested a quote for bathroom renovation</p>
+                                            <small class="text-muted">2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="d-flex align-items-start">
+                                        <div class="bg-success rounded-circle p-2 me-3">
+                                            <i class="bi bi-graph-up text-white small"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">Traffic Increase</h6>
+                                            <p class="text-muted mb-0 small">Website views increased by 25% this week</p>
+                                            <small class="text-muted">Yesterday</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="d-flex align-items-start">
+                                        <div class="bg-warning rounded-circle p-2 me-3">
+                                            <i class="bi bi-lightning text-white small"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">WhatsApp Quote</h6>
+                                            <p class="text-muted mb-0 small">Quick quote request via WhatsApp modal</p>
+                                            <small class="text-muted">3 days ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <!-- Website Preview -->
+                            <div class="admin-card">
+                                <h5 class="fw-bold mb-3">Website Preview</h5>
+                                <div class="website-preview">
+                                    <i class="bi bi-globe fs-1 text-muted mb-2"></i>
+                                    <p class="text-muted mb-3">{{ company_name }}</p>
+                                    <a href="/?customer={{ tenant.schema_name }}" target="_blank" class="btn btn-admin-primary btn-sm">
+                                        <i class="bi bi-eye me-2"></i>View Live Site
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Help & Support -->
+                            <div class="admin-card">
+                                <h5 class="fw-bold mb-3">Need Help?</h5>
+                                <p class="text-muted mb-3">Our support team is here to help you succeed.</p>
+                                <div class="d-grid gap-2">
+                                    <button onclick="openQuoteModal()" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-chat-dots me-2"></i>Live Chat
+                                    </button>
+                                    <a href="mailto:support@justcodeworks.eu" class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-envelope me-2"></i>Email Support
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Plan Info -->
+                            <div class="admin-card">
+                                <h6 class="fw-bold mb-2">Current Plan</h6>
+                                <span class="badge bg-primary">{{ tenant.plan|capfirst }}</span>
+                                <p class="text-muted small mt-2 mb-0">
+                                    Upgrade for more features and customization options.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

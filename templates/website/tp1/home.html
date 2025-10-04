@@ -1,0 +1,280 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}{{ company_name }} - Professional Web Solutions{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <!-- Hero Section -->
+    <section class="hero-section py-5">
+        <div class="container">
+            <div class="row align-items-center min-vh-50">
+                <div class="col-lg-6">
+                    <h1 class="display-3 fw-bold mb-4">
+                        Professional<br>
+                        <span class="text-gradient">Web Solutions</span>
+                    </h1>
+                    <p class="lead mb-4">
+                        We create stunning websites and digital experiences that help your business grow. 
+                        From design to development, we've got you covered.
+                    </p>
+                    <div class="hero-stats row g-4 mb-4">
+                        <div class="col-4">
+                            <h3 class="fw-bold text-white">{{ projects_completed|default:"150+" }}</h3>
+                            <p class="text-light mb-0">Projects</p>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="fw-bold text-white">{{ happy_clients|default:"120+" }}</h3>
+                            <p class="text-light mb-0">Happy Clients</p>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="fw-bold text-white">{{ years_experience|default:"8+" }}</h3>
+                            <p class="text-light mb-0">Years</p>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="/signup/" class="btn btn-success btn-lg me-3">
+                            <i class="bi bi-rocket-takeoff me-2"></i>Get Started - Build Your Website
+                        </a>
+                        <a href="/services/" class="btn btn-light btn-lg me-3">Our Services</a>
+                        <a href="/portfolio/" class="btn btn-outline-light btn-lg me-3">View Portfolio</a>
+                        <button onclick="openQuoteModal()" class="btn btn-warning btn-lg">
+                            <i class="bi bi-lightning-fill me-2"></i>Snelle Offerte
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <div class="floating-card">
+                            <i class="bi bi-laptop fs-1 text-primary mb-3"></i>
+                            <h5>Custom Web Design</h5>
+                            <p class="mb-0">Tailored to your brand</p>
+                        </div>
+                        <div class="floating-card delay-1">
+                            <i class="bi bi-graph-up fs-1 text-success mb-3"></i>
+                            <h5>SEO Optimized</h5>
+                            <p class="mb-0">Better search rankings</p>
+                        </div>
+                        <div class="floating-card delay-2">
+                            <i class="bi bi-shield-check fs-1 text-warning mb-3"></i>
+                            <h5>Secure & Fast</h5>
+                            <p class="mb-0">Built for performance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content with Sidebar -->
+    <section class="content-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Services Preview -->
+                    <div class="section-header text-center mb-5">
+                        <h2 class="fw-bold">What We Do</h2>
+                        <p class="lead text-muted">Comprehensive digital solutions for modern businesses</p>
+                    </div>
+                    
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <div class="service-preview-card h-100 p-4 rounded shadow-sm">
+                                <div class="service-icon mb-3">
+                                    <i class="bi bi-palette-fill fs-2 text-primary"></i>
+                                </div>
+                                <h4>Web Design</h4>
+                                <p class="text-muted mb-3">Beautiful, responsive designs that convert visitors into customers.</p>
+                                <a href="/services/web-design/" class="btn btn-outline-primary btn-sm">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="service-preview-card h-100 p-4 rounded shadow-sm">
+                                <div class="service-icon mb-3">
+                                    <i class="bi bi-code-slash fs-2 text-primary"></i>
+                                </div>
+                                <h4>Development</h4>
+                                <p class="text-muted mb-3">Robust web applications built with modern technologies.</p>
+                                <a href="/services/web-development/" class="btn btn-outline-primary btn-sm">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="service-preview-card h-100 p-4 rounded shadow-sm">
+                                <div class="service-icon mb-3">
+                                    <i class="bi bi-cart-fill fs-2 text-primary"></i>
+                                </div>
+                                <h4>E-commerce</h4>
+                                <p class="text-muted mb-3">Complete online store solutions with secure payments.</p>
+                                <a href="/services/e-commerce/" class="btn btn-outline-primary btn-sm">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="service-preview-card h-100 p-4 rounded shadow-sm">
+                                <div class="service-icon mb-3">
+                                    <i class="bi bi-graph-up-arrow fs-2 text-primary"></i>
+                                </div>
+                                <h4>Digital Marketing</h4>
+                                <p class="text-muted mb-3">SEO, social media, and online advertising services.</p>
+                                <a href="/services/digital-marketing/" class="btn btn-outline-primary btn-sm">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Why Choose Us -->
+                    <div class="why-choose-us bg-light rounded p-5 mb-5">
+                        <h3 class="fw-bold mb-4">Why Choose JustCodeWorks.EU?</h3>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="feature-item d-flex">
+                                    <div class="feature-icon me-3">
+                                        <i class="bi bi-lightning-charge fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Fast Delivery</h5>
+                                        <p class="mb-0 text-muted">Quick turnaround without compromising quality</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-item d-flex">
+                                    <div class="feature-icon me-3">
+                                        <i class="bi bi-award fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Award-Winning</h5>
+                                        <p class="mb-0 text-muted">Recognized for excellence and innovation</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-item d-flex">
+                                    <div class="feature-icon me-3">
+                                        <i class="bi bi-headset fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h5>24/7 Support</h5>
+                                        <p class="mb-0 text-muted">Always here when you need us</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-item d-flex">
+                                    <div class="feature-icon me-3">
+                                        <i class="bi bi-shield-check fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Secure & Reliable</h5>
+                                        <p class="mb-0 text-muted">Built with security and reliability in mind</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="cta-section text-center">
+                        <h3 class="fw-bold mb-3">Ready to Start Your Project?</h3>
+                        <p class="lead mb-4">Let's discuss how we can help your business grow online</p>
+                        <a href="/contact/" class="btn btn-primary btn-lg">Get Started Today</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    {% include "website/includes/sidebar.html" %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+.text-gradient {
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-image {
+    position: relative;
+    height: 400px;
+}
+
+.floating-card {
+    position: absolute;
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-card:nth-child(1) {
+    top: 0;
+    left: 0;
+    width: 200px;
+}
+
+.floating-card:nth-child(2) {
+    top: 50px;
+    right: 0;
+    width: 180px;
+    animation-delay: -2s;
+}
+
+.floating-card:nth-child(3) {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    animation-delay: -4s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.service-preview-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    background: white;
+}
+
+.service-preview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+}
+
+.feature-item {
+    margin-bottom: 1rem;
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(44, 82, 130, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+@media (max-width: 991px) {
+    .floating-card {
+        position: static;
+        margin-bottom: 1rem;
+        width: 100% !important;
+        transform: none !important;
+    }
+    
+    .hero-image {
+        height: auto;
+        margin-top: 3rem;
+    }
+}
+</style>
+{% endblock %}

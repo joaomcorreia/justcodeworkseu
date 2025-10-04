@@ -1,0 +1,305 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Customer Dashboard - {{ company_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Customer Admin Theme */
+:root {
+    --admin-primary: #4f46e5;
+    --admin-secondary: #06b6d4;
+    --admin-success: #10b981;
+    --admin-warning: #f59e0b;
+    --admin-danger: #ef4444;
+}
+
+.admin-theme {
+    --primary-color: var(--admin-primary);
+    --secondary-color: var(--admin-secondary);
+}
+
+.admin-header {
+    background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-secondary) 100%);
+    padding: 3rem 0;
+    color: white;
+}
+
+.admin-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--admin-primary);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+}
+
+.admin-stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.admin-stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-primary { background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary)); }
+.stat-success { background: linear-gradient(45deg, var(--admin-success), #34d399); }
+.stat-warning { background: linear-gradient(45deg, var(--admin-warning), #fbbf24); }
+.stat-danger { background: linear-gradient(45deg, var(--admin-danger), #f87171); }
+
+.btn-admin-primary {
+    background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-admin-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+    color: white;
+}
+
+.quick-action {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: #374151;
+    transition: all 0.3s ease;
+    display: block;
+    height: 100%;
+}
+
+.quick-action:hover {
+    border-color: var(--admin-primary);
+    color: var(--admin-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper admin-theme">
+    <!-- Admin Header -->
+    <section class="admin-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3">Welcome Back, {{ user.first_name|default:user.username }}!</h1>
+                    <p class="lead mb-0">Manage your website and grow your business with powerful tools.</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a href="/customer-admin/templates/" class="btn btn-warning btn-lg">
+                        <i class="bi bi-palette me-2"></i>Change Template
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <!-- Stats Row -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-3">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon stat-primary">
+                            <i class="bi bi-eye"></i>
+                        </div>
+                        <h3 class="fw-bold mb-1">1,234</h3>
+                        <p class="text-muted mb-0">Website Views</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon stat-success">
+                            <i class="bi bi-person-plus"></i>
+                        </div>
+                        <h3 class="fw-bold mb-1">89</h3>
+                        <p class="text-muted mb-0">New Contacts</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon stat-warning">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                        <h3 class="fw-bold mb-1">23</h3>
+                        <p class="text-muted mb-0">Quote Requests</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon stat-danger">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <h3 class="fw-bold mb-1">+15%</h3>
+                        <p class="text-muted mb-0">Growth</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Quick Actions -->
+                    <div class="admin-card mb-4">
+                        <h3 class="fw-bold mb-4">Quick Actions</h3>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <a href="#" class="quick-action">
+                                    <i class="bi bi-palette fs-3 text-primary mb-2 d-block"></i>
+                                    <h6 class="fw-bold">Edit Homepage</h6>
+                                    <small class="text-muted">Update content and images</small>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="quick-action">
+                                    <i class="bi bi-images fs-3 text-success mb-2 d-block"></i>
+                                    <h6 class="fw-bold">Manage Portfolio</h6>
+                                    <small class="text-muted">Add your latest projects</small>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="quick-action">
+                                    <i class="bi bi-gear fs-3 text-warning mb-2 d-block"></i>
+                                    <h6 class="fw-bold">Site Settings</h6>
+                                    <small class="text-muted">Configure your website</small>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="quick-action">
+                                    <i class="bi bi-envelope fs-3 text-info mb-2 d-block"></i>
+                                    <h6 class="fw-bold">Messages</h6>
+                                    <small class="text-muted">Customer inquiries</small>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="quick-action">
+                                    <i class="bi bi-graph-up-arrow fs-3 text-primary mb-2 d-block"></i>
+                                    <h6 class="fw-bold">Analytics</h6>
+                                    <small class="text-muted">Traffic and performance</small>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="quick-action">
+                                    <i class="bi bi-tools fs-3 text-secondary mb-2 d-block"></i>
+                                    <h6 class="fw-bold">SEO Tools</h6>
+                                    <small class="text-muted">Optimize for search</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="admin-card">
+                        <h3 class="fw-bold mb-4">Recent Activity</h3>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item border-0 px-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary rounded-circle p-2 me-3">
+                                        <i class="bi bi-person text-white"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">New contact form submission</h6>
+                                        <small class="text-muted">Jan Janssen requested a quote - 2 hours ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item border-0 px-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-success rounded-circle p-2 me-3">
+                                        <i class="bi bi-graph-up text-white"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Website traffic increased</h6>
+                                        <small class="text-muted">+25% more visitors than last week</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item border-0 px-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-warning rounded-circle p-2 me-3">
+                                        <i class="bi bi-lightning text-white"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Quick quote request</h6>
+                                        <small class="text-muted">Bathroom renovation inquiry via WhatsApp</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Info -->
+                <div class="col-lg-4">
+                    <div class="admin-card mb-4">
+                        <h4 class="fw-bold mb-3">Website Status</h4>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-success rounded-circle p-1 me-2">
+                                <i class="bi bi-check text-white small"></i>
+                            </div>
+                            <span>Website is live and running</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-success rounded-circle p-1 me-2">
+                                <i class="bi bi-check text-white small"></i>
+                            </div>
+                            <span>SSL certificate active</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-warning rounded-circle p-1 me-2">
+                                <i class="bi bi-exclamation text-white small"></i>
+                            </div>
+                            <span>SEO needs attention</span>
+                        </div>
+                        <a href="#" class="btn btn-admin-primary btn-sm">View Full Report</a>
+                    </div>
+
+                    <div class="admin-card">
+                        <h4 class="fw-bold mb-3">Need Help?</h4>
+                        <p class="text-muted mb-3">Our support team is here to help you succeed.</p>
+                        <div class="d-grid gap-2">
+                            <button onclick="openQuoteModal()" class="btn btn-outline-primary">
+                                <i class="bi bi-chat-dots me-2"></i>Start Live Chat
+                            </button>
+                            <a href="mailto:support@justcodeworks.eu" class="btn btn-outline-secondary">
+                                <i class="bi bi-envelope me-2"></i>Email Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

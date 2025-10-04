@@ -1,0 +1,254 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Portfolio - {{ company_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+/* TP2 Theme Colors */
+:root {
+    --tp2-primary: #c7924c;
+    --tp2-secondary: #2d5a27;
+    --tp2-accent: #e67e22;
+    --tp2-dark: #2c3e50;
+    --tp2-light: #ecf0f1;
+}
+
+.tp2-theme {
+    --primary-color: var(--tp2-primary);
+    --secondary-color: var(--tp2-secondary);
+    --accent-color: var(--tp2-accent);
+}
+
+.tp2-page-header {
+    background: linear-gradient(135deg, var(--tp2-secondary) 0%, var(--tp2-dark) 100%);
+    padding: 4rem 0;
+    color: white;
+}
+
+.tp2-portfolio-item {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.tp2-portfolio-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+.tp2-portfolio-image {
+    height: 250px;
+    background: linear-gradient(45deg, var(--tp2-primary), var(--tp2-accent));
+    position: relative;
+    overflow: hidden;
+}
+
+.tp2-portfolio-content {
+    padding: 1.5rem;
+}
+
+.tp2-portfolio-category {
+    background: var(--tp2-primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.tp2-filter-btn {
+    border: 2px solid var(--tp2-primary);
+    color: var(--tp2-primary);
+    background: transparent;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    margin: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.tp2-filter-btn:hover,
+.tp2-filter-btn.active {
+    background: var(--tp2-primary);
+    color: white;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper tp2-theme">
+    <!-- Page Header -->
+    <section class="tp2-page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-3">Portfolio</h1>
+                    <p class="lead">Bekijk onze uitgevoerde projecten</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Filter Buttons -->
+                    <div class="text-center mb-5">
+                        <button class="tp2-filter-btn active" data-filter="all">Alle Projecten</button>
+                        <button class="tp2-filter-btn" data-filter="schilderwerk">Schilderwerk</button>
+                        <button class="tp2-filter-btn" data-filter="elektra">Elektra</button>
+                        <button class="tp2-filter-btn" data-filter="tegelwerk">Tegelwerk</button>
+                        <button class="tp2-filter-btn" data-filter="renovatie">Renovaties</button>
+                    </div>
+
+                    <!-- Portfolio Grid -->
+                    <div class="row g-4">
+                        <!-- Project 1 -->
+                        <div class="col-md-6 portfolio-item" data-category="schilderwerk">
+                            <div class="tp2-portfolio-item">
+                                <div class="tp2-portfolio-image d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-brush text-white" style="font-size: 4rem;"></i>
+                                </div>
+                                <div class="tp2-portfolio-content">
+                                    <span class="tp2-portfolio-category">Schilderwerk</span>
+                                    <h5 class="fw-bold mb-2">Woning Renovatie Amsterdam</h5>
+                                    <p class="text-muted mb-3">Complete buitenschilderwerk van monumentaal pand in Amsterdam centrum.</p>
+                                    <small class="text-muted">Voltooid: Maart 2024</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div class="col-md-6 portfolio-item" data-category="elektra">
+                            <div class="tp2-portfolio-item">
+                                <div class="tp2-portfolio-image d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-lightning text-white" style="font-size: 4rem;"></i>
+                                </div>
+                                <div class="tp2-portfolio-content">
+                                    <span class="tp2-portfolio-category">Elektra</span>
+                                    <h5 class="fw-bold mb-2">Kantoorpand Utrecht</h5>
+                                    <p class="text-muted mb-3">Volledige elektrische installatie nieuwbouw kantoorpand.</p>
+                                    <small class="text-muted">Voltooid: Februari 2024</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div class="col-md-6 portfolio-item" data-category="tegelwerk">
+                            <div class="tp2-portfolio-item">
+                                <div class="tp2-portfolio-image d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-grid-1x2 text-white" style="font-size: 4rem;"></i>
+                                </div>
+                                <div class="tp2-portfolio-content">
+                                    <span class="tp2-portfolio-category">Tegelwerk</span>
+                                    <h5 class="fw-bold mb-2">Badkamer Renovatie Haarlem</h5>
+                                    <p class="text-muted mb-3">Luxe badkamer renovatie met natuursteen en mozaïek.</p>
+                                    <small class="text-muted">Voltooid: Januari 2024</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 4 -->
+                        <div class="col-md-6 portfolio-item" data-category="renovatie">
+                            <div class="tp2-portfolio-item">
+                                <div class="tp2-portfolio-image d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-house text-white" style="font-size: 4rem;"></i>
+                                </div>
+                                <div class="tp2-portfolio-content">
+                                    <span class="tp2-portfolio-category">Renovatie</span>
+                                    <h5 class="fw-bold mb-2">Complete Woningrenovatie</h5>
+                                    <p class="text-muted mb-3">Totale renovatie jaren '30 woning inclusief moderne uitbreidingen.</p>
+                                    <small class="text-muted">Voltooid: December 2023</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 5 -->
+                        <div class="col-md-6 portfolio-item" data-category="schilderwerk">
+                            <div class="tp2-portfolio-item">
+                                <div class="tp2-portfolio-image d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-palette text-white" style="font-size: 4rem;"></i>
+                                </div>
+                                <div class="tp2-portfolio-content">
+                                    <span class="tp2-portfolio-category">Schilderwerk</span>
+                                    <h5 class="fw-bold mb-2">Restaurant Den Haag</h5>
+                                    <p class="text-muted mb-3">Spuitwerk en decoratief schilderwerk voor exclusief restaurant.</p>
+                                    <small class="text-muted">Voltooid: November 2023</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 6 -->
+                        <div class="col-md-6 portfolio-item" data-category="elektra">
+                            <div class="tp2-portfolio-item">
+                                <div class="tp2-portfolio-image d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-cpu text-white" style="font-size: 4rem;"></i>
+                                </div>
+                                <div class="tp2-portfolio-content">
+                                    <span class="tp2-portfolio-category">Elektra</span>
+                                    <h5 class="fw-bold mb-2">Domotica Installatie</h5>
+                                    <p class="text-muted mb-3">Smart home installatie met volledige domotica integratie.</p>
+                                    <small class="text-muted">Voltooid: Oktober 2023</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="text-center mt-5">
+                        <div class="card border-0 shadow" style="background: linear-gradient(135deg, var(--tp2-secondary) 0%, var(--tp2-dark) 100%);">
+                            <div class="card-body p-5 text-white">
+                                <h3 class="fw-bold mb-3">Wilt U Ook Zo'n Mooi Resultaat?</h3>
+                                <p class="lead mb-4">Laat ons ook voor u een prachtig project realiseren!</p>
+                                <button onclick="openQuoteModal()" class="btn btn-warning btn-lg me-3">
+                                    <i class="bi bi-lightning-fill me-2"></i>Gratis Offerte
+                                </button>
+                                <a href="/contact/" class="btn btn-outline-light btn-lg">Contact Opnemen</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    {% include "website/includes/sidebar.html" %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+// Portfolio filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.tp2-filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            // Filter portfolio items
+            portfolioItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                if (filter === 'all' || category === filter) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

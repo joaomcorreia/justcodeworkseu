@@ -1,0 +1,249 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Start Your Website - JustCodeWorks.EU{% endblock %}
+
+{% block content %}
+<div class="signup-container py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Progress Bar -->
+                <div class="signup-progress mb-5">
+                    <div class="progress-steps d-flex justify-content-between">
+                        <div class="step active">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Business Info</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Domain Name</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Template</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Ready!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Signup Card -->
+                <div class="card signup-card shadow-lg">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <h2 class="mb-0">
+                            <i class="bi bi-rocket-takeoff me-2"></i>
+                            Let's Build Your Website!
+                        </h2>
+                        <p class="mb-0 mt-2">Tell us about your business and we'll create your professional website in minutes</p>
+                    </div>
+                    <div class="card-body p-5">
+                        <form method="post" action="{% url 'signup_step2' %}">
+                            {% csrf_token %}
+                            
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <label for="business_name" class="form-label fw-bold">
+                                        <i class="bi bi-building me-2"></i>Business Name *
+                                    </label>
+                                    <input type="text" class="form-control form-control-lg" id="business_name" 
+                                           name="business_name" required maxlength="100"
+                                           placeholder="e.g., VakWerk Pro, TechSolutions">
+                                    <div class="form-text">This will appear on your website</div>
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <label for="business_type" class="form-label fw-bold">
+                                        <i class="bi bi-briefcase me-2"></i>Business Type *
+                                    </label>
+                                    <select class="form-select form-select-lg" id="business_type" name="business_type" required>
+                                        <option value="">Choose your industry...</option>
+                                        <option value="construction">Construction & Building</option>
+                                        <option value="technology">Technology & IT</option>
+                                        <option value="consulting">Consulting & Services</option>
+                                        <option value="retail">Retail & E-commerce</option>
+                                        <option value="restaurant">Restaurant & Food</option>
+                                        <option value="healthcare">Healthcare & Medical</option>
+                                        <option value="education">Education & Training</option>
+                                        <option value="finance">Finance & Accounting</option>
+                                        <option value="real_estate">Real Estate</option>
+                                        <option value="automotive">Automotive</option>
+                                        <option value="beauty">Beauty & Wellness</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <label for="contact_name" class="form-label fw-bold">
+                                        <i class="bi bi-person me-2"></i>Your Name
+                                    </label>
+                                    <input type="text" class="form-control form-control-lg" id="contact_name" 
+                                           name="contact_name" maxlength="100"
+                                           placeholder="e.g., John Smith">
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <label for="email" class="form-label fw-bold">
+                                        <i class="bi bi-envelope me-2"></i>Email Address
+                                    </label>
+                                    <input type="email" class="form-control form-control-lg" id="email" 
+                                           name="email" maxlength="100"
+                                           placeholder="e.g., john@vakwerkpro.nl">
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <label for="phone" class="form-label fw-bold">
+                                        <i class="bi bi-telephone me-2"></i>Phone Number
+                                    </label>
+                                    <input type="tel" class="form-control form-control-lg" id="phone" 
+                                           name="phone" maxlength="20"
+                                           placeholder="e.g., +31 6 1234 5678">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="description" class="form-label fw-bold">
+                                        <i class="bi bi-chat-text me-2"></i>Business Description
+                                    </label>
+                                    <textarea class="form-control" id="description" name="description" 
+                                              rows="3" maxlength="500"
+                                              placeholder="Tell us what your business does... (This will help us suggest the best template and content)"></textarea>
+                                    <div class="form-text">Optional but helpful for better suggestions</div>
+                                </div>
+                            </div>
+
+                            <div class="signup-benefits my-5">
+                                <h5 class="fw-bold text-primary mb-3">What you'll get:</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="benefit-item d-flex align-items-center">
+                                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                            <span>Professional website in minutes</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="benefit-item d-flex align-items-center">
+                                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                            <span>Your own subdomain</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="benefit-item d-flex align-items-center">
+                                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                            <span>Easy content management</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="benefit-item d-flex align-items-center">
+                                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                            <span>Mobile-responsive design</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg py-3">
+                                    <i class="bi bi-arrow-right me-2"></i>
+                                    Continue to Domain Selection
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Footer Note -->
+                <div class="text-center mt-4">
+                    <p class="text-muted">
+                        <i class="bi bi-shield-check me-2"></i>
+                        Secure signup process • No credit card required • 30-day free trial
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.signup-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.signup-progress {
+    background: rgba(255,255,255,0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.progress-steps {
+    position: relative;
+}
+
+.progress-steps::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255,255,255,0.3);
+    z-index: 1;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.step.active .step-number {
+    background: #28a745;
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+}
+
+.step-label {
+    color: white;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.signup-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.benefit-item {
+    padding: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+    .progress-steps {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .step-label {
+        font-size: 0.8rem;
+    }
+}
+</style>
+{% endblock %}

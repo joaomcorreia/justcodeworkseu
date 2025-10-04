@@ -1,0 +1,296 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Diensten - {{ company_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+/* TP2 Theme Colors */
+:root {
+    --tp2-primary: #c7924c;
+    --tp2-secondary: #2d5a27;
+    --tp2-accent: #e67e22;
+    --tp2-dark: #2c3e50;
+    --tp2-light: #ecf0f1;
+}
+
+.tp2-theme {
+    --primary-color: var(--tp2-primary);
+    --secondary-color: var(--tp2-secondary);
+    --accent-color: var(--tp2-accent);
+}
+
+.tp2-page-header {
+    background: linear-gradient(135deg, var(--tp2-secondary) 0%, var(--tp2-dark) 100%);
+    padding: 4rem 0;
+    color: white;
+}
+
+.tp2-service-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--tp2-primary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    margin-bottom: 2rem;
+}
+
+.tp2-service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+.tp2-service-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(45deg, var(--tp2-primary), var(--tp2-accent));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.tp2-feature-list {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.btn-tp2-primary {
+    background: linear-gradient(45deg, var(--tp2-primary), var(--tp2-accent));
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-tp2-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(199, 146, 76, 0.4);
+    color: white;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper tp2-theme">
+    <!-- Page Header -->
+    <section class="tp2-page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-3">Onze Diensten</h1>
+                    <p class="lead">Professionele vakmanschap voor al uw projecten</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Schilderwerk -->
+                    <div class="tp2-service-card">
+                        <div class="row">
+                            <div class="col-lg-3 text-center">
+                                <div class="tp2-service-icon mx-auto">
+                                    <i class="bi bi-brush text-white fs-2"></i>
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <h3 class="fw-bold mb-3">Schilderwerk</h3>
+                                <p class="text-muted mb-3">
+                                    Professioneel binnen- en buitenschilderwerk voor woningen en bedrijfspanden. 
+                                    Wij gebruiken alleen kwaliteitsverf en zorgen voor een perfecte afwerking.
+                                </p>
+                                <div class="tp2-feature-list">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Binnen schilderwerk</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Buiten schilderwerk</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Houtrot reparatie</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Spuitwerk</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Behangen</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Kleuradvies</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="/services/schilderwerk/" class="btn btn-tp2-primary">Meer Informatie</a>
+                                    <button onclick="openQuoteModal()" class="btn btn-outline-primary">
+                                        <i class="bi bi-lightning me-1"></i>Offerte Aanvragen
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Elektra -->
+                    <div class="tp2-service-card">
+                        <div class="row">
+                            <div class="col-lg-3 text-center">
+                                <div class="tp2-service-icon mx-auto">
+                                    <i class="bi bi-lightning text-white fs-2"></i>
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <h3 class="fw-bold mb-3">Elektrotechniek</h3>
+                                <p class="text-muted mb-3">
+                                    Alle elektrotechnische werkzaamheden door gecertificeerde elektriciens. 
+                                    Veilig, betrouwbaar en conform de nieuwste normen en voorschriften.
+                                </p>
+                                <div class="tp2-feature-list">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Nieuwe installaties</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Reparaties & onderhoud</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Periodieke keuringen</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>LED verlichting</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Domotica installatie</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Storingsservice</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="/services/elektra/" class="btn btn-tp2-primary">Meer Informatie</a>
+                                    <button onclick="openQuoteModal()" class="btn btn-outline-primary">
+                                        <i class="bi bi-lightning me-1"></i>Offerte Aanvragen
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tegelwerk -->
+                    <div class="tp2-service-card">
+                        <div class="row">
+                            <div class="col-lg-3 text-center">
+                                <div class="tp2-service-icon mx-auto">
+                                    <i class="bi bi-grid-1x2 text-white fs-2"></i>
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <h3 class="fw-bold mb-3">Tegelwerk</h3>
+                                <p class="text-muted mb-3">
+                                    Professioneel tegelwerk voor badkamers, keukens, toiletten en andere ruimtes. 
+                                    Vakkundige uitvoering met oog voor detail en perfecte afwerking.
+                                </p>
+                                <div class="tp2-feature-list">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Badkamer tegels</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Keuken achterwanden</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Vloertegels</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Wandtegels</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Mozaïek werk</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Voegwerk renovatie</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="/services/tegelwerk/" class="btn btn-tp2-primary">Meer Informatie</a>
+                                    <button onclick="openQuoteModal()" class="btn btn-outline-primary">
+                                        <i class="bi bi-lightning me-1"></i>Offerte Aanvragen
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Renovaties -->
+                    <div class="tp2-service-card">
+                        <div class="row">
+                            <div class="col-lg-3 text-center">
+                                <div class="tp2-service-icon mx-auto">
+                                    <i class="bi bi-house text-white fs-2"></i>
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <h3 class="fw-bold mb-3">Complete Renovaties</h3>
+                                <p class="text-muted mb-3">
+                                    Van badkamer tot keuken, van zolder tot kelder. Wij verzorgen complete renovatieprojecten 
+                                    met één aanspreekpunt voor het gehele project.
+                                </p>
+                                <div class="tp2-feature-list">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Badkamer renovatie</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Keuken renovatie</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Woning renovatie</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Project management</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Vergunningen</li>
+                                                <li><i class="bi bi-check-circle text-success me-2"></i>Coördinatie onderaannemers</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="/services/renovaties/" class="btn btn-tp2-primary">Meer Informatie</a>
+                                    <button onclick="openQuoteModal()" class="btn btn-outline-primary">
+                                        <i class="bi bi-lightning me-1"></i>Offerte Aanvragen
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="text-center mt-5">
+                        <div class="card border-0 shadow" style="background: linear-gradient(135deg, var(--tp2-secondary) 0%, var(--tp2-dark) 100%);">
+                            <div class="card-body p-5 text-white">
+                                <h3 class="fw-bold mb-3">Niet Gevonden Wat U Zoekt?</h3>
+                                <p class="lead mb-4">
+                                    Neem contact met ons op voor maatwerk oplossingen. 
+                                    Wij denken graag met u mee!
+                                </p>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <button onclick="openQuoteModal()" class="btn btn-warning btn-lg">
+                                        <i class="bi bi-lightning-fill me-2"></i>Gratis Offerte
+                                    </button>
+                                    <a href="/contact/" class="btn btn-outline-light btn-lg">Contact Opnemen</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    {% include "website/includes/sidebar.html" %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

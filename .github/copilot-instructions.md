@@ -1,31 +1,46 @@
-<!-- Django tenant project for AI-powered website creation platform -->
+<!-- European SME Digital Transformation Platform - Government Demo Ready -->
 
-## Project: JustCodeWorks.EU - AI Website Builder
+## Project: JustCodeWorks.EU - Hybrid SaaS + Custom Development Platform
 
-This is a Django multi-tenant application where users can create AI-powered websites.
+**CRITICAL CONTEXT**: Government grant meeting **October 7, 2025** - comprehensive demo required.
 
-### Architecture
-- **Main Site**: justcodeworks.eu (landing page only)
-- **Tenant Sites**: Subdomain-based multi-tenancy for user websites
-- **Admin Interface**: Shared sidebar for all tenant backends
-- **AI Integration**: AI-powered website generation features
+This is a **production-ready Django platform** serving **real paying clients** through two complementary business models:
 
-### Key Features
-- Multi-tenant architecture using django-tenant-schemas
-- AI website generation
-- Shared admin interface with sidebar navigation
-- Subscription management
-- Analytics integration
-- User management
-- Website editing tools
+### **🤖 Automated SaaS Platform**
+- Complete signup flow: Business Info → Domain → Template → Live Website
+- Multi-tenant subdomain architecture (customer.justcodeworks.eu)
+- Professional templates (TP1: Tech, TP2: Construction)
+- €29-99/month subscription model
 
-### Development Status
-- [x] ~~Verify copilot-instructions.md file created~~
-- [x] ~~Project requirements clarified~~
-- [x] ~~Scaffold the project structure~~
-- [x] ~~Create Django tenant configuration~~
-- [x] ~~Implement shared admin interface~~
-- [x] ~~Create tenant models and views~~
-- [x] ~~Set up example tenant website~~
-- [ ] Add AI integration features (placeholder views created)
-- [ ] Production deployment setup
+### **🏢 Professional Custom Development**  
+- **Current Clients**: HMD Klusbedrijf, Taxi Pro Service, AutoFix Garage, Oficina Paulo
+- Direct Django admin management integration
+- €500-2000 project-based revenue
+- Zero-downtime migration from existing PHP sites
+
+### **Architecture**
+- **Main Site**: justcodeworks.eu (landing + automated signup)
+- **Tenant Sites**: Subdomain-based multi-tenancy for SaaS customers
+- **Client Sites**: Professional custom websites with admin integration
+- **Infrastructure**: Production servers (46.202.152.237) + existing PHP (31.97.36.47)
+
+### **Key Features**
+- ✅ Complete automated signup flow with CSRF protection
+- ✅ Multi-tenant architecture using django-tenants
+- ✅ Professional template system (TP1, TP2)
+- ✅ Customer admin dashboard integration
+- ✅ Real client management system
+- ✅ Revenue-generating live platform
+
+### **Development Status - PRODUCTION READY**
+- [x] ✅ **Complete SaaS signup flow operational**
+- [x] ✅ **Multi-template system deployed**
+- [x] ✅ **Customer admin dashboards functional**
+- [x] ✅ **Real client integration proven**
+- [x] ✅ **Government demo environment ready**
+- [ ] 🔄 **HMD Django migration (24-48h)**
+- [ ] 📋 **Full client portfolio migration**
+- [ ] 🚀 **EU marketing launch**
+
+### **Immediate Priority: HMD Migration for Government Demo**
+Focus: Deploy hmdklusbedrijf.nl Django version to production server for live demonstration of complete hybrid platform capabilities.

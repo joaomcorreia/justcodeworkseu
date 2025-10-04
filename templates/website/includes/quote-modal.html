@@ -1,0 +1,230 @@
+<!-- Quote Modal (Dutch/International style) -->
+<div class="modal fade" id="quoteModal" tabindex="-1" aria-labelledby="quoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="quoteModalLabel">Offerte Aanvragen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="quote-modal-form">
+                    <div class="row g-4">
+                        <!-- Name and Phone -->
+                        <div class="col-md-6">
+                            <label for="quote-name" class="form-label">
+                                Naam <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="quote-name" 
+                                   name="name"
+                                   placeholder="Voor- en achternaam" 
+                                   required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="quote-phone" class="form-label">
+                                Telefoon <span class="text-danger">*</span>
+                            </label>
+                            <input type="tel" 
+                                   class="form-control" 
+                                   id="quote-phone" 
+                                   name="phone"
+                                   placeholder="06 12345678" 
+                                   required>
+                        </div>
+                        
+                        <!-- Address and Location -->
+                        <div class="col-md-6">
+                            <label for="quote-address" class="form-label">Adres</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="quote-address" 
+                                   name="address"
+                                   placeholder="Straat + nr">
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="quote-location" class="form-label">Plaats</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="quote-location" 
+                                   name="location"
+                                   placeholder="Dinteloord">
+                        </div>
+                        
+                        <!-- Services -->
+                        <div class="col-12">
+                            <label class="form-label">
+                                Diensten <span class="text-danger">*</span>
+                            </label>
+                            <div class="services-grid">
+                                <div class="row g-3">
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="service-checkbox">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   id="service-schilderwerk" 
+                                                   name="services[]" 
+                                                   value="Schilderwerk">
+                                            <label class="form-check-label" for="service-schilderwerk">
+                                                Schilderwerk
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="service-checkbox">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   id="service-elektra" 
+                                                   name="services[]" 
+                                                   value="Elektra">
+                                            <label class="form-check-label" for="service-elektra">
+                                                Elektra
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="service-checkbox">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   id="service-tegelwerk" 
+                                                   name="services[]" 
+                                                   value="Tegelwerk">
+                                            <label class="form-check-label" for="service-tegelwerk">
+                                                Tegelwerk
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="service-checkbox">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   id="service-stucwerk" 
+                                                   name="services[]" 
+                                                   value="Stucwerk">
+                                            <label class="form-check-label" for="service-stucwerk">
+                                                Stucwerk
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="service-checkbox">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   id="service-badkamer" 
+                                                   name="services[]" 
+                                                   value="Badkamer renovatie">
+                                            <label class="form-check-label" for="service-badkamer">
+                                                Badkamer renovatie
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="service-checkbox">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   id="service-keuken" 
+                                                   name="services[]" 
+                                                   value="Keuken montage">
+                                            <label class="form-check-label" for="service-keuken">
+                                                Keuken montage
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="service-checkbox">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   id="service-vloeren" 
+                                                   name="services[]" 
+                                                   value="Vloeren">
+                                            <label class="form-check-label" for="service-vloeren">
+                                                Vloeren
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="service-checkbox">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   id="service-dakwerk" 
+                                                   name="services[]" 
+                                                   value="Dakwerk">
+                                            <label class="form-check-label" for="service-dakwerk">
+                                                Dakwerk
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    Mis je iets? Zet het bij <em>Opmerking</em>.
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <!-- Preferred Date -->
+                        <div class="col-md-6">
+                            <label for="quote-date" class="form-label">Gewenste datum</label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="quote-date" 
+                                   name="preferred_date">
+                        </div>
+                        
+                        <div class="col-md-6 d-flex align-items-end">
+                            <div class="form-check">
+                                <input type="checkbox" 
+                                       class="form-check-input" 
+                                       id="quote-flexible-date" 
+                                       name="flexible_date">
+                                <label class="form-check-label" for="quote-flexible-date">
+                                    Datum af te spreken
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Comments -->
+                        <div class="col-12">
+                            <label for="quote-comments" class="form-label">Opmerking</label>
+                            <textarea class="form-control" 
+                                      id="quote-comments" 
+                                      name="comments"
+                                      rows="4"
+                                      placeholder="Beschrijf kort je klus, maten, foto-link, voorkeurstijden..."></textarea>
+                        </div>
+                        
+                        <!-- Email (hidden) -->
+                        <input type="hidden" name="email" id="quote-email" value="">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer border-0 pt-0">
+                <div class="d-flex gap-3 w-100">
+                    <button type="button" 
+                            class="btn btn-outline-secondary" 
+                            data-bs-dismiss="modal">
+                        Annuleren
+                    </button>
+                    <button type="button" 
+                            class="btn btn-success flex-fill" 
+                            id="send-whatsapp-quote">
+                        <i class="bi bi-whatsapp me-2"></i>
+                        Verstuur via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

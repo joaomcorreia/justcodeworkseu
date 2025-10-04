@@ -1,0 +1,516 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block title %}Our Services - {{ company_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .services-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 6rem 0 4rem;
+    }
+    
+    .service-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        transform: scaleX(0);
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .service-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    }
+    
+    .service-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .service-icon {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        color: white;
+        font-size: 2.5rem;
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position: relative;
+    }
+    
+    .service-icon::after {
+        content: '';
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .service-card:hover .service-icon {
+        transform: scale(1.1) rotate(10deg);
+    }
+    
+    .service-card:hover .service-icon::after {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    
+    .service-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    .service-description {
+        color: var(--text-light);
+        text-align: center;
+        line-height: 1.6;
+        flex-grow: 1;
+        margin-bottom: 2rem;
+    }
+    
+    .service-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 2rem;
+    }
+    
+    .service-features li {
+        padding: 0.5rem 0;
+        color: var(--text-dark);
+        position: relative;
+        padding-left: 2rem;
+    }
+    
+    .service-features li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+    
+    .service-price {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .price-tag {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+    
+    .price-period {
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+    
+    .btn-service {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        color: white;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        box-shadow: 0 8px 25px rgba(44,82,130,0.3);
+        width: 100%;
+    }
+    
+    .btn-service:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(44,82,130,0.4);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .process-section {
+        background: #f8f9fa;
+        padding: 5rem 0;
+    }
+    
+    .process-step {
+        text-align: center;
+        margin-bottom: 3rem;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .process-step.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .process-number {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        position: relative;
+    }
+    
+    .process-number::after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 2px dashed var(--primary-color);
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: rotate 10s linear infinite;
+    }
+    
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    .cta-section {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+        animation: float 20s linear infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(-100px, -100px) rotate(360deg); }
+    }
+    
+    .service-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .service-animate.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Services Hero Section -->
+<section class="services-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Our Services</h1>
+                <p class="lead mb-4">We offer comprehensive digital solutions to help your business grow online. From web design to digital marketing, we've got you covered.</p>
+                <div class="d-flex align-items-center">
+                    <div class="me-4">
+                        <span class="fs-2 fw-bold">{{ services_offered|default:"50+" }}</span>
+                        <small class="d-block">Services Offered</small>
+                    </div>
+                    <div class="me-4">
+                        <span class="fs-2 fw-bold">{{ projects_delivered|default:"300+" }}</span>
+                        <small class="d-block">Projects Delivered</small>
+                    </div>
+                    <div>
+                        <span class="fs-2 fw-bold">{{ satisfaction_rate|default:"98%" }}</span>
+                        <small class="d-block">Satisfaction Rate</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="bi bi-gear-fill display-1 text-white opacity-75"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Grid -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">What We Do Best</h2>
+            <p class="lead text-muted">Choose from our comprehensive range of digital services</p>
+        </div>
+        
+        <div class="row">
+            <!-- Web Design Service -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card service-animate">
+                    <div class="service-icon">
+                        <i class="bi bi-palette-fill"></i>
+                    </div>
+                    <h3 class="service-title">Web Design</h3>
+                    <p class="service-description">Beautiful, responsive websites that captivate your audience and drive conversions. Custom designs tailored to your brand.</p>
+                    <ul class="service-features">
+                        <li>Responsive Design</li>
+                        <li>Custom UI/UX</li>
+                        <li>Brand Integration</li>
+                        <li>Mobile Optimization</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-tag">€2,500+</span>
+                        <div class="price-period">Starting Price</div>
+                    </div>
+                    <a href="/services/web-design/" class="btn-service">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Web Development Service -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card service-animate">
+                    <div class="service-icon">
+                        <i class="bi bi-code-slash"></i>
+                    </div>
+                    <h3 class="service-title">Web Development</h3>
+                    <p class="service-description">Robust, scalable web applications built with modern technologies. From simple sites to complex platforms.</p>
+                    <ul class="service-features">
+                        <li>Custom Development</li>
+                        <li>API Integration</li>
+                        <li>Database Design</li>
+                        <li>Performance Optimization</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-tag">€5,000+</span>
+                        <div class="price-period">Starting Price</div>
+                    </div>
+                    <a href="/services/web-development/" class="btn-service">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- E-commerce Service -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card service-animate">
+                    <div class="service-icon">
+                        <i class="bi bi-cart-fill"></i>
+                    </div>
+                    <h3 class="service-title">E-commerce Solutions</h3>
+                    <p class="service-description">Complete online stores with payment processing, inventory management, and marketing tools to boost your sales.</p>
+                    <ul class="service-features">
+                        <li>Payment Integration</li>
+                        <li>Inventory Management</li>
+                        <li>Order Processing</li>
+                        <li>Analytics Dashboard</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-tag">€8,000+</span>
+                        <div class="price-period">Starting Price</div>
+                    </div>
+                    <a href="/services/ecommerce/" class="btn-service">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- SEO Service -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card service-animate">
+                    <div class="service-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h3 class="service-title">SEO & Marketing</h3>
+                    <p class="service-description">Improve your search rankings and drive organic traffic with our comprehensive SEO and digital marketing services.</p>
+                    <ul class="service-features">
+                        <li>Keyword Research</li>
+                        <li>On-page Optimization</li>
+                        <li>Content Strategy</li>
+                        <li>Performance Tracking</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-tag">€1,500/mo</span>
+                        <div class="price-period">Monthly Service</div>
+                    </div>
+                    <a href="/services/seo/" class="btn-service">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Branding Service -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card service-animate">
+                    <div class="service-icon">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+                    <h3 class="service-title">Branding & Logo Design</h3>
+                    <p class="service-description">Create a memorable brand identity that resonates with your audience. From logos to complete brand guidelines.</p>
+                    <ul class="service-features">
+                        <li>Logo Design</li>
+                        <li>Brand Guidelines</li>
+                        <li>Business Cards</li>
+                        <li>Marketing Materials</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-tag">€1,200+</span>
+                        <div class="price-period">Starting Price</div>
+                    </div>
+                    <a href="/services/branding/" class="btn-service">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Maintenance Service -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card service-animate">
+                    <div class="service-icon">
+                        <i class="bi bi-tools"></i>
+                    </div>
+                    <h3 class="service-title">Website Maintenance</h3>
+                    <p class="service-description">Keep your website secure, updated, and performing at its best with our comprehensive maintenance services.</p>
+                    <ul class="service-features">
+                        <li>Security Updates</li>
+                        <li>Performance Monitoring</li>
+                        <li>Backup Management</li>
+                        <li>Content Updates</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-tag">€300/mo</span>
+                        <div class="price-period">Monthly Service</div>
+                    </div>
+                    <a href="/services/maintenance/" class="btn-service">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="process-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Our Process</h2>
+            <p class="lead text-muted">How we bring your project from concept to completion</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="process-step">
+                    <div class="process-number">1</div>
+                    <h4>Discovery</h4>
+                    <p class="text-muted">We learn about your business, goals, and requirements through detailed consultation.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="process-step">
+                    <div class="process-number">2</div>
+                    <h4>Strategy</h4>
+                    <p class="text-muted">We develop a comprehensive strategy and create detailed project plans and wireframes.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="process-step">
+                    <div class="process-number">3</div>
+                    <h4>Design & Build</h4>
+                    <p class="text-muted">Our team designs and develops your solution with regular updates and feedback loops.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="process-step">
+                    <div class="process-number">4</div>
+                    <h4>Launch & Support</h4>
+                    <p class="text-muted">We launch your project and provide ongoing support to ensure continued success.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+    <div class="container text-center position-relative">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Ready to Get Started?</h2>
+                <p class="lead mb-4">Let's discuss your project and find the perfect solution for your business needs. Get a free consultation today.</p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="/contact/" class="btn btn-light btn-lg">
+                        <i class="bi bi-chat-dots me-2"></i>Get Free Consultation
+                    </a>
+                    <a href="/portfolio/" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-eye me-2"></i>View Our Work
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Intersection Observer for animations
+const observeElements = () => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add staggered delay for service cards
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, index * 100);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // Observe service cards and process steps
+    document.querySelectorAll('.service-animate, .process-step').forEach(el => observer.observe(el));
+};
+
+// Initialize animations on page load
+document.addEventListener('DOMContentLoaded', function() {
+    observeElements();
+});
+
+// Service card click tracking (for analytics)
+document.querySelectorAll('.btn-service').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        const serviceName = this.closest('.service-card').querySelector('.service-title').textContent;
+        console.log(`Service clicked: ${serviceName}`);
+        // Here you would send analytics data
+        // analytics.track('service_clicked', { service: serviceName });
+    });
+});
+</script>
+{% endblock %}
