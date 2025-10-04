@@ -1,15 +1,26 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django_tenants.utils import get_tenant_model
 
 
 def coming_soon_view(request):
     """
     Coming soon page for non-authenticated users
     """
+    # Get the current tenant to display their company name
+    tenant = getattr(request, 'tenant', None)
+    
+    if tenant and hasattr(tenant, 'company_name') and tenant.company_name:
+        site_name = tenant.company_name
+        tagline = f'Powered by JustCodeWorks.EU'
+    else:
+        site_name = 'JustCodeWorks.EU'
+        tagline = 'AI-Powered Website Builder'
+    
     context = {
-        'site_name': 'JustCodeWorks.EU',
-        'tagline': 'AI-Powered Website Builder',
+        'site_name': site_name,
+        'tagline': tagline,
         'description': 'We\'re building something amazing. Join our waitlist to be the first to know when we launch!',
         'launch_date': '2025-12-01',  # Estimated launch date
     }
@@ -25,9 +36,19 @@ def main_site_view(request):
     if not request.user.is_authenticated:
         return redirect('coming_soon')
     
+    # Get the current tenant to display their company name
+    tenant = getattr(request, 'tenant', None)
+    
+    if tenant and hasattr(tenant, 'company_name') and tenant.company_name:
+        site_name = tenant.company_name
+        tagline = f'Powered by JustCodeWorks.EU'
+    else:
+        site_name = 'JustCodeWorks.EU'
+        tagline = 'Build AI-Powered Websites in Minutes'
+    
     context = {
-        'site_name': 'JustCodeWorks.EU',
-        'tagline': 'Build AI-Powered Websites in Minutes',
+        'site_name': site_name,
+        'tagline': tagline,
         'description': 'Create stunning websites with the power of AI. No coding required.',
         'features': [
             {
