@@ -149,7 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PUBLIC_SCHEMA_NAME = 'public'
 
 # Login URLs
-LOGIN_URL = '/admin5689/login/'
+LOGIN_URL = '/admin/login/'
 LOGIN_REDIRECT_URL = '/tenant-admin/'
 LOGOUT_REDIRECT_URL = '/coming-soon/'
 
