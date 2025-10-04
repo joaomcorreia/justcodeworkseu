@@ -30,6 +30,7 @@
 
         <h2>AI FEATURES</h2>
         <ul class="actionlist">
+            <li><a href="https://tools.justcodeworks.net/" target="_blank">🤖 Magic AI Tools</a></li>
             <li{% if request.resolver_match.url_name == 'ai_overview' %} class="active"{% endif %}><a href="{% url 'ai_overview' %}">AI Overview</a></li>
             <li{% if request.resolver_match.url_name == 'ai_content_generator' %} class="active"{% endif %}><a href="{% url 'ai_content_generator' %}">Content Generator</a></li>
             <li{% if request.resolver_match.url_name == 'ai_design_assistant' %} class="active"{% endif %}><a href="{% url 'ai_design_assistant' %}">Design Assistant</a></li>
