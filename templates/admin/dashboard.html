@@ -1,0 +1,352 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }} | JustCodeWorks{% endblock %}
+
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item active">{{ page_title }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="welcome-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="mb-2">Welcome to JustCodeWorks! 🚀</h2>
+                        <p class="lead text-muted mb-0">Your AI-powered website platform is ready. Let's build something amazing.</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-lg">
+                            <i class="fas fa-plus me-2"></i>Create New Page
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stats-card">
+                <div class="stats-card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stats-number">{{ total_pages }}</div>
+                            <div class="stats-label">Pages</div>
+                        </div>
+                        <div class="stats-icon bg-primary">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stats-card">
+                <div class="stats-card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stats-number">{{ total_posts }}</div>
+                            <div class="stats-label">Blog Posts</div>
+                        </div>
+                        <div class="stats-icon bg-success">
+                            <i class="fas fa-blog"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stats-card">
+                <div class="stats-card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stats-number">0</div>
+                            <div class="stats-label">Custom Forms</div>
+                        </div>
+                        <div class="stats-icon bg-warning">
+                            <i class="fas fa-wpforms"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stats-card">
+                <div class="stats-card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stats-number">{{ total_conversations }}</div>
+                            <div class="stats-label">AI Conversations</div>
+                        </div>
+                        <div class="stats-icon bg-info">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="quick-actions-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-rocket me-2"></i>Quick Actions
+                </h5>
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#" class="quick-action-item" data-page="pages">
+                            <div class="quick-action-icon bg-primary">
+                                <i class="fas fa-file-plus"></i>
+                            </div>
+                            <div class="quick-action-content">
+                                <div class="quick-action-title">New Page</div>
+                                <div class="quick-action-desc">Create a static page</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#" class="quick-action-item" data-page="blog">
+                            <div class="quick-action-icon bg-success">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="quick-action-content">
+                                <div class="quick-action-title">Write Post</div>
+                                <div class="quick-action-desc">Create blog content</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#" class="quick-action-item" data-page="form-builder">
+                            <div class="quick-action-icon bg-warning">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <div class="quick-action-content">
+                                <div class="quick-action-title">AI Form Builder</div>
+                                <div class="quick-action-desc">Build smart forms</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#" class="quick-action-item" data-page="print-materials">
+                            <div class="quick-action-icon bg-info">
+                                <i class="fas fa-print"></i>
+                            </div>
+                            <div class="quick-action-content">
+                                <div class="quick-action-title">Print Materials</div>
+                                <div class="quick-action-desc">Business cards & more</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="activity-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-clock me-2"></i>Recent Activity
+                </h5>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon bg-primary">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Platform Initialized</div>
+                            <div class="activity-desc">JustCodeWorks admin system is ready</div>
+                            <div class="activity-time">Just now</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="tips-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-lightbulb me-2"></i>Getting Started
+                </h5>
+                <ul class="tips-list">
+                    <li><i class="fas fa-check-circle text-success me-2"></i>Set up your homepage</li>
+                    <li><i class="fas fa-circle text-muted me-2"></i>Create your first blog post</li>
+                    <li><i class="fas fa-circle text-muted me-2"></i>Build a contact form</li>
+                    <li><i class="fas fa-circle text-muted me-2"></i>Try the AI assistant</li>
+                </ul>
+                
+                <button class="btn btn-outline-primary btn-sm mt-3">
+                    <i class="fas fa-play me-2"></i>Start Tutorial
+                </button>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.welcome-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+}
+
+.stats-card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f1f3f4;
+    transition: transform 0.2s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+}
+
+.stats-card-body {
+    padding: 1.5rem;
+}
+
+.stats-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1;
+}
+
+.stats-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.stats-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.quick-actions-card,
+.activity-card,
+.tips-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f1f3f4;
+    height: 100%;
+}
+
+.quick-action-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.quick-action-item:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+    color: inherit;
+    text-decoration: none;
+}
+
+.quick-action-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 0.75rem;
+}
+
+.quick-action-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.quick-action-desc {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 0.75rem;
+    font-size: 0.75rem;
+}
+
+.activity-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.activity-desc {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.activity-time {
+    font-size: 0.75rem;
+    color: #adb5bd;
+}
+
+.tips-list {
+    list-style: none;
+    padding: 0;
+}
+
+.tips-list li {
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+}
+</style>
+{% endblock %}

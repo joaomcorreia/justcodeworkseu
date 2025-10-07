@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Clippy 2.0 - {{ project.business_name|default:"New Project" }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .chat-container {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .message {
+            margin-bottom: 1rem;
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message-clippy {
+            display: flex;
+            justify-content: flex-start;
+        }
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .message-content {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            position: relative;
+        }
+        .message-clippy .message-content {
+            background: white;
+            border: 2px solid #007bff;
+            margin-left: 0;
+        }
+        .message-user .message-content {
+            background: #007bff;
+            color: white;
+            margin-right: 0;
+        }
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin: 0 0.5rem;
+        }
+        .avatar-clippy {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+        .avatar-user {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+        .chat-input-area {
+            padding: 1rem 0;
+            border-top: 1px solid #dee2e6;
+            background: white;
+        }
+        .progress-bar-custom {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #007bff, #28a745);
+        }
+        .step-indicator {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .typing-indicator {
+            display: none;
+            padding: 0.5rem 1rem;
+            background: #f1f3f4;
+            border-radius: 18px;
+            margin-left: 3rem;
+        }
+        .typing-dots {
+            display: inline-block;
+        }
+        .typing-dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6c757d;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        .project-info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+        
+        /* Live Preview Styles */
+        .preview-header-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+        
+        .preview-header-card .card-body {
+            padding: 2rem;
+        }
+        
+        .preview-header-card h5 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .preview-card {
+            border: 1px solid #e3e6f0;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            height: calc(100vh - 220px);
+            min-height: 600px;
+        }
+        
+        .preview-container {
+            position: relative;
+            height: 100%;
+            background: #f8f9fa;
+        }
+        
+        .preview-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .preview-frame.mobile-view {
+            width: 375px;
+            height: 667px;
+            margin: 20px auto;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 8px solid #333;
+        }
+        
+        .preview-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .placeholder-content {
+            text-align: center;
+            max-width: 300px;
+        }
+        
+        .preview-steps {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.8);
+            min-width: 60px;
+            font-size: 0.8rem;
+            color: #6c757d;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active {
+            background: #007bff;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .step.completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .preview-controls .btn {
+            margin-left: 5px;
+        }
+        
+        .preview-controls .btn.active {
+            background-color: #007bff;
+            color: white;
+        }
+        /* Checkbox alignment fixes */
+        .services-selection .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-left: 0;
+        }
+        .services-selection .form-check-input {
+            margin-right: 0.5rem;
+            margin-top: 0;
+            flex-shrink: 0;
+        }
+        .services-selection .form-check-label {
+            margin-bottom: 0;
+            line-height: 1.2;
+            padding-top: 1px;
+        }
+        /* Template selection styles */
+        .template-selection .template-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            overflow: hidden;
+        }
+        .template-selection .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,123,255,0.3);
+            border-color: #007bff;
+        }
+        .template-selection .template-image-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .template-selection .template-preview {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid #dee2e6;
+            transition: transform 0.3s ease;
+        }
+        .template-selection .template-card:hover .template-preview {
+            transform: scale(1.05);
+        }
+        .template-selection .template-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,123,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .template-selection .template-card:hover .template-overlay {
+            opacity: 1;
+        }
+        .template-selection .template-overlay-content {
+            text-align: center;
+            color: white;
+        }
+        .template-selection .template-overlay-content i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .template-selection .card-title {
+            color: #007bff;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .template-selection .card-text {
+            font-size: 0.8rem;
+            line-height: 1.3;
+            color: #6c757d;
+        }
+        .template-selection .template-stats {
+            margin-top: 0.5rem;
+        }
+        .template-selection-help {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #007bff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .template-selection .card-footer {
+            padding: 0.75rem;
+        }
+        .template-selection .btn-sm {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+        }
+        /* Single template showcase styles */
+        .template-showcase .template-card-single {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .template-showcase .template-card-single:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,123,255,0.2);
+            border-color: #007bff;
+        }
+        .template-showcase .template-preview-large {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .template-showcase .template-card-single:hover .template-preview-large {
+            transform: scale(1.05);
+        }
+        .template-showcase .template-features {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        .template-showcase .template-features i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .template-showcase .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .template-showcase .btn-lg {
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'website_builder:dashboard' %}">
+                <i class="fas fa-arrow-left me-2"></i>Website Builder
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text">Building: {{ project.business_name|default:"New Website" }}</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Chat Area -->
+            <div class="col-lg-6">
+                <!-- Progress Header -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">
+                                <i class="fas fa-robot me-2 text-primary"></i>
+                                Chat with Clippy 2.0
+                            </h5>
+                            <span class="badge bg-primary">{{ current_step|title }}</span>
+                        </div>
+                        <div class="progress mb-2">
+                            <div class="progress-bar progress-bar-custom" role="progressbar" 
+                                 style="width: {{ progress }}%" aria-valuenow="{{ progress }}" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                        <div class="step-indicator">
+                            Progress: {{ progress }}% • Step: {{ conversation.current_step|title }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Interface -->
+                <div class="card">
+                    <div class="chat-container">
+                        <!-- Messages Area -->
+                        <div class="chat-messages" id="chatMessages">
+                            <!-- Welcome message from Clippy -->
+                            <div class="message message-clippy">
+                                <div class="message-avatar avatar-clippy">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <strong>Clippy 2.0:</strong><br>
+                                    👋 Hello! I'm Clippy 2.0, your AI website building assistant!
+                                    <br><br>
+                                    I'm here to help you create an amazing website for your business in just a few simple steps. 
+                                    No technical knowledge required - I'll guide you through everything!
+                                    <br><br>
+                                    Let's start with the basics:
+                                    <br><br>
+                                    <strong>What is the name of your business?</strong>
+                                    <br><br>
+                                    ✨ <em>Don't worry if you're still deciding - you can always change it later!</em>
+                                </div>
+                            </div>
+                            
+                            <!-- Typing indicator (hidden by default) -->
+                            <div class="typing-indicator" id="typingIndicator">
+                                <div class="typing-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <span class="ms-2">Clippy is typing...</span>
+                            </div>
+                        </div>
+
+                        <!-- Input Area -->
+                        <div class="chat-input-area">
+                            <form id="chatForm" class="d-flex">
+                                <input type="text" class="form-control me-2" id="messageInput" 
+                                       placeholder="Type your message..." autocomplete="off">
+                                <button type="submit" class="btn btn-primary" id="sendBtn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Website Preview -->
+            <div class="col-lg-6">
+                <!-- Preview Header -->
+                <div class="card preview-header-card mb-3">
+                    <div class="card-body text-center">
+                        <i class="fas fa-eye fa-2x mb-2 text-primary"></i>
+                        <h5>Live Website Preview</h5>
+                        <p class="mb-0">Watch your website come to life in real-time!</p>
+                    </div>
+                </div>
+                
+                <!-- Website Preview Frame -->
+                <div class="card preview-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-globe me-2"></i>
+                            <span id="previewTitle">{{ project.business_name|default:"Your Website" }}</span>
+                        </div>
+                        <div class="preview-controls">
+                            <button class="btn btn-sm btn-outline-primary" onclick="togglePreviewDevice('desktop')" id="desktopBtn">
+                                <i class="fas fa-desktop"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="togglePreviewDevice('mobile')" id="mobileBtn">
+                                <i class="fas fa-mobile-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="websitePreviewContainer" class="preview-container">
+                            <!-- Real-time website preview will be rendered here -->
+                            <iframe id="websitePreviewFrame" 
+                                    src="about:blank" 
+                                    class="preview-frame"
+                                    frameborder="0">
+                            </iframe>
+                            
+                            <!-- Preview placeholder when no content -->
+                            <div id="previewPlaceholder" class="preview-placeholder">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-magic fa-3x text-muted mb-3"></i>
+                                    <h5 class="text-muted">Building Your Website</h5>
+                                    <p class="text-muted">Your website will appear here as Clippy generates content</p>
+                                    <div class="preview-steps">
+                                        <div class="step" id="step-business">
+                                            <i class="fas fa-building"></i>
+                                            <span>Business Info</span>
+                                        </div>
+                                        <div class="step" id="step-services">
+                                            <i class="fas fa-cogs"></i>
+                                            <span>Services</span>
+                                        </div>
+                                        <div class="step" id="step-template">
+                                            <i class="fas fa-palette"></i>
+                                            <span>Template</span>
+                                        </div>
+                                        <div class="step" id="step-content">
+                                            <i class="fas fa-magic"></i>
+                                            <span>Content</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Project Info -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Project Information
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4"><strong>Business:</strong></div>
+                            <div class="col-sm-8" id="projectBusinessName">
+                                {{ project.business_name|default:"<em>Not set</em>" }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4"><strong>Industry:</strong></div>
+                            <div class="col-sm-8" id="projectIndustry">
+                                {{ project.industry|default:"<em>Not selected</em>" }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4"><strong>Services:</strong></div>
+                            <div class="col-sm-8" id="projectServices">
+                                <span class="badge bg-secondary">{{ project.services.count }}</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4"><strong>Status:</strong></div>
+                            <div class="col-sm-8">
+                                <span class="badge bg-primary">{{ project.get_status_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversation Steps -->
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-list me-2"></i>
+                            Building Steps
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                Welcome & Introduction
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-circle text-muted me-2" id="step-business-name"></i>
+                                Business Name
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-circle text-muted me-2" id="step-industry"></i>
+                                Industry Selection
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-circle text-muted me-2" id="step-services"></i>
+                                Services Selection
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-circle text-muted me-2" id="step-details"></i>
+                                Business Details
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-circle text-muted me-2" id="step-template"></i>
+                                Template Selection
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-circle text-muted me-2" id="step-content"></i>
+                                Content Generation
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-circle text-muted me-2" id="step-review"></i>
+                                Final Review
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-circle text-muted me-2" id="step-completion"></i>
+                                Completion
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const chatForm = document.getElementById('chatForm');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const projectId = '{{ project.project_id }}';
+
+        // Focus on input
+        messageInput.focus();
+
+        // Handle form submission
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            
+            // Clear input and disable form
+            messageInput.value = '';
+            sendBtn.disabled = true;
+            messageInput.disabled = true;
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Send message to API
+            sendMessage(message);
+        });
+
+        function addMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message message-${sender}`;
+            
+            const avatar = sender === 'clippy' ? 
+                '<div class="message-avatar avatar-clippy"><i class="fas fa-robot"></i></div>' :
+                '<div class="message-avatar avatar-user"><i class="fas fa-user"></i></div>';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            if (sender === 'clippy') {
+                messageContent.innerHTML = `<strong>Clippy 2.0:</strong><br>${formatClippyMessage(content)}`;
+                messageDiv.innerHTML = avatar;
+                messageDiv.appendChild(messageContent);
+            } else {
+                messageContent.innerHTML = content;
+                messageDiv.appendChild(messageContent);
+                messageDiv.innerHTML += avatar;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function formatClippyMessage(content) {
+            // Format Clippy's messages with proper HTML
+            return content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')  // Bold text
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')              // Italic text
+                .replace(/\n/g, '<br>')                            // Line breaks
+                .replace(/•/g, '•')                                // Bullet points
+                .replace(/✅/g, '✅')                              // Checkmarks
+                .replace(/🎉/g, '🎉')                              // Celebrations
+                .replace(/🤖/g, '🤖')                              // Robot emoji
+                .replace(/✨/g, '✨');                              // Sparkles
+        }
+
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'block';
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage(message) {
+            fetch(`{% url 'website_builder:chat_api' project.project_id %}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideTypingIndicator();
+                
+                if (data.success) {
+                    // Add Clippy's response
+                    addMessage(data.message, 'clippy');
+                    
+                    // Update project info if provided
+                    updateProjectInfo(data.project_data);
+                    
+                    // Update live preview with new project data
+                    if (data.project_data) {
+                        updateLivePreview(data.project_data, data.template_data || {});
+                        updatePreviewStep(data.current_step || 'business_info');
+                    }
+                    
+                    // Update progress
+                    if (data.progress !== undefined) {
+                        updateProgress(data.progress, data.current_step);
+                    }
+                } else {
+                    addMessage(data.message || 'Sorry, I encountered an error. Please try again.', 'clippy');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                hideTypingIndicator();
+                addMessage('Sorry, I encountered a connection error. Please try again.', 'clippy');
+            })
+            .finally(() => {
+                // Re-enable form
+                sendBtn.disabled = false;
+                messageInput.disabled = false;
+                messageInput.focus();
+            });
+        }
+
+        function updateProjectInfo(projectData) {
+            if (!projectData) return;
+            
+            if (projectData.business_name) {
+                document.getElementById('projectBusinessName').textContent = projectData.business_name;
+            }
+            if (projectData.industry) {
+                document.getElementById('projectIndustry').textContent = projectData.industry.replace('_', ' ').toUpperCase();
+            }
+            if (projectData.services_count !== undefined) {
+                document.getElementById('projectServices').innerHTML = 
+                    `<span class="badge bg-secondary">${projectData.services_count}</span>`;
+            }
+        }
+
+        function updateProgress(progress, currentStep) {
+            // Update progress bar
+            const progressBar = document.querySelector('.progress-bar');
+            if (progressBar) {
+                progressBar.style.width = progress + '%';
+                progressBar.setAttribute('aria-valuenow', progress);
+            }
+            
+            // Update step indicators
+            updateStepIndicators(currentStep);
+        }
+
+        function updateStepIndicators(currentStep) {
+            const stepMapping = {
+                'welcome': 0,
+                'business_name': 1,
+                'industry_selection': 2,
+                'services_selection': 3,
+                'business_details': 4,
+                'template_selection': 5,
+                'content_generation': 6,
+                'content_review': 7,
+                'final_review': 8,
+                'completion': 9
+            };
+            
+            const currentStepIndex = stepMapping[currentStep] || 0;
+            
+            // Update step icons
+            const steps = [
+                'business-name', 'industry', 'services', 'details', 
+                'template', 'content', 'review', 'completion'
+            ];
+            
+            steps.forEach((step, index) => {
+                const stepElement = document.getElementById(`step-${step}`);
+                if (stepElement) {
+                    if (index < currentStepIndex) {
+                        stepElement.className = 'fas fa-check-circle text-success me-2';
+                    } else if (index === currentStepIndex) {
+                        stepElement.className = 'fas fa-circle text-primary me-2';
+                    } else {
+                        stepElement.className = 'fas fa-circle text-muted me-2';
+                    }
+                }
+            });
+        }
+
+        // Handle checkbox submission for services
+        function submitSelectedServices() {
+            const checkboxes = document.querySelectorAll('input[name="services"]:checked');
+            const selectedServices = Array.from(checkboxes).map(cb => cb.value);
+            
+            if (selectedServices.length === 0) {
+                alert('Please select at least one service, or type your services in the text box below.');
+                return;
+            }
+            
+            // Format the selected services as a message
+            const servicesMessage = selectedServices.join(', ');
+            
+            // Send the message through the normal chat flow
+            sendMessage(servicesMessage);
+        }
+
+        // Handle template selection
+        function selectTemplate(templateNumber) {
+            // Visual feedback - highlight selected template
+            const cards = document.querySelectorAll('.template-card');
+            cards.forEach(card => {
+                card.style.borderColor = 'transparent';
+                card.style.transform = 'none';
+            });
+            
+            const selectedCard = document.querySelector(`.template-card:nth-child(${templateNumber})`);
+            if (selectedCard) {
+                selectedCard.style.borderColor = '#28a745';
+                selectedCard.style.transform = 'translateY(-5px)';
+                selectedCard.style.boxShadow = '0 8px 20px rgba(40,167,69,0.3)';
+            }
+            
+            // Send template selection message
+            setTimeout(() => {
+                sendMessage(templateNumber.toString());
+            }, 500);
+        }
+
+        // Handle template preview
+        function previewTemplate(imageUrl, templateName) {
+            // Create modal for template preview
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="fas fa-eye me-2"></i>Template Preview: ${templateName}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img src="${imageUrl}" class="img-fluid rounded" alt="${templateName}" style="max-height: 70vh;">
+                            <div class="mt-3">
+                                <p class="text-muted">This is a preview of the ${templateName} template design.</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close Preview</button>
+                            <button type="button" class="btn btn-primary" onclick="selectTemplateFromPreview('${templateName}')">
+                                ✅ Choose This Template
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+            
+            // Remove modal when hidden
+            modal.addEventListener('hidden.bs.modal', () => {
+                modal.remove();
+            });
+        }
+
+        // Select template from preview modal
+        function selectTemplateFromPreview(templateName) {
+            // Close any open modal
+            const modal = document.querySelector('.modal.show');
+            if (modal) {
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                bootstrapModal.hide();
+            }
+            
+            // Find which template number this is and select it
+            const cards = document.querySelectorAll('.template-card');
+            cards.forEach((card, index) => {
+                const cardTitle = card.querySelector('.card-title');
+                if (cardTitle && cardTitle.textContent.includes(templateName)) {
+                    selectTemplate(index + 1);
+                }
+            });
+        }
+
+        // Cookie helper function
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Handle Enter key in input
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Initialize step indicators
+        updateStepIndicators('{{ conversation.current_step }}');
+
+        // Live Preview Functions
+        let currentPreviewMode = 'desktop';
+        
+        function togglePreviewDevice(mode) {
+            currentPreviewMode = mode;
+            const frame = document.getElementById('websitePreviewFrame');
+            const desktopBtn = document.getElementById('desktopBtn');
+            const mobileBtn = document.getElementById('mobileBtn');
+            
+            if (mode === 'mobile') {
+                frame.classList.add('mobile-view');
+                desktopBtn.classList.remove('active');
+                mobileBtn.classList.add('active');
+            } else {
+                frame.classList.remove('mobile-view');
+                desktopBtn.classList.add('active');
+                mobileBtn.classList.remove('active');
+            }
+        }
+        
+        function updatePreviewStep(stepName) {
+            // Update step indicators in preview
+            const steps = document.querySelectorAll('.step');
+            steps.forEach(step => {
+                step.classList.remove('active', 'completed');
+            });
+            
+            const stepMap = {
+                'business_info': 'step-business',
+                'services': 'step-services', 
+                'template': 'step-template',
+                'content': 'step-content'
+            };
+            
+            const currentStep = document.getElementById(stepMap[stepName]);
+            if (currentStep) {
+                currentStep.classList.add('active');
+                
+                // Mark previous steps as completed
+                const allSteps = ['step-business', 'step-services', 'step-template', 'step-content'];
+                const currentIndex = allSteps.indexOf(stepMap[stepName]);
+                for (let i = 0; i < currentIndex; i++) {
+                    const prevStep = document.getElementById(allSteps[i]);
+                    if (prevStep) {
+                        prevStep.classList.add('completed');
+                        prevStep.classList.remove('active');
+                    }
+                }
+            }
+        }
+        
+        function generatePreviewHTML(businessData, templateData) {
+            // Generate the actual website HTML based on business data and template
+            const template = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>${businessData.name || 'Your Business'}</title>
+                    <style>
+                        body { 
+                            font-family: ${templateData.fontFamily || 'Arial, sans-serif'}; 
+                            margin: 0; 
+                            padding: 0;
+                            color: ${templateData.textColor || '#333'};
+                        }
+                        .header {
+                            background: ${templateData.primaryColor || '#007bff'};
+                            color: white;
+                            padding: 2rem;
+                            text-align: center;
+                        }
+                        .content {
+                            padding: 2rem;
+                            max-width: 1200px;
+                            margin: 0 auto;
+                        }
+                        .services {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                            gap: 1rem;
+                            margin: 2rem 0;
+                        }
+                        .service-card {
+                            background: ${templateData.cardBackground || '#f8f9fa'};
+                            padding: 1.5rem;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                        }
+                        .loading { 
+                            opacity: 0.7; 
+                            position: relative;
+                        }
+                        .loading::after {
+                            content: '';
+                            position: absolute;
+                            top: 0; left: 0; right: 0; bottom: 0;
+                            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+                            animation: shimmer 2s infinite;
+                        }
+                        @keyframes shimmer {
+                            0% { transform: translateX(-100%); }
+                            100% { transform: translateX(100%); }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>${businessData.name || 'Your Business Name'}</h1>
+                        <p>${businessData.tagline || 'Professional services you can trust'}</p>
+                    </div>
+                    <div class="content">
+                        <section class="about">
+                            <h2>About Us</h2>
+                            <p class="${!businessData.about ? 'loading' : ''}">${businessData.about || 'Content being generated...'}</p>
+                        </section>
+                        <section class="services">
+                            <h2>Our Services</h2>
+                            <div class="services">
+                                ${(businessData.services || []).map(service => `
+                                    <div class="service-card">
+                                        <h3>${service.name || 'Service'}</h3>
+                                        <p class="${!service.description ? 'loading' : ''}">${service.description || 'Description being generated...'}</p>
+                                    </div>
+                                `).join('') || '<div class="loading">Services being generated...</div>'}
+                            </div>
+                        </section>
+                    </div>
+                </body>
+                </html>
+            `;
+            return template;
+        }
+        
+        function updateLivePreview(businessData, templateData = {}) {
+            const previewFrame = document.getElementById('websitePreviewFrame');
+            const placeholder = document.getElementById('previewPlaceholder');
+            
+            if (businessData && businessData.name) {
+                // Hide placeholder and show preview
+                placeholder.style.display = 'none';
+                previewFrame.style.display = 'block';
+                
+                // Generate and load the preview HTML
+                const previewHTML = generatePreviewHTML(businessData, templateData);
+                const blob = new Blob([previewHTML], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                previewFrame.src = url;
+                
+                // Update preview title
+                const previewTitle = document.getElementById('previewTitle');
+                if (previewTitle) {
+                    previewTitle.textContent = businessData.name;
+                }
+            } else {
+                // Show placeholder
+                placeholder.style.display = 'flex';
+                previewFrame.style.display = 'none';
+            }
+        }
+        
+        // Initialize preview on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            togglePreviewDevice('desktop'); // Set default to desktop view
+            
+            // Initialize with any existing project data
+            {% if project %}
+                const initialData = {
+                    name: '{{ project.business_name|default:"" }}',
+                    services: {{ project.services|default:"[]"|safe }},
+                    about: '{{ project.business_description|default:"" }}'
+                };
+                if (initialData.name) {
+                    updateLivePreview(initialData);
+                }
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

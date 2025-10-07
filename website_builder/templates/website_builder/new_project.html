@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Project - Website Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .new-project-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+        }
+        .clippy-card {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .clippy-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'website_builder:dashboard' %}">
+                <i class="fas fa-arrow-left me-2"></i>Website Builder
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="new-project-hero">
+        <div class="container text-center">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-rocket me-3"></i>
+                Start Your New Website
+            </h1>
+            <p class="lead">Let Clippy 2.0 guide you through building an amazing website in minutes!</p>
+        </div>
+    </section>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Clippy Introduction -->
+                <div class="clippy-card card mb-4">
+                    <div class="card-body text-center p-4">
+                        <div class="clippy-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="mb-3">Hi! I'm Clippy 2.0 🤖</h3>
+                        <p class="fs-5 mb-4">
+                            I'm your AI website building assistant! I'll help you create a professional website 
+                            through simple conversation. No technical knowledge required!
+                        </p>
+                        <div class="row text-start">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-check text-success me-2"></i>What I'll help you with:</h6>
+                                <ul class="list-unstyled ms-3">
+                                    <li>• Understand your business</li>
+                                    <li>• Choose the right template</li>
+                                    <li>• Create professional content</li>
+                                    <li>• Build your complete website</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-clock text-primary me-2"></i>Time needed:</h6>
+                                <ul class="list-unstyled ms-3">
+                                    <li>• 5-10 minutes of conversation</li>
+                                    <li>• No technical setup required</li>
+                                    <li>• Professional results guaranteed</li>
+                                    <li>• Ready to publish immediately</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Setup Form -->
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h4 class="mb-0">
+                            <i class="fas fa-magic me-2 text-primary"></i>
+                            Let's Get Started
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="project_name" class="form-label fw-bold">
+                                    What would you like to call this project?
+                                </label>
+                                <input type="text" class="form-control form-control-lg" 
+                                       id="project_name" name="project_name"
+                                       placeholder="e.g., My Business Website, Company Site, Portfolio..."
+                                       value="My New Website" required>
+                                <div class="form-text">
+                                    Don't worry, you can change this later during our conversation!
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-comments me-2"></i>
+                                    Start Chatting with Clippy 2.0
+                                </button>
+                                <a href="{% url 'website_builder:dashboard' %}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Process Preview -->
+                <div class="card mt-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list-ol me-2"></i>
+                            What Happens Next?
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-3">
+                                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                                    <strong>1</strong>
+                                </div>
+                                <h6>Business Info</h6>
+                                <small class="text-muted">Tell Clippy about your business and services</small>
+                            </div>
+                            <div class="col-md-4 text-center mb-3">
+                                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                                    <strong>2</strong>
+                                </div>
+                                <h6>Design Selection</h6>
+                                <small class="text-muted">Choose from professional templates and styles</small>
+                            </div>
+                            <div class="col-md-4 text-center mb-3">
+                                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                                    <strong>3</strong>
+                                </div>
+                                <h6>Website Built</h6>
+                                <small class="text-muted">Get your complete, professional website</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

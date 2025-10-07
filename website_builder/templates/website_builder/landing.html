@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Website Builder - Meet Clippy 2.0 | JustCodeWorks</title>
+    <meta name="description" content="Build professional websites through conversation with Clippy 2.0. No coding required, just chat and get your website in minutes!">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+        .chat-preview {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .chat-message {
+            margin-bottom: 1rem;
+        }
+        .chat-message.clippy {
+            text-align: left;
+        }
+        .chat-message.user {
+            text-align: right;
+        }
+        .message-bubble {
+            display: inline-block;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+        .message-bubble.clippy {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .message-bubble.user {
+            background: #667eea;
+            color: white;
+        }
+        .template-card {
+            transition: transform 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+        }
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="/">
+                <i class="fas fa-code me-2"></i>JustCodeWorks.EU
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a href="/accounts/login/" class="btn btn-outline-primary me-2">Login</a>
+                <a href="/accounts/login/" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-5">
+        <div class="container">
+            <div class="row align-items-center min-vh-75">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="text-center text-lg-start">
+                        <h1 class="display-3 fw-bold mb-4">
+                            Meet Clippy 2.0
+                            <br>Your AI Website Builder
+                        </h1>
+                        <p class="fs-4 mb-4 opacity-90">
+                            Build professional websites through simple conversation. 
+                            Just tell Clippy about your business - no coding, no complexity, no problem!
+                        </p>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                            <a href="/accounts/login/" class="btn btn-light btn-lg px-4 py-3">
+                                <i class="fas fa-robot me-2"></i>Start Building Now
+                            </a>
+                            <a href="#demo" class="btn btn-outline-light btn-lg px-4 py-3">
+                                <i class="fas fa-play me-2"></i>See How It Works
+                            </a>
+                        </div>
+                        <div class="mt-4">
+                            <small class="opacity-75">
+                                <i class="fas fa-clock me-1"></i>Your website ready in 5 minutes • 
+                                <i class="fas fa-star me-1"></i>No technical skills required
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <div class="chat-preview">
+                            <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                                <div class="bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-dark">Clippy 2.0</h6>
+                                    <small class="text-muted">AI Website Assistant</small>
+                                </div>
+                                <span class="badge bg-success ms-auto">Online</span>
+                            </div>
+                            <div class="chat-messages">
+                                <div class="chat-message clippy">
+                                    <div class="message-bubble clippy">
+                                        👋 Hi! I'm Clippy 2.0. What's the name of your business?
+                                    </div>
+                                </div>
+                                <div class="chat-message user">
+                                    <div class="message-bubble user">
+                                        ABC Construction Company
+                                    </div>
+                                </div>
+                                <div class="chat-message clippy">
+                                    <div class="message-bubble clippy">
+                                        Great! What services do you offer? 🏗️
+                                    </div>
+                                </div>
+                                <div class="chat-message user">
+                                    <div class="message-bubble user">
+                                        Home renovation, kitchen remodeling, plumbing
+                                    </div>
+                                </div>
+                                <div class="chat-message clippy">
+                                    <div class="message-bubble clippy">
+                                        Perfect! I'll create a professional website showcasing your construction services. Let me generate some content... ✨
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3 pt-3 border-top">
+                                <small class="text-muted">
+                                    <i class="fas fa-magic text-primary me-1"></i>
+                                    Website generated in 3 minutes!
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-5" id="demo">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">How It Works</h2>
+                <p class="fs-5 text-muted">Build your website in 4 simple steps</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="step-number">1</div>
+                    <h5 class="fw-bold mb-3">Tell Clippy About Your Business</h5>
+                    <p class="text-muted">Share your business name, industry, and services through simple chat</p>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="step-number">2</div>
+                    <h5 class="fw-bold mb-3">Choose Your Style</h5>
+                    <p class="text-muted">Select from professional templates designed for your industry</p>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="step-number">3</div>
+                    <h5 class="fw-bold mb-3">Review AI-Generated Content</h5>
+                    <p class="text-muted">Clippy creates professional content and headlines for your business</p>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="step-number">4</div>
+                    <h5 class="fw-bold mb-3">Launch Your Website</h5>
+                    <p class="text-muted">Get your complete website files ready to publish online</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Why Choose Clippy 2.0?</h2>
+                <p class="fs-5 text-muted">Everything you need to create amazing websites</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Conversational Building</h5>
+                    <p class="text-muted">No forms to fill out. Just chat naturally about your business and watch your website come to life.</p>
+                </div>
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">AI Content Generation</h5>
+                    <p class="text-muted">Professional headlines, descriptions, and content created specifically for your business and industry.</p>
+                </div>
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Industry Templates</h5>
+                    <p class="text-muted">Professional designs tailored for construction, technology, healthcare, and other industries.</p>
+                </div>
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Mobile Responsive</h5>
+                    <p class="text-muted">Your website looks perfect on all devices - phones, tablets, and computers.</p>
+                </div>
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Lightning Fast</h5>
+                    <p class="text-muted">Get your complete website in under 5 minutes. No waiting, no delays.</p>
+                </div>
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Download & Own</h5>
+                    <p class="text-muted">Get complete website files (HTML, CSS) that you own forever. No monthly fees.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates Preview -->
+    {% if templates %}
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Professional Templates</h2>
+                <p class="fs-5 text-muted">Beautiful designs for every industry</p>
+            </div>
+            <div class="row g-4">
+                {% for template in templates|slice:":3" %}
+                <div class="col-lg-4">
+                    <div class="card template-card h-100">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-3">
+                                <div class="bg-light p-3 rounded">
+                                    <i class="fas fa-file-code fa-2x text-primary"></i>
+                                </div>
+                            </div>
+                            <h5 class="card-title fw-bold">{{ template.name }}</h5>
+                            <p class="card-text text-muted">{{ template.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">{{ template.category|title }}</span>
+                                <small class="text-muted">⭐ {{ template.rating }}/5</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- CTA Section -->
+    <section class="hero-gradient py-5">
+        <div class="container text-center">
+            <h2 class="display-5 fw-bold mb-4">Ready to Build Your Website?</h2>
+            <p class="fs-4 mb-4 opacity-90">
+                Join thousands of businesses who built their websites with Clippy 2.0
+            </p>
+            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                <a href="/accounts/login/" class="btn btn-light btn-lg px-5 py-3">
+                    <i class="fas fa-robot me-2"></i>Start Building Now
+                </a>
+            </div>
+            <div class="mt-4">
+                <small class="opacity-75">
+                    <i class="fas fa-shield-alt me-1"></i>Free to try • 
+                    <i class="fas fa-clock me-1"></i>5-minute setup • 
+                    <i class="fas fa-heart me-1"></i>No technical skills needed
+                </small>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* AI Chat Widget Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            border: none;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+        }
+        
+        .chat-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 1001;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 500;
+        }
+        
+        .chat-messages {
+            height: 350px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .message.user {
+            justify-content: flex-end;
+        }
+        
+        .message.bot {
+            justify-content: flex-start;
+        }
+        
+        .message-content {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .message.user .message-content {
+            background: #007bff;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #e9ecef;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .suggestion-btn {
+            padding: 5px 12px;
+            border: 1px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .suggestion-btn:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .typing-indicator {
+            display: none;
+            padding: 10px 15px;
+            color: #666;
+            font-style: italic;
+            font-size: 13px;
+        }
+        
+        .quick-questions {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .quick-question {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 13px;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+        
+        .quick-question:hover {
+            text-decoration: underline;
+        }
+        
+        .bot-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-window {
+                width: 100vw;
+                height: 100vh;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+            }
+            
+            .chat-messages {
+                height: calc(100vh - 140px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Page Content -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="text-center mb-4">{{ company_name }} - AI Assistant Demo</h1>
+                <div class="card">
+                    <div class="card-body p-5">
+                        <h3>🤖 Frontend AI Assistant</h3>
+                        <p class="lead">This AI assistant helps customers with questions about your services.</p>
+                        
+                        <h5>✨ Features:</h5>
+                        <ul>
+                            <li>📚 <strong>Reads your website pages</strong> - Knows all about your services, pricing, and policies</li>
+                            <li>💬 <strong>Natural conversation</strong> - Understands customer questions in multiple languages</li>
+                            <li>🎯 <strong>Lead generation</strong> - Collects visitor information during helpful conversations</li>
+                            <li>📊 <strong>Analytics</strong> - Tracks all conversations for insights</li>
+                            <li>📱 <strong>Mobile-friendly</strong> - Works perfectly on all devices</li>
+                        </ul>
+                        
+                        <h5>🌍 Languages Supported:</h5>
+                        <p>English, Dutch, German, French, Spanish, Portuguese</p>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Try it now!</strong> Click the blue chat button in the bottom-right corner to test the AI assistant.
+                        </div>
+                        
+                        <h5>🔧 How it works:</h5>
+                        <ol>
+                            <li>Customer clicks the chat button</li>
+                            <li>AI greets them and offers help</li>
+                            <li>Customer asks questions about your services</li>
+                            <li>AI provides accurate answers based on your website content</li>
+                            <li>AI can collect contact information for follow-up</li>
+                        </ol>
+                        
+                        <div class="mt-4">
+                            <a href="/admin/" class="btn btn-primary me-3">
+                                <i class="fas fa-cog me-2"></i>Admin Dashboard
+                            </a>
+                            <a href="/static/index/" class="btn btn-outline-primary">
+                                <i class="fas fa-home me-2"></i>View Static Homepage
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Widget -->
+    <div class="chat-widget">
+        <!-- Chat Toggle Button -->
+        <button class="chat-toggle" id="chatToggle">
+            <i class="fas fa-comments"></i>
+        </button>
+        
+        <!-- Chat Window -->
+        <div class="chat-window" id="chatWindow">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-robot me-2"></i>
+                        {{ company_name }} Assistant
+                    </div>
+                    <button class="btn btn-sm text-white" id="chatClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- Welcome message will be added by JavaScript -->
+            </div>
+            
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typingIndicator">
+                <i class="fas fa-circle" style="animation: pulse 1.5s infinite;"></i>
+                AI is typing...
+            </div>
+            
+            <!-- Quick Questions (shown initially) -->
+            <div class="quick-questions" id="quickQuestions">
+                <small class="text-muted">Quick questions:</small>
+                <button class="quick-question" data-question="What services do you offer?">
+                    What services do you offer?
+                </button>
+                <button class="quick-question" data-question="How much does a website cost?">
+                    How much does a website cost?
+                </button>
+                <button class="quick-question" data-question="How long does development take?">
+                    How long does development take?
+                </button>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="chat-input">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="chatInput" 
+                           placeholder="Type your message..." maxlength="500">
+                    <button class="btn btn-primary" id="sendButton">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AI Chat Widget JavaScript -->
+    <script>
+        class AIChatWidget {
+            constructor() {
+                this.sessionId = null;
+                this.isOpen = false;
+                this.messagesContainer = document.getElementById('chatMessages');
+                this.chatInput = document.getElementById('chatInput');
+                this.sendButton = document.getElementById('sendButton');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                this.quickQuestions = document.getElementById('quickQuestions');
+                
+                this.initializeWidget();
+            }
+            
+            initializeWidget() {
+                // Event listeners
+                document.getElementById('chatToggle').addEventListener('click', () => this.toggleChat());
+                document.getElementById('chatClose').addEventListener('click', () => this.closeChat());
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.sendMessage();
+                });
+                
+                // Quick questions
+                document.querySelectorAll('.quick-question').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const question = e.target.dataset.question;
+                        this.sendMessage(question);
+                    });
+                });
+                
+                // Generate session ID
+                this.sessionId = 'chat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // Add welcome message
+                this.addWelcomeMessage();
+            }
+            
+            toggleChat() {
+                const chatWindow = document.getElementById('chatWindow');
+                this.isOpen = !this.isOpen;
+                chatWindow.style.display = this.isOpen ? 'block' : 'none';
+                
+                if (this.isOpen) {
+                    this.chatInput.focus();
+                }
+            }
+            
+            closeChat() {
+                this.isOpen = false;
+                document.getElementById('chatWindow').style.display = 'none';
+            }
+            
+            addWelcomeMessage() {
+                const welcomeMsg = "Hi! 👋 I'm here to help you with any questions about JustCodeWorks.EU services. How can I assist you today?";
+                this.addMessage(welcomeMsg, 'bot');
+            }
+            
+            addMessage(content, sender, suggestions = []) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                if (sender === 'bot') {
+                    messageDiv.innerHTML = `
+                        <div class="bot-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">${content}</div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="message-content">${content}</div>
+                    `;
+                }
+                
+                this.messagesContainer.appendChild(messageDiv);
+                
+                // Add suggestions if provided
+                if (suggestions && suggestions.length > 0) {
+                    const suggestionsDiv = document.createElement('div');
+                    suggestionsDiv.className = 'suggestions';
+                    
+                    suggestions.forEach(suggestion => {
+                        const btn = document.createElement('button');
+                        btn.className = 'suggestion-btn';
+                        btn.textContent = suggestion;
+                        btn.addEventListener('click', () => this.sendMessage(suggestion));
+                        suggestionsDiv.appendChild(btn);
+                    });
+                    
+                    this.messagesContainer.appendChild(suggestionsDiv);
+                }
+                
+                // Scroll to bottom
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                
+                // Hide quick questions after first message
+                if (sender === 'user') {
+                    this.quickQuestions.style.display = 'none';
+                }
+            }
+            
+            showTyping() {
+                this.typingIndicator.style.display = 'block';
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+            
+            hideTyping() {
+                this.typingIndicator.style.display = 'none';
+            }
+            
+            async sendMessage(message = null) {
+                const userMessage = message || this.chatInput.value.trim();
+                
+                if (!userMessage) return;
+                
+                // Add user message to chat
+                this.addMessage(userMessage, 'user');
+                
+                // Clear input
+                if (!message) {
+                    this.chatInput.value = '';
+                }
+                
+                // Show typing indicator
+                this.showTyping();
+                
+                try {
+                    // Send to AI
+                    const response = await fetch('/ai/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: userMessage,
+                            session_id: this.sessionId,
+                            language: 'en'
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Hide typing indicator
+                    this.hideTyping();
+                    
+                    if (data.success) {
+                        // Add AI response
+                        this.addMessage(data.message, 'bot', data.suggestions || []);
+                    } else {
+                        this.addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                    }
+                    
+                } catch (error) {
+                    this.hideTyping();
+                    console.error('Chat error:', error);
+                    this.addMessage('Sorry, I\'m having trouble connecting. Please try again later.', 'bot');
+                }
+            }
+        }
+        
+        // Initialize chat widget when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new AIChatWidget();
+        });
+        
+        // Pulse animation for typing indicator
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

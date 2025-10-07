@@ -1,0 +1,276 @@
+<!-- 
+  EDITABLE ADMIN SIDEBAR - JustCodeWorks
+  You can modify this HTML directly to customize the admin navigation
+-->
+
+<div class="sidebar-header">
+    <div class="logo">
+        <i class="fas fa-code text-primary"></i>
+        <span class="brand-text">JustCodeWorks</span>
+    </div>
+</div>
+
+<div class="sidebar-menu">
+
+    <!-- DASHBOARD SECTION -->
+    <div class="menu-section">
+        <div class="section-title">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>DASHBOARD</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'customadmin:dashboard' %}">
+                    <i class="fas fa-home"></i>
+                    <span>Overview</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- WEBSITE SECTION -->
+    <div class="menu-section">
+        <div class="section-title">
+            <i class="fas fa-globe"></i>
+            <span>WEBSITE</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="menus">
+                    <i class="fas fa-bars"></i>
+                    <span>Menus</span><!-- Menu edit with some limitations due to structure or SEO-->
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="homepage">
+                    <i class="fas fa-star"></i>
+                    <span>Homepage Setup</span><!-- Edit homepage images and templates-->
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About Page</span><!-- Edit about page images and templates-->
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Portfolio</span><!--Different templates for different portfolios available here-->
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Add New Page</span><!--Page parts related to this template available here-->
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Template Parts</span><!-- Sidebar widgets templates editable here -->
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Footer</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- CONTENT SECTION -->
+    <div class="menu-section">
+        <div class="section-title">
+            <i class="fas fa-edit"></i>
+            <span>CONTENT</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="blog">
+                    <i class="fas fa-blog"></i>
+                    <span>Blog Posts</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="categories">
+                    <i class="fas fa-folder-open"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="media">
+                    <i class="fas fa-images"></i>
+                    <span>Media Library</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- FORMS SECTION -->
+    <div class="menu-section">
+        <div class="section-title">
+            <i class="fas fa-wpforms"></i>
+            <span>FORMS</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="forms">
+                    <i class="fas fa-list-alt"></i>
+                    <span>All Forms</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="form-builder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Form Builder</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="form-templates">
+                    <i class="fas fa-clone"></i>
+                    <span>Templates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="form-submissions">
+                    <i class="fas fa-inbox"></i>
+                    <span>Submissions</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- AI TOOLS SECTION -->
+    <div class="menu-section">
+        <div class="section-title">
+            <i class="fas fa-robot"></i>
+            <span>AI TOOLS</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="ai-content">
+                    <i class="fas fa-magic"></i>
+                    <span>Content Generator</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="ai-assistant">
+                    <i class="fas fa-comments"></i>
+                    <span>AI Assistant</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="ai-forms">
+                    <i class="fas fa-brain"></i>
+                    <span>Smart Form Builder</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- BUSINESS TOOLS SECTION -->
+    <div class="menu-section">
+        <div class="section-title">
+            <i class="fas fa-briefcase"></i>
+            <span>BUSINESS</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="print-materials">
+                    <i class="fas fa-print"></i>
+                    <span>Print Materials</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ANALYTICS SECTION -->
+    <div class="menu-section">
+        <div class="section-title">
+            <i class="fas fa-briefcase"></i>
+            <span>BUSINESS</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="print-materials">
+                    <i class="fas fa-print"></i>
+                    <span>Google</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Bing</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Facebook</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- SETTINGS SECTION -->
+    <div class="menu-section">
+        <div class="section-title">
+            <i class="fas fa-cog"></i>
+            <span>SETTINGS</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="site-settings">
+                    <i class="fas fa-wrench"></i>
+                    <span>Site Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="domain">
+                    <i class="fas fa-link"></i>
+                    <span>Domain & SSL</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="users">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-page="subscription">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Subscription</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="sidebar-footer">
+    <div class="upgrade-banner">
+        <div class="upgrade-content">
+            <i class="fas fa-crown text-warning"></i>
+            <div class="upgrade-text">
+                <small class="fw-bold">Upgrade Plan</small>
+                <small class="text-muted d-block">Get more features</small>
+            </div>
+        </div>
+        <button class="btn btn-sm btn-warning">Upgrade</button>
+    </div>
+</div>
