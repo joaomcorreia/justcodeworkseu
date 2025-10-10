@@ -1,0 +1,99 @@
+{
+    "template_id": "jcw-tpl00",
+    "template_name": "JustCodeWorks Default Template",
+    "template_version": "1.0.0",
+    "template_type": "default",
+    "description": "The foundational template for JustCodeWorks platform featuring dynamic content system with hero slider, services section, about section, and contact form.",
+    "author": "JustCodeWorks.EU",
+    "created_date": "2025-10-10",
+    
+    "features": {
+        "responsive_design": true,
+        "dynamic_content": true,
+        "business_type_adaptation": true,
+        "sections": [
+            "hero_slider",
+            "services_grid",
+            "about_us",
+            "contact_form"
+        ],
+        "supported_business_types": [
+            "automotive",
+            "construction", 
+            "healthcare",
+            "restaurant",
+            "portfolio"
+        ]
+    },
+    
+    "technical_specs": {
+        "framework": "Bootstrap 5.1.3",
+        "icons": "Font Awesome 6.0.0",
+        "grid_system": "CSS Grid + Bootstrap",
+        "javascript_features": [
+            "smooth_scrolling",
+            "intersection_observer",
+            "dynamic_content_updates"
+        ]
+    },
+    
+    "customizable_elements": {
+        "colors": {
+            "primary": "#007bff",
+            "secondary": "#28a745", 
+            "accent": "#ffc107",
+            "text": "#333333",
+            "background": "#ffffff"
+        },
+        "typography": {
+            "font_family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+            "heading_sizes": ["2.5rem", "2rem", "1.5rem"],
+            "body_size": "1rem"
+        },
+        "layout": {
+            "container_max_width": "1200px",
+            "section_padding": "4rem",
+            "card_border_radius": "15px"
+        }
+    },
+    
+    "required_context_variables": [
+        "business_name",
+        "business_description", 
+        "business_address",
+        "business_phone",
+        "business_email",
+        "business_hours",
+        "business_type"
+    ],
+    
+    "optional_context_variables": [
+        "hero_background_image",
+        "about_image",
+        "custom_colors",
+        "additional_services"
+    ],
+    
+    "usage_instructions": {
+        "deployment": "Place in Django template directory and render with business context",
+        "customization": "Modify colors and content through context variables",
+        "integration": "Compatible with JustCodeWorks dynamic content system"
+    },
+    
+    "changelog": [
+        {
+            "version": "1.0.0",
+            "date": "2025-10-10", 
+            "changes": [
+                "Initial release with full dynamic content system",
+                "Hero slider with business-specific messaging",
+                "6-card services grid with CSS Grid layout", 
+                "About us section with statistics and mission",
+                "Contact form with business information display",
+                "Support for 5 major business types",
+                "Responsive design for all screen sizes",
+                "Professional styling with Bootstrap 5 and Font Awesome"
+            ]
+        }
+    ]
+}
