@@ -1,0 +1,14 @@
+TO fix:
+Mentioned that the live preview is working but its Not or improve
+Remove the website builder from the admin. 
+
+Templates categories
+jcw-tpl## → Business templates
+jcw-multi## → Multi-page templates
+jcw-shop## → E-commerce templates
+jcw-portfolio## → Portfolio templates
+jcw-restaurant## → Restaurant templates
+jcw-construction## → Construction templates
+jcw-health## → Healthcare templates
+jcw-tech## → Technology templates
+jcw-creative## → Creative templates

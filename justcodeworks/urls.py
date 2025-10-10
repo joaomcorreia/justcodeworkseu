@@ -18,9 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls.i18n import i18n_patterns
 from .public_views import homepage, static_page
 
 urlpatterns = [
+    # Language switching
+    path('i18n/', include('django.conf.urls.i18n')),
+    
+    # Rosetta translation management (admin only)
+    path('rosetta/', include('rosetta.urls')),
+]
+
+urlpatterns += i18n_patterns(
     # Root URL - public homepage
     path('', homepage, name='homepage'),
     
@@ -41,7 +50,7 @@ urlpatterns = [
     
     # Custom admin system
     path('admin/', include('justcodeworks.admin_urls')),
-]
+)
 
 # Serve static files in development
 if settings.DEBUG:

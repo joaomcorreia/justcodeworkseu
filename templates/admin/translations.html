@@ -1,0 +1,443 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}Translation Management - {{ page_title }}{% endblock %}
+
+{% block page_title %}Translation Management{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item">Settings</li>
+<li class="breadcrumb-item active" aria-current="page">Translations</li>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .translations-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        margin: -2rem -2rem 2rem -2rem;
+        border-radius: 0 0 15px 15px;
+    }
+    
+    /* Translation Cards */
+    .translation-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        border: 2px solid transparent;
+    }
+    
+    .translation-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    
+    .translation-header {
+        padding: 1.5rem 2rem;
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .translation-body {
+        padding: 2rem;
+    }
+    
+    /* Language Stats */
+    .language-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    /* Translation Table */
+    .translation-table {
+        overflow-x: auto;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table {
+        margin: 0;
+    }
+    
+    .table th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        font-weight: 600;
+        padding: 1rem;
+    }
+    
+    .table td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    /* Language Badge */
+    .language-badge {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .language-flag {
+        width: 24px;
+        height: 16px;
+        margin-right: 0.5rem;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+    }
+    
+    /* Progress Bar */
+    .progress-custom {
+        height: 10px;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+    
+    .progress-bar-custom {
+        height: 100%;
+        border-radius: 5px;
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        transition: width 0.3s ease;
+    }
+    
+    /* Action Buttons */
+    .action-buttons .btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Translation Form */
+    .translation-form {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+    
+    .form-floating {
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="translations-header text-center">
+    <div class="container">
+        <h1><i class="fas fa-language me-3"></i>Translation Management</h1>
+        <p class="mb-0">Manage translations for your JustCodeWorks platform</p>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <!-- Translation Statistics -->
+    <div class="translation-card">
+        <div class="translation-header">
+            <h4 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Translation Statistics</h4>
+            <div class="action-buttons">
+                <button class="btn btn-light btn-sm" onclick="refreshStats()">
+                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                </button>
+                <a href="/rosetta/" class="btn btn-warning btn-sm" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Rosetta Interface
+                </a>
+            </div>
+        </div>
+        <div class="translation-body">
+            <div class="language-stats">
+                {% for lang in translation_stats %}
+                <div class="stat-card">
+                    <div class="stat-number">{{ lang.completion }}%</div>
+                    <div class="stat-label">{{ lang.name }} ({{ lang.code }})</div>
+                    <div class="progress-custom mt-2">
+                        <div class="progress-bar-custom" style="width: {{ lang.completion }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Translation Management -->
+    <div class="translation-card">
+        <div class="translation-header">
+            <h4 class="mb-0"><i class="fas fa-edit me-2"></i>Translation Keys</h4>
+            <div class="action-buttons">
+                <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addTranslationModal">
+                    <i class="fas fa-plus me-1"></i>Add Translation
+                </button>
+                <button class="btn btn-success btn-sm" onclick="exportTranslations()">
+                    <i class="fas fa-download me-1"></i>Export
+                </button>
+            </div>
+        </div>
+        <div class="translation-body">
+            <div class="translation-table">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>English</th>
+                            <th>Dutch</th>
+                            <th>German</th>
+                            <th>French</th>
+                            <th>Spanish</th>
+                            <th>Portuguese</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in translation_keys %}
+                        <tr>
+                            <td><code>{{ item.key }}</code></td>
+                            <td>{{ item.en|default:"Not translated" }}</td>
+                            <td>{{ item.nl|default:"Not translated" }}</td>
+                            <td>{{ item.de|default:"Not translated" }}</td>
+                            <td>{{ item.fr|default:"Not translated" }}</td>
+                            <td>{{ item.es|default:"Not translated" }}</td>
+                            <td>{{ item.pt|default:"Not translated" }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="editTranslation('{{ item.key }}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTranslation('{{ item.key }}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                <i class="fas fa-language fa-3x mb-3"></i>
+                                <br>
+                                No translation keys found. Add your first translation to get started.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Configuration -->
+    <div class="translation-card">
+        <div class="translation-header">
+            <h4 class="mb-0"><i class="fas fa-cogs me-2"></i>Language Configuration</h4>
+        </div>
+        <div class="translation-body">
+            <form id="languageConfigForm">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="defaultLanguage" name="default_language">
+                                {% for lang in available_languages %}
+                                <option value="{{ lang.code }}" {% if lang.code == current_language %}selected{% endif %}>
+                                    {{ lang.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <label for="defaultLanguage">Default Language</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="fallbackLanguage" name="fallback_language">
+                                {% for lang in available_languages %}
+                                <option value="{{ lang.code }}" {% if lang.code == 'en' %}selected{% endif %}>
+                                    {{ lang.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <label for="fallbackLanguage">Fallback Language</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h6>Active Languages</h6>
+                        <div class="row">
+                            {% for lang in available_languages %}
+                            <div class="col-md-4 mb-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="lang_{{ lang.code }}" name="active_languages" value="{{ lang.code }}" checked>
+                                    <label class="form-check-label" for="lang_{{ lang.code }}">
+                                        <span class="language-flag">{{ lang.flag }}</span>
+                                        {{ lang.name }}
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Save Configuration
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary ms-2" onclick="resetConfiguration()">
+                        <i class="fas fa-undo me-2"></i>Reset to Default
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Translation Modal -->
+<div class="modal fade" id="addTranslationModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Translation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addTranslationForm">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="translationKey" name="key" placeholder="Translation Key" required>
+                        <label for="translationKey">Translation Key (e.g., 'admin.dashboard.title')</label>
+                    </div>
+                    
+                    {% for lang in available_languages %}
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="translation_{{ lang.code }}" name="translation_{{ lang.code }}" placeholder="{{ lang.name }} Translation" style="height: 80px;"></textarea>
+                        <label for="translation_{{ lang.code }}">{{ lang.name }} Translation</label>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveTranslation()">
+                    <i class="fas fa-save me-2"></i>Save Translation
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function refreshStats() {
+    // Refresh translation statistics
+    location.reload();
+}
+
+function exportTranslations() {
+    // Export translations to JSON
+    window.open('/admin/translations/export/', '_blank');
+}
+
+function editTranslation(key) {
+    // Open edit modal for translation
+    console.log('Editing translation:', key);
+    // Implementation would load translation data and show edit modal
+}
+
+function deleteTranslation(key) {
+    if (confirm('Are you sure you want to delete this translation key?')) {
+        // Delete translation
+        console.log('Deleting translation:', key);
+    }
+}
+
+function saveTranslation() {
+    const form = document.getElementById('addTranslationForm');
+    const formData = new FormData(form);
+    
+    // AJAX call to save translation
+    fetch('/admin/translations/add/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error saving translation: ' + data.error);
+        }
+    });
+}
+
+function resetConfiguration() {
+    if (confirm('Reset language configuration to default settings?')) {
+        // Reset to default configuration
+        location.reload();
+    }
+}
+
+// Language configuration form submission
+document.getElementById('languageConfigForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('/admin/translations/config/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Language configuration saved successfully!');
+        } else {
+            alert('Error saving configuration: ' + data.error);
+        }
+    });
+});
+</script>
+{% endblock %}

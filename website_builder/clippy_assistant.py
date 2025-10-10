@@ -286,7 +286,7 @@ class ClippyWebsiteBuilder(MagicAI):
             # Get current step handler
             step_handler = self.conversation_steps.get(conversation.current_step)
             if not step_handler:
-                return self._error_response("Invalid conversation step")
+                return self._error_response(f"Invalid conversation step: {conversation.current_step}")
             
             # Process the current step
             response = step_handler(conversation, user_input)

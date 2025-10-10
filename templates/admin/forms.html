@@ -1,0 +1,248 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}Forms Management - JustCodeWorks Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+.forms-header {
+    background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.form-card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    transition: transform 0.3s;
+    margin-bottom: 1rem;
+}
+
+.form-card:hover {
+    transform: translateY(-2px);
+}
+
+.form-preview {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="forms-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-1"><i class="fas fa-wpforms me-2"></i>Forms Management</h2>
+                <p class="mb-0">Create and manage contact forms and surveys</p>
+            </div>
+            <button class="btn btn-light btn-lg">
+                <i class="fas fa-plus me-1"></i>Create Form
+            </button>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-list-alt fa-2x text-warning mb-2"></i>
+                    <h5 class="card-title">6</h5>
+                    <p class="card-text">Active Forms</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-paper-plane fa-2x text-success mb-2"></i>
+                    <h5 class="card-title">142</h5>
+                    <p class="card-text">Submissions</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-chart-line fa-2x text-info mb-2"></i>
+                    <h5 class="card-title">89%</h5>
+                    <p class="card-text">Completion Rate</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-clock fa-2x text-primary mb-2"></i>
+                    <h5 class="card-title">2m 15s</h5>
+                    <p class="card-text">Avg. Time</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Your Forms</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-card p-3">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <h6 class="mb-1">Contact Form</h6>
+                                <p class="text-muted small mb-0">General contact and inquiry form</p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary btn-sm">Edit</button>
+                                <button class="btn btn-outline-info btn-sm">View</button>
+                                <button class="btn btn-outline-success btn-sm">Embed</button>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-3">
+                                <small class="text-muted">Submissions:</small>
+                                <div class="fw-bold">87</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <small class="text-muted">Last:</small>
+                                <div class="fw-bold">2h ago</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <small class="text-muted">Status:</small>
+                                <div><span class="badge bg-success">Active</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-card p-3">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <h6 class="mb-1">Newsletter Signup</h6>
+                                <p class="text-muted small mb-0">Email subscription form</p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary btn-sm">Edit</button>
+                                <button class="btn btn-outline-info btn-sm">View</button>
+                                <button class="btn btn-outline-success btn-sm">Embed</button>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-3">
+                                <small class="text-muted">Submissions:</small>
+                                <div class="fw-bold">34</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <small class="text-muted">Last:</small>
+                                <div class="fw-bold">1 day ago</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <small class="text-muted">Status:</small>
+                                <div><span class="badge bg-success">Active</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-card p-3">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <h6 class="mb-1">Service Request Form</h6>
+                                <p class="text-muted small mb-0">Customer service request and quote form</p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary btn-sm">Edit</button>
+                                <button class="btn btn-outline-info btn-sm">View</button>
+                                <button class="btn btn-outline-success btn-sm">Embed</button>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-3">
+                                <small class="text-muted">Submissions:</small>
+                                <div class="fw-bold">21</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <small class="text-muted">Last:</small>
+                                <div class="fw-bold">5h ago</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <small class="text-muted">Status:</small>
+                                <div><span class="badge bg-warning">Draft</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">Form Builder</h6>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">Drag and drop form elements to create custom forms</p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i>Start Building
+                        </button>
+                        <button class="btn btn-outline-primary">
+                            <i class="fas fa-clone me-1"></i>Use Template
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">Recent Submissions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <div class="fw-bold small">John Smith</div>
+                            <div class="text-muted small">Contact Form</div>
+                        </div>
+                        <small class="text-muted">2h ago</small>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <div class="fw-bold small">Mary Johnson</div>
+                            <div class="text-muted small">Newsletter</div>
+                        </div>
+                        <small class="text-muted">1 day ago</small>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-bold small">Robert Brown</div>
+                            <div class="text-muted small">Service Request</div>
+                        </div>
+                        <small class="text-muted">2 days ago</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Form Templates</h6>
+                </div>
+                <div class="card-body">
+                    <div class="small">
+                        <div class="mb-2">📝 Contact Form</div>
+                        <div class="mb-2">📧 Newsletter Signup</div>
+                        <div class="mb-2">🛒 Order Form</div>
+                        <div class="mb-2">📋 Survey Form</div>
+                        <div class="mb-2">💼 Job Application</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

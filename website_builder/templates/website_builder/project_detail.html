@@ -135,7 +135,38 @@
                 {% endif %}
 
                 <!-- Website Preview -->
-                {% if can_preview %}
+                {% if project.final_html %}
+                <div class="card">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-globe me-2 text-success"></i>
+                            Website Preview
+                            {% if project.template_used %}
+                            <span class="badge bg-info ms-2">{{ project.template_used }}</span>
+                            {% endif %}
+                        </h5>
+                        <div>
+                            <a href="{% url 'website_builder:live_preview' project.project_id %}" 
+                               class="btn btn-success btn-sm" target="_blank">
+                                <i class="fas fa-external-link-alt me-1"></i>Open Website
+                            </a>
+                            <a href="{% url 'website_builder:download_website' project.project_id %}" 
+                               class="btn btn-primary btn-sm">
+                                <i class="fas fa-download me-1"></i>Download ZIP
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <iframe src="{% url 'website_builder:live_preview' project.project_id %}" 
+                                    width="100%" height="500" 
+                                    style="border: 1px solid #dee2e6; border-radius: 5px;"
+                                    title="Website Preview">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                {% elif can_preview %}
                 <div class="card">
                     <div class="card-header bg-white d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">
@@ -269,7 +300,18 @@
                             </a>
                             {% endif %}
                             
-                            {% if can_preview %}
+                            {% if project.final_html %}
+                            <!-- Template-based website actions -->
+                            <a href="{% url 'website_builder:live_preview' project.project_id %}" 
+                               class="btn btn-success" target="_blank">
+                                <i class="fas fa-eye me-2"></i>Preview Website
+                            </a>
+                            <a href="{% url 'website_builder:download_website' project.project_id %}" 
+                               class="btn btn-info">
+                                <i class="fas fa-download me-2"></i>Download ZIP
+                            </a>
+                            {% elif can_preview %}
+                            <!-- Regular project actions -->
                             <a href="{% url 'website_builder:preview' project.project_id %}" 
                                class="btn btn-success" target="_blank">
                                 <i class="fas fa-eye me-2"></i>Preview Website

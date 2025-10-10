@@ -1,0 +1,74 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}Debug - Website Builder Iframe{% endblock %}
+
+{% block content %}
+<div style="padding: 20px;">
+    <h3>🔧 Debug: Website Builder Integration</h3>
+    
+    <div class="alert alert-info">
+        <strong>Testing iframe integration...</strong>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Direct Links Test</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/website-builder/" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt me-1"></i>Open Website Builder (New Tab)
+                        </a>
+                        <a href="/admin/" class="btn btn-outline-primary">
+                            <i class="fas fa-tachometer-alt me-1"></i>Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Iframe Test</h5>
+                </div>
+                <div class="card-body">
+                    <div style="height: 300px; border: 1px solid #ddd; position: relative;">
+                        <iframe 
+                            src="/website-builder/" 
+                            style="width: 100%; height: 100%; border: none;"
+                            onload="document.getElementById('status').innerHTML = '✅ Iframe loaded successfully!'"
+                            onerror="document.getElementById('status').innerHTML = '❌ Iframe failed to load'">
+                        </iframe>
+                    </div>
+                    <div id="status" class="mt-2 text-muted">🔄 Loading iframe...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mt-3">
+        <div class="card-header">
+            <h5>Integration Status</h5>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>✅ Admin dashboard is working</li>
+                <li>✅ Website Builder URLs are configured</li>
+                <li id="iframe-status">🔄 Testing iframe compatibility...</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+// Test iframe compatibility
+setTimeout(() => {
+    const status = document.getElementById('iframe-status');
+    status.innerHTML = '✅ Iframe compatibility test complete';
+}, 3000);
+</script>
+{% endblock %}

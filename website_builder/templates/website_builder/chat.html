@@ -1,88 +1,151 @@
+{% load static %}
+{% load business_filters %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Chat with Clippy 2.0 - {{ project.business_name|default:"New Project" }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* Updated Layout - 2025-10-10 */
         .chat-container {
-            height: 80vh;
+            height: 50vh !important;
             display: flex;
             flex-direction: column;
         }
+
+        /* Force proper column layout - ALWAYS side by side - MAIN ROW ONLY */
+        .container-fluid>.row {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+        }
+
+        .col-sm-5,
+        .col-md-5,
+        .col-lg-4 {
+            flex: 0 0 30% !important;
+            max-width: 30% !important;
+        }
+
+        .col-sm-7,
+        .col-md-7,
+        .col-lg-8 {
+            flex: 0 0 70% !important;
+            max-width: 70% !important;
+        }
+
+        /* Prevent column stacking on any screen size */
+        @media (min-width: 576px) {
+            .col-sm-5 {
+                flex: 0 0 30% !important;
+                max-width: 30% !important;
+            }
+
+            .col-sm-7 {
+                flex: 0 0 70% !important;
+                max-width: 70% !important;
+            }
+        }
+
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 1rem;
+            padding: 0.75rem;
             background: #f8f9fa;
-            border-radius: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
         }
+
         .message {
             margin-bottom: 1rem;
             animation: fadeIn 0.3s ease-in;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .message-clippy {
             display: flex;
             justify-content: flex-start;
         }
+
         .message-user {
             display: flex;
             justify-content: flex-end;
         }
+
         .message-content {
-            max-width: 70%;
-            padding: 0.75rem 1rem;
-            border-radius: 18px;
+            max-width: 85%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
             position: relative;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
+
         .message-clippy .message-content {
             background: white;
-            border: 2px solid #007bff;
+            border: 1px solid #007bff;
             margin-left: 0;
         }
+
         .message-user .message-content {
             background: #007bff;
             color: white;
             margin-right: 0;
         }
+
         .message-avatar {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            margin: 0 0.5rem;
+            font-size: 1rem;
+            margin: 0 0.4rem;
         }
+
         .avatar-clippy {
             background: linear-gradient(135deg, #007bff, #0056b3);
             color: white;
         }
+
         .avatar-user {
             background: linear-gradient(135deg, #28a745, #1e7e34);
             color: white;
         }
+
         .chat-input-area {
             padding: 1rem 0;
             border-top: 1px solid #dee2e6;
             background: white;
         }
+
         .progress-bar-custom {
             height: 8px;
             border-radius: 4px;
             background: linear-gradient(90deg, #007bff, #28a745);
         }
+
         .step-indicator {
             font-size: 0.8rem;
             color: #6c757d;
         }
+
         .typing-indicator {
             display: none;
             padding: 0.5rem 1rem;
@@ -90,9 +153,11 @@
             border-radius: 18px;
             margin-left: 3rem;
         }
+
         .typing-dots {
             display: inline-block;
         }
+
         .typing-dots span {
             display: inline-block;
             width: 8px;
@@ -102,47 +167,65 @@
             margin: 0 2px;
             animation: typing 1.4s infinite ease-in-out;
         }
-        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
+
+        .typing-dots span:nth-child(1) {
+            animation-delay: -0.32s;
         }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         .project-info-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
         }
-        
+
         /* Live Preview Styles */
         .preview-header-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
         }
-        
+
         .preview-header-card .card-body {
             padding: 2rem;
         }
-        
+
         .preview-header-card h5 {
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
-        
+
         .preview-card {
             border: 1px solid #e3e6f0;
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
             height: calc(100vh - 220px);
             min-height: 600px;
         }
-        
+
         .preview-container {
             position: relative;
             height: 100%;
             background: #f8f9fa;
         }
-        
+
         .preview-frame {
             width: 100%;
             height: 100%;
@@ -150,16 +233,39 @@
             background: white;
             transition: all 0.3s ease;
         }
-        
+
+        /* Step Indicators */
+        .step-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .step-indicator.inactive {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
         .preview-frame.mobile-view {
             width: 375px;
             height: 667px;
             margin: 20px auto;
             border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             border: 8px solid #333;
         }
-        
+
         .preview-placeholder {
             position: absolute;
             top: 0;
@@ -171,12 +277,12 @@
             justify-content: center;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        
+
         .placeholder-content {
             text-align: center;
             max-width: 300px;
         }
-        
+
         .preview-steps {
             display: flex;
             justify-content: center;
@@ -184,7 +290,7 @@
             margin-top: 20px;
             flex-wrap: wrap;
         }
-        
+
         .step {
             display: flex;
             flex-direction: column;
@@ -192,32 +298,33 @@
             gap: 5px;
             padding: 10px;
             border-radius: 8px;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.8);
             min-width: 60px;
             font-size: 0.8rem;
             color: #6c757d;
             transition: all 0.3s ease;
         }
-        
+
         .step.active {
             background: #007bff;
             color: white;
             transform: scale(1.05);
         }
-        
+
         .step.completed {
             background: #28a745;
             color: white;
         }
-        
+
         .preview-controls .btn {
             margin-left: 5px;
         }
-        
+
         .preview-controls .btn.active {
             background-color: #007bff;
             color: white;
         }
+
         /* Checkbox alignment fixes */
         .services-selection .form-check {
             display: flex;
@@ -225,16 +332,19 @@
             margin-bottom: 0.75rem;
             padding-left: 0;
         }
+
         .services-selection .form-check-input {
             margin-right: 0.5rem;
             margin-top: 0;
             flex-shrink: 0;
         }
+
         .services-selection .form-check-label {
             margin-bottom: 0;
             line-height: 1.2;
             padding-top: 1px;
         }
+
         /* Template selection styles */
         .template-selection .template-card {
             cursor: pointer;
@@ -242,15 +352,18 @@
             border: 2px solid transparent;
             overflow: hidden;
         }
+
         .template-selection .template-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,123,255,0.3);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
             border-color: #007bff;
         }
+
         .template-selection .template-image-container {
             position: relative;
             overflow: hidden;
         }
+
         .template-selection .template-preview {
             height: 180px;
             width: 100%;
@@ -258,61 +371,73 @@
             border-bottom: 1px solid #dee2e6;
             transition: transform 0.3s ease;
         }
+
         .template-selection .template-card:hover .template-preview {
             transform: scale(1.05);
         }
+
         .template-selection .template-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,123,255,0.8);
+            background: rgba(0, 123, 255, 0.8);
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
+
         .template-selection .template-card:hover .template-overlay {
             opacity: 1;
         }
+
         .template-selection .template-overlay-content {
             text-align: center;
             color: white;
         }
+
         .template-selection .template-overlay-content i {
             font-size: 2rem;
             margin-bottom: 0.5rem;
             display: block;
         }
+
         .template-selection .card-title {
             color: #007bff;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
+
         .template-selection .card-text {
             font-size: 0.8rem;
             line-height: 1.3;
             color: #6c757d;
         }
+
         .template-selection .template-stats {
             margin-top: 0.5rem;
         }
+
         .template-selection-help {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             padding: 1.5rem;
             border-radius: 12px;
             border-left: 4px solid #007bff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .template-selection .card-footer {
             padding: 0.75rem;
         }
+
         .template-selection .btn-sm {
             font-size: 0.8rem;
             padding: 0.4rem 0.8rem;
         }
+
         /* Single template showcase styles */
         .template-showcase .template-card-single {
             cursor: pointer;
@@ -320,43 +445,61 @@
             border: 3px solid transparent;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
+
         .template-showcase .template-card-single:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,123,255,0.2);
+            box-shadow: 0 20px 40px rgba(0, 123, 255, 0.2);
             border-color: #007bff;
         }
+
         .template-showcase .template-preview-large {
             height: 250px;
             width: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
+
         .template-showcase .template-card-single:hover .template-preview-large {
             transform: scale(1.05);
         }
+
         .template-showcase .template-features {
             background: #f8f9fa;
             padding: 1rem;
             border-radius: 10px;
             margin: 1rem 0;
         }
+
         .template-showcase .template-features i {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
+
         .template-showcase .card-title {
             font-size: 1.5rem;
             font-weight: 700;
         }
+
         .template-showcase .btn-lg {
             border-radius: 50px;
             padding: 12px 20px;
             font-weight: 600;
         }
+
+        footer {
+            margin-top: 40px;
+            border-top: 1px solid #b9b9b9;
+            padding: 20px 0;
+            background: #f8f9fa;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
     </style>
 </head>
+
 <body class="bg-light">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -369,30 +512,211 @@
             </div>
         </div>
     </nav>
-
-    <div class="container-fluid mt-4">
+    <div class="container-fluid mt-5">
         <div class="row">
-            <!-- Chat Area -->
-            <div class="col-lg-6">
-                <!-- Progress Header -->
+            <!-- Live Website Preview - Left Column -->
+            <div class="col-sm-7 col-md-7 col-lg-8">
+                <!-- Preview Controls Header -->
                 <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h5 class="mb-0">
-                                <i class="fas fa-robot me-2 text-primary"></i>
-                                Chat with Clippy 2.0
-                            </h5>
-                            <span class="badge bg-primary">{{ current_step|title }}</span>
+                    <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                        <div>
+                            <i class="fas fa-globe me-2"></i>
+                            <span id="previewTitle">{{ project.business_name|default:"Your Website" }} Preview</span>
                         </div>
-                        <div class="progress mb-2">
-                            <div class="progress-bar progress-bar-custom" role="progressbar" 
-                                 style="width: {{ progress }}%" aria-valuenow="{{ progress }}" 
-                                 aria-valuemin="0" aria-valuemax="100">
+                        <div class="preview-controls">
+                            <button class="btn btn-sm btn-outline-primary" onclick="togglePreviewDevice('desktop')"
+                                id="desktopBtn">
+                                <i class="fas fa-desktop"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="togglePreviewDevice('mobile')"
+                                id="mobileBtn">
+                                <i class="fas fa-mobile-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Website Preview Frame -->
+                <div class="card preview-card">
+                    <!-- Actual Website Header -->
+                    <div class="card-body bg-white p-0" style="box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <div style="padding: 1rem 0;">
+                            <div class="container-fluid">
+                                <nav class="d-flex justify-content-between align-items-center">
+                                    <div class="logo" style="font-size: 1.5rem; font-weight: bold; color: #007bff;">
+                                        {{ project.business_name|default:"Your Business" }}
+                                    </div>
+                                    <ul class="nav d-none d-md-flex" style="list-style: none; margin: 0; padding: 0;">
+                                        <li style="margin: 0 15px;"><a href="#home"
+                                                style="text-decoration: none; color: #333; font-weight: 500;">Home</a>
+                                        </li>
+                                        <li style="margin: 0 15px;"><a href="#services"
+                                                style="text-decoration: none; color: #333; font-weight: 500;">Services</a>
+                                        </li>
+                                        <li style="margin: 0 15px;"><a href="#about"
+                                                style="text-decoration: none; color: #333; font-weight: 500;">About</a>
+                                        </li>
+                                        <li style="margin: 0 15px;"><a href="#contact"
+                                                style="text-decoration: none; color: #333; font-weight: 500;">Contact</a>
+                                        </li>
+                                    </ul>
+                                    <div class="d-md-none">
+                                        <button class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-bars"></i>
+                                        </button>
+                                    </div>
+                                </nav>
                             </div>
                         </div>
-                        <div class="step-indicator">
-                            Progress: {{ progress }}% • Step: {{ conversation.current_step|title }}
+                    </div>
+
+                    <!-- Hero/Slideshow Section -->
+                    <div
+                        style="height: 600px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; display: flex; align-items: center; justify-content: center;">
+                        <div class="text-center text-white">
+                            <div
+                                style="background: rgba(255,255,255,0.1); padding: 3rem; border-radius: 15px; backdrop-filter: blur(10px);">
+                                <i class="fas fa-images fa-4x mb-3" style="opacity: 0.8;"></i>
+                                <h2 style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: 300;">Hero Slideshow
+                                </h2>
+                                <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">Dynamic content will be
+                                    displayed here</p>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <div
+                                        style="width: 12px; height: 12px; background: rgba(255,255,255,0.7); border-radius: 50%;">
+                                    </div>
+                                    <div style="width: 12px; height: 12px; background: white; border-radius: 50%;">
+                                    </div>
+                                    <div
+                                        style="width: 12px; height: 12px; background: rgba(255,255,255,0.7); border-radius: 50%;">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <!-- Slideshow navigation arrows -->
+                        <div
+                            style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: white; font-size: 2rem; opacity: 0.7;">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div
+                            style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: white; font-size: 2rem; opacity: 0.7;">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div id="websitePreviewContainer" class="preview-container">
+                            <!-- Real-time website preview will be rendered here -->
+                            <iframe id="websitePreviewFrame" src="about:blank" class="preview-frame" frameborder="0">
+                            </iframe>
+
+                            <!-- Preview placeholder when no content -->
+                            <div id="previewPlaceholder" class="preview-placeholder">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-globe fa-3x text-muted mb-3"></i>
+                                    <h5 class="text-muted">Website Preview</h5>
+                                    <p class="text-muted mb-0">Your website will appear here as we build it together!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Area - Right Column -->
+            <div class="col-sm-5 col-md-5 col-lg-4">
+                <!-- Business Details Tables -->
+                <div class="row mb-4">
+                    <!-- Project Information - Full Width -->
+                    <div class="col-12 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0"><i class="fas fa-building me-2"></i>Project Information</h6>
+                                <button type="button" class="btn btn-sm btn-outline-primary" 
+                                        data-bs-toggle="modal" data-bs-target="#websiteBuilderModal"
+                                        title="Edit Business Details">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm table-borderless mb-0">
+                                    <tr>
+                                        <td class="fw-bold" style="width: 30%;">Business Name:</td>
+                                        <td id="projectBusinessName">{{ project.business_name|default:"Not specified" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Phone Number:</td>
+                                        <td id="projectPhoneNumber">{{ conversation_data.phone_number|default:project.phone|default:"Not specified" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Address:</td>
+                                        <td id="projectBusinessAddress">{{ project.business_address|default:"Not specified" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Business Type:</td>
+                                        <td id="projectBusinessType">{{ conversation_data.business_type|default:project.industry|format_business_type }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Website Type:</td>
+                                        <td id="projectWebsiteType">{{ project.website_type|default:"Not specified"|title }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Building Steps - Right Half -->
+                    <div class="col-6 mb-3">
+                        <!-- <div class="card h-100">
+                            <div class="card-header">
+                                <h6 class="mb-0"><i class="fas fa-tasks me-2"></i>Building Steps</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <div
+                                            class="step-indicator {% if conversation.current_step == 'template_selection' %}active{% else %}inactive{% endif %}">
+                                            <i class="fas fa-palette"></i>
+                                        </div>
+                                        <small>Template</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <div
+                                            class="step-indicator {% if conversation.current_step == 'content_generation' %}active{% else %}inactive{% endif %}">
+                                            <i class="fas fa-file-alt"></i>
+                                        </div>
+                                        <small>Content</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <div
+                                            class="step-indicator {% if conversation.current_step == 'final_review' %}active{% else %}inactive{% endif %}">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <small>Review</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <!-- Progress Header - Compact -->
+                <div class="card mb-3">
+                    <div class="card-body py-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="mb-0">
+                                <i class="fas fa-robot me-1 text-primary"></i>
+                                Clippy 2.0
+                            </h6>
+                            <span class="badge bg-primary text-xs">{{ current_step|title }}</span>
+                        </div>
+                        <div class="progress mb-1" style="height: 4px;">
+                            <div class="progress-bar progress-bar-custom" role="progressbar"
+                                style="width: {{ progress }}%" aria-valuenow="{{ progress }}" aria-valuemin="0"
+                                aria-valuemax="100">
+                            </div>
+                        </div>
+                        <small class="text-muted">{{ progress }}% • {{ conversation.current_step|title }}</small>
                     </div>
                 </div>
 
@@ -401,26 +725,30 @@
                     <div class="chat-container">
                         <!-- Messages Area -->
                         <div class="chat-messages" id="chatMessages">
-                            <!-- Welcome message from Clippy -->
+                            <!-- Initial message from Clippy -->
+                            {% if initial_message %}
                             <div class="message message-clippy">
                                 <div class="message-avatar avatar-clippy">
                                     <i class="fas fa-robot"></i>
                                 </div>
                                 <div class="message-content">
                                     <strong>Clippy 2.0:</strong><br>
-                                    👋 Hello! I'm Clippy 2.0, your AI website building assistant!
-                                    <br><br>
-                                    I'm here to help you create an amazing website for your business in just a few simple steps. 
-                                    No technical knowledge required - I'll guide you through everything!
-                                    <br><br>
-                                    Let's start with the basics:
-                                    <br><br>
-                                    <strong>What is the name of your business?</strong>
-                                    <br><br>
-                                    ✨ <em>Don't worry if you're still deciding - you can always change it later!</em>
+                                    {{ initial_message|linebreaksbr }}
                                 </div>
                             </div>
-                            
+                            {% else %}
+                            <!-- Default welcome message -->
+                            <div class="message message-clippy">
+                                <div class="message-avatar avatar-clippy">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <strong>Clippy 2.0:</strong><br>
+                                    Hello! 👋 I'm Clippy, your AI website builder assistant and I am going to help you build a great website.
+                                    {% endif %}
+                                </div>
+                            </div>
+
                             <!-- Typing indicator (hidden by default) -->
                             <div class="typing-indicator" id="typingIndicator">
                                 <div class="typing-dots">
@@ -435,9 +763,9 @@
                         <!-- Input Area -->
                         <div class="chat-input-area">
                             <form id="chatForm" class="d-flex">
-                                <input type="text" class="form-control me-2" id="messageInput" 
-                                       placeholder="Type your message..." autocomplete="off">
-                                <button type="submit" class="btn btn-primary" id="sendBtn">
+                                <input type="text" class="form-control me-2" id="messageInput"
+                                    placeholder="Type your message..." autocomplete="off">
+                                <button type="submit" class="btn btn-primary btn-sm" id="sendBtn">
                                     <i class="fas fa-paper-plane"></i>
                                 </button>
                             </form>
@@ -446,164 +774,14 @@
                 </div>
             </div>
 
-            <!-- Live Website Preview -->
-            <div class="col-lg-6">
-                <!-- Preview Header -->
-                <div class="card preview-header-card mb-3">
-                    <div class="card-body text-center">
-                        <i class="fas fa-eye fa-2x mb-2 text-primary"></i>
-                        <h5>Live Website Preview</h5>
-                        <p class="mb-0">Watch your website come to life in real-time!</p>
-                    </div>
-                </div>
-                
-                <!-- Website Preview Frame -->
-                <div class="card preview-card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-globe me-2"></i>
-                            <span id="previewTitle">{{ project.business_name|default:"Your Website" }}</span>
-                        </div>
-                        <div class="preview-controls">
-                            <button class="btn btn-sm btn-outline-primary" onclick="togglePreviewDevice('desktop')" id="desktopBtn">
-                                <i class="fas fa-desktop"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-primary" onclick="togglePreviewDevice('mobile')" id="mobileBtn">
-                                <i class="fas fa-mobile-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div id="websitePreviewContainer" class="preview-container">
-                            <!-- Real-time website preview will be rendered here -->
-                            <iframe id="websitePreviewFrame" 
-                                    src="about:blank" 
-                                    class="preview-frame"
-                                    frameborder="0">
-                            </iframe>
-                            
-                            <!-- Preview placeholder when no content -->
-                            <div id="previewPlaceholder" class="preview-placeholder">
-                                <div class="placeholder-content">
-                                    <i class="fas fa-magic fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">Building Your Website</h5>
-                                    <p class="text-muted">Your website will appear here as Clippy generates content</p>
-                                    <div class="preview-steps">
-                                        <div class="step" id="step-business">
-                                            <i class="fas fa-building"></i>
-                                            <span>Business Info</span>
-                                        </div>
-                                        <div class="step" id="step-services">
-                                            <i class="fas fa-cogs"></i>
-                                            <span>Services</span>
-                                        </div>
-                                        <div class="step" id="step-template">
-                                            <i class="fas fa-palette"></i>
-                                            <span>Template</span>
-                                        </div>
-                                        <div class="step" id="step-content">
-                                            <i class="fas fa-magic"></i>
-                                            <span>Content</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Current Project Info -->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h6 class="mb-0">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Project Information
-                        </h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4"><strong>Business:</strong></div>
-                            <div class="col-sm-8" id="projectBusinessName">
-                                {{ project.business_name|default:"<em>Not set</em>" }}
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-4"><strong>Industry:</strong></div>
-                            <div class="col-sm-8" id="projectIndustry">
-                                {{ project.industry|default:"<em>Not selected</em>" }}
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-4"><strong>Services:</strong></div>
-                            <div class="col-sm-8" id="projectServices">
-                                <span class="badge bg-secondary">{{ project.services.count }}</span>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-4"><strong>Status:</strong></div>
-                            <div class="col-sm-8">
-                                <span class="badge bg-primary">{{ project.get_status_display }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Conversation Steps -->
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class="mb-0">
-                            <i class="fas fa-list me-2"></i>
-                            Building Steps
-                        </h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                Welcome & Introduction
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-circle text-muted me-2" id="step-business-name"></i>
-                                Business Name
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-circle text-muted me-2" id="step-industry"></i>
-                                Industry Selection
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-circle text-muted me-2" id="step-services"></i>
-                                Services Selection
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-circle text-muted me-2" id="step-details"></i>
-                                Business Details
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-circle text-muted me-2" id="step-template"></i>
-                                Template Selection
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-circle text-muted me-2" id="step-content"></i>
-                                Content Generation
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-circle text-muted me-2" id="step-review"></i>
-                                Final Review
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-circle text-muted me-2" id="step-completion"></i>
-                                Completion
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
+    <!-- Business Details Modal -->
+    {% include 'website_builder/includes/business_details_modal.html' %}
+    
+    <footer> Here stays the footer </footer>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -618,23 +796,23 @@
         messageInput.focus();
 
         // Handle form submission
-        chatForm.addEventListener('submit', function(e) {
+        chatForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const message = messageInput.value.trim();
             if (!message) return;
 
             // Add user message to chat
             addMessage(message, 'user');
-            
+
             // Clear input and disable form
             messageInput.value = '';
             sendBtn.disabled = true;
             messageInput.disabled = true;
-            
+
             // Show typing indicator
             showTypingIndicator();
-            
+
             // Send message to API
             sendMessage(message);
         });
@@ -642,14 +820,14 @@
         function addMessage(content, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message message-${sender}`;
-            
-            const avatar = sender === 'clippy' ? 
+
+            const avatar = sender === 'clippy' ?
                 '<div class="message-avatar avatar-clippy"><i class="fas fa-robot"></i></div>' :
                 '<div class="message-avatar avatar-user"><i class="fas fa-user"></i></div>';
-            
+
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
-            
+
             if (sender === 'clippy') {
                 messageContent.innerHTML = `<strong>Clippy 2.0:</strong><br>${formatClippyMessage(content)}`;
                 messageDiv.innerHTML = avatar;
@@ -659,7 +837,7 @@
                 messageDiv.appendChild(messageContent);
                 messageDiv.innerHTML += avatar;
             }
-            
+
             chatMessages.appendChild(messageDiv);
             scrollToBottom();
         }
@@ -691,66 +869,146 @@
         }
 
         function sendMessage(message) {
+            // Get CSRF token from meta tag or cookie
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || getCookie('csrftoken');
+
+            console.log('Sending message:', message);
+            console.log('CSRF token:', csrfToken);
+
             fetch(`{% url 'website_builder:chat_api' project.project_id %}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
+                    'X-CSRFToken': csrfToken
                 },
                 body: JSON.stringify({
                     message: message
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                hideTypingIndicator();
-                
-                if (data.success) {
-                    // Add Clippy's response
-                    addMessage(data.message, 'clippy');
-                    
-                    // Update project info if provided
-                    updateProjectInfo(data.project_data);
-                    
-                    // Update live preview with new project data
-                    if (data.project_data) {
-                        updateLivePreview(data.project_data, data.template_data || {});
-                        updatePreviewStep(data.current_step || 'business_info');
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    hideTypingIndicator();
+
+                    if (data.success) {
+                        // Add Clippy's response
+                        addMessage(data.message, 'clippy');
+
+                        // Update project info if provided
+                        updateProjectInfo(data.project_data);
+
+                        // Update live preview with new project data
+                        if (data.project_data) {
+                            updateLivePreview(data.project_data, data.template_data || {});
+                            updatePreviewStep(data.current_step || 'business_info');
+                        }
+
+                        // Update progress
+                        if (data.progress !== undefined) {
+                            updateProgress(data.progress, data.current_step);
+                        }
+                    } else {
+                        addMessage(data.message || 'Sorry, I encountered an error. Please try again.', 'clippy');
                     }
-                    
-                    // Update progress
-                    if (data.progress !== undefined) {
-                        updateProgress(data.progress, data.current_step);
-                    }
-                } else {
-                    addMessage(data.message || 'Sorry, I encountered an error. Please try again.', 'clippy');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                hideTypingIndicator();
-                addMessage('Sorry, I encountered a connection error. Please try again.', 'clippy');
-            })
-            .finally(() => {
-                // Re-enable form
-                sendBtn.disabled = false;
-                messageInput.disabled = false;
-                messageInput.focus();
-            });
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    hideTypingIndicator();
+                    addMessage(`Sorry, I encountered a connection error: ${error.message}. Please try again.`, 'clippy');
+                })
+                .finally(() => {
+                    // Re-enable form
+                    sendBtn.disabled = false;
+                    messageInput.disabled = false;
+                    messageInput.focus();
+                });
         }
 
         function updateProjectInfo(projectData) {
             if (!projectData) return;
-            
+
+            // Update Business Name
             if (projectData.business_name) {
-                document.getElementById('projectBusinessName').textContent = projectData.business_name;
+                const businessNameElement = document.getElementById('projectBusinessName');
+                if (businessNameElement) {
+                    businessNameElement.textContent = projectData.business_name;
+                }
             }
+            
+            // Update Phone Number
+            if (projectData.phone_number) {
+                const phoneElement = document.getElementById('projectPhoneNumber');
+                if (phoneElement) {
+                    phoneElement.textContent = projectData.phone_number;
+                }
+            }
+            
+            // Update Business Address
+            if (projectData.business_address) {
+                document.getElementById('projectBusinessAddress').textContent = projectData.business_address;
+            }
+            
+            // Update Business Type
+            if (projectData.business_type) {
+                // Convert business type value to display text
+                const businessTypeMap = {
+                    'construction': '🏗️ Construction & Contracting',
+                    'automotive': '🚗 Automotive & Repair',
+                    'plumbing': '🔧 Plumbing & HVAC',
+                    'electrical': '⚡ Electrical Services',
+                    'cleaning': '🧹 Cleaning Services',
+                    'landscaping': '🌿 Landscaping & Gardening',
+                    'home_services': '🏠 Home Services',
+                    'legal': '⚖️ Legal Services',
+                    'accounting': '📊 Accounting & Finance',
+                    'consulting': '💼 Consulting',
+                    'real_estate': '🏡 Real Estate',
+                    'insurance': '🛡️ Insurance',
+                    'healthcare': '🏥 Healthcare & Medical',
+                    'portfolio': '🎨 Portfolio & Creative',
+                    'photography': '📸 Photography',
+                    'design': '✨ Design & Graphics',
+                    'marketing': '📈 Marketing & Advertising',
+                    'web_development': '💻 Web Development',
+                    'retail': '🛍️ Retail Store',
+                    'ecommerce': '🛒 E-commerce',
+                    'restaurant': '🍽️ Restaurant & Food',
+                    'fashion': '👗 Fashion & Clothing',
+                    'beauty': '💄 Beauty & Wellness',
+                    'technology': '💻 Technology & IT',
+                    'education': '🎓 Education & Training',
+                    'fitness': '💪 Fitness & Sports',
+                    'nonprofit': '❤️ Non-profit & Community',
+                    'other': '🏢 Other Business Type'
+                };
+                const displayText = businessTypeMap[projectData.business_type] || projectData.business_type.replace('_', ' ').toUpperCase();
+                const businessTypeElement = document.getElementById('projectBusinessType');
+                if (businessTypeElement) {
+                    businessTypeElement.textContent = displayText;
+                }
+            }
+            
+            // Update Website Type
+            if (projectData.website_type) {
+                const websiteTypeText = projectData.website_type === 'one_page' ? 'One Page Website' : 'Multi-Page Website';
+                document.getElementById('projectWebsiteType').textContent = websiteTypeText;
+            }
+
+            // Legacy support for existing fields
             if (projectData.industry) {
-                document.getElementById('projectIndustry').textContent = projectData.industry.replace('_', ' ').toUpperCase();
+                const industryElement = document.getElementById('projectIndustry');
+                if (industryElement) {
+                    industryElement.textContent = projectData.industry.replace('_', ' ').toUpperCase();
+                }
             }
             if (projectData.services_count !== undefined) {
-                document.getElementById('projectServices').innerHTML = 
-                    `<span class="badge bg-secondary">${projectData.services_count}</span>`;
+                const servicesElement = document.getElementById('projectServices');
+                if (servicesElement) {
+                    servicesElement.innerHTML = `<span class="badge bg-secondary">${projectData.services_count}</span>`;
+                }
             }
         }
 
@@ -761,7 +1019,7 @@
                 progressBar.style.width = progress + '%';
                 progressBar.setAttribute('aria-valuenow', progress);
             }
-            
+
             // Update step indicators
             updateStepIndicators(currentStep);
         }
@@ -779,15 +1037,15 @@
                 'final_review': 8,
                 'completion': 9
             };
-            
+
             const currentStepIndex = stepMapping[currentStep] || 0;
-            
+
             // Update step icons
             const steps = [
-                'business-name', 'industry', 'services', 'details', 
+                'business-name', 'industry', 'services', 'details',
                 'template', 'content', 'review', 'completion'
             ];
-            
+
             steps.forEach((step, index) => {
                 const stepElement = document.getElementById(`step-${step}`);
                 if (stepElement) {
@@ -806,15 +1064,15 @@
         function submitSelectedServices() {
             const checkboxes = document.querySelectorAll('input[name="services"]:checked');
             const selectedServices = Array.from(checkboxes).map(cb => cb.value);
-            
+
             if (selectedServices.length === 0) {
                 alert('Please select at least one service, or type your services in the text box below.');
                 return;
             }
-            
+
             // Format the selected services as a message
             const servicesMessage = selectedServices.join(', ');
-            
+
             // Send the message through the normal chat flow
             sendMessage(servicesMessage);
         }
@@ -827,14 +1085,14 @@
                 card.style.borderColor = 'transparent';
                 card.style.transform = 'none';
             });
-            
+
             const selectedCard = document.querySelector(`.template-card:nth-child(${templateNumber})`);
             if (selectedCard) {
                 selectedCard.style.borderColor = '#28a745';
                 selectedCard.style.transform = 'translateY(-5px)';
                 selectedCard.style.boxShadow = '0 8px 20px rgba(40,167,69,0.3)';
             }
-            
+
             // Send template selection message
             setTimeout(() => {
                 sendMessage(templateNumber.toString());
@@ -870,11 +1128,11 @@
                     </div>
                 </div>
             `;
-            
+
             document.body.appendChild(modal);
             const bootstrapModal = new bootstrap.Modal(modal);
             bootstrapModal.show();
-            
+
             // Remove modal when hidden
             modal.addEventListener('hidden.bs.modal', () => {
                 modal.remove();
@@ -889,7 +1147,7 @@
                 const bootstrapModal = bootstrap.Modal.getInstance(modal);
                 bootstrapModal.hide();
             }
-            
+
             // Find which template number this is and select it
             const cards = document.querySelectorAll('.template-card');
             cards.forEach((card, index) => {
@@ -917,7 +1175,7 @@
         }
 
         // Handle Enter key in input
-        messageInput.addEventListener('keydown', function(e) {
+        messageInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 chatForm.dispatchEvent(new Event('submit'));
@@ -929,13 +1187,13 @@
 
         // Live Preview Functions
         let currentPreviewMode = 'desktop';
-        
+
         function togglePreviewDevice(mode) {
             currentPreviewMode = mode;
             const frame = document.getElementById('websitePreviewFrame');
             const desktopBtn = document.getElementById('desktopBtn');
             const mobileBtn = document.getElementById('mobileBtn');
-            
+
             if (mode === 'mobile') {
                 frame.classList.add('mobile-view');
                 desktopBtn.classList.remove('active');
@@ -946,25 +1204,25 @@
                 mobileBtn.classList.remove('active');
             }
         }
-        
+
         function updatePreviewStep(stepName) {
             // Update step indicators in preview
             const steps = document.querySelectorAll('.step');
             steps.forEach(step => {
                 step.classList.remove('active', 'completed');
             });
-            
+
             const stepMap = {
                 'business_info': 'step-business',
-                'services': 'step-services', 
+                'services': 'step-services',
                 'template': 'step-template',
                 'content': 'step-content'
             };
-            
+
             const currentStep = document.getElementById(stepMap[stepName]);
             if (currentStep) {
                 currentStep.classList.add('active');
-                
+
                 // Mark previous steps as completed
                 const allSteps = ['step-business', 'step-services', 'step-template', 'step-content'];
                 const currentIndex = allSteps.indexOf(stepMap[stepName]);
@@ -977,7 +1235,7 @@
                 }
             }
         }
-        
+
         function generatePreviewHTML(businessData, templateData) {
             // Generate the actual website HTML based on business data and template
             const template = `
@@ -1061,50 +1319,165 @@
             `;
             return template;
         }
-        
+
         function updateLivePreview(businessData, templateData = {}) {
             const previewFrame = document.getElementById('websitePreviewFrame');
             const placeholder = document.getElementById('previewPlaceholder');
-            
+
+            // Always show preview (either with business data or default template)
+            placeholder.style.display = 'none';
+            previewFrame.style.display = 'block';
+
             if (businessData && businessData.name) {
-                // Hide placeholder and show preview
-                placeholder.style.display = 'none';
-                previewFrame.style.display = 'block';
-                
-                // Generate and load the preview HTML
+                // Generate and load the preview HTML with business data
                 const previewHTML = generatePreviewHTML(businessData, templateData);
                 const blob = new Blob([previewHTML], { type: 'text/html' });
                 const url = URL.createObjectURL(blob);
                 previewFrame.src = url;
-                
+
                 // Update preview title
                 const previewTitle = document.getElementById('previewTitle');
                 if (previewTitle) {
                     previewTitle.textContent = businessData.name;
                 }
             } else {
-                // Show placeholder
-                placeholder.style.display = 'flex';
-                previewFrame.style.display = 'none';
+                // Load default preview template
+                previewFrame.src = '{% url "website_builder:default_preview" %}';
+
+                // Update preview title
+                const previewTitle = document.getElementById('previewTitle');
+                if (previewTitle) {
+                    previewTitle.textContent = 'Website Preview';
+                }
             }
         }
-        
+
+        // Business Details Modal Handler
+        function handleBusinessDetailsSubmission() {
+            const submitBtn = document.getElementById('startBuildingBtn');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const form = document.getElementById('businessDetailsForm');
+                    const formData = new FormData(form);
+                    const businessData = {};
+                    formData.forEach((value, key) => {
+                        businessData[key] = value;
+                    });
+                    
+
+                    
+                    // Update the project information table immediately
+                    updateProjectInfo({
+                        business_name: businessData.business_name,
+                        phone_number: businessData.phone_number,
+                        business_address: businessData.business_address,
+                        business_type: businessData.business_type,
+                        website_type: businessData.website_type
+                    });
+                    
+                    // Update the preview title
+                    const previewTitle = document.getElementById('previewTitle');
+                    if (previewTitle && businessData.business_name) {
+                        previewTitle.textContent = businessData.business_name + ' Preview';
+                    }
+                    
+                    // Close the modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('websiteBuilderModal'));
+                    if (modal) {
+                        modal.hide();
+                    }
+                    
+                    // Send a message to continue the chat flow
+                    if (businessData.business_name) {
+                        setTimeout(() => {
+                            sendMessage(`My business name is ${businessData.business_name}. I have completed the business details form with all information.`);
+                        }, 500);
+                    }
+                });
+            }
+        }
+
+        // Populate modal with existing data when opened for editing
+        function populateBusinessDetailsModal() {
+            const modal = document.getElementById('websiteBuilderModal');
+            if (modal) {
+                modal.addEventListener('show.bs.modal', function() {
+                    // Get current values from the project information table
+                    const businessName = document.getElementById('projectBusinessName')?.textContent;
+                    const phoneNumber = document.getElementById('projectPhoneNumber')?.textContent;
+                    const businessAddress = document.getElementById('projectBusinessAddress')?.textContent;
+                    const businessType = document.getElementById('projectBusinessType')?.textContent;
+                    const websiteType = document.getElementById('projectWebsiteType')?.textContent;
+                    
+                    // Populate form fields if values exist and are not "Not specified"
+                    if (businessName && businessName !== 'Not specified') {
+                        const nameField = document.getElementById('businessName');
+                        if (nameField) nameField.value = businessName;
+                    }
+                    
+                    if (phoneNumber && phoneNumber !== 'Not specified') {
+                        const phoneField = document.getElementById('phoneNumber');
+                        if (phoneField) phoneField.value = phoneNumber;
+                    }
+                    
+                    if (businessAddress && businessAddress !== 'Not specified') {
+                        const addressField = document.getElementById('businessAddress');
+                        if (addressField) addressField.value = businessAddress;
+                    }
+                    
+                    // For business type, we need to find the matching option value
+                    if (businessType && businessType !== 'Not specified') {
+                        const typeField = document.getElementById('businessType');
+                        if (typeField) {
+                            // Try to find the option that matches the displayed text
+                            const options = typeField.querySelectorAll('option');
+                            options.forEach(option => {
+                                if (option.textContent.includes(businessType.replace(/^[^\s]*\s/, ''))) {
+                                    typeField.value = option.value;
+                                }
+                            });
+                        }
+                    }
+                    
+                    // For website type radio buttons
+                    if (websiteType && websiteType !== 'Not specified') {
+                        if (websiteType.includes('One Page')) {
+                            const onePageRadio = document.getElementById('onePageSite');
+                            if (onePageRadio) onePageRadio.checked = true;
+                        } else if (websiteType.includes('Multi-Page')) {
+                            const multiPageRadio = document.getElementById('multiPageSite');
+                            if (multiPageRadio) multiPageRadio.checked = true;
+                        }
+                    }
+                });
+            }
+        }
+
         // Initialize preview on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             togglePreviewDevice('desktop'); // Set default to desktop view
             
+            // Initialize business details modal handlers
+            handleBusinessDetailsSubmission();
+            populateBusinessDetailsModal();
+
             // Initialize with any existing project data
             {% if project %}
-                const initialData = {
-                    name: '{{ project.business_name|default:"" }}',
-                    services: {{ project.services|default:"[]"|safe }},
-                    about: '{{ project.business_description|default:"" }}'
-                };
-                if (initialData.name) {
-                    updateLivePreview(initialData);
-                }
-            {% endif %}
+            const initialData = {
+                name: '{{ project.business_name|default:"" }}',
+                services: {{ project.services|default: "[]" | safe
+        }},
+            about: '{{ project.business_description|default:"" }}'
+            };
+        if (initialData.name) {
+            updateLivePreview(initialData);
+        }
+        {% endif %}
         });
     </script>
 </body>
+
 </html>

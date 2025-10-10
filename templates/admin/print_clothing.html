@@ -1,0 +1,329 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}Custom Clothing - JustCodeWorks Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+.clothing-header {
+    background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.clothing-item {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    transition: transform 0.3s;
+    margin-bottom: 1rem;
+}
+
+.clothing-item:hover {
+    transform: translateY(-2px);
+}
+
+.clothing-preview {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+    border: 2px dashed #dee2e6;
+    text-align: center;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.size-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 0.5rem;
+}
+
+.size-btn {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.size-btn.selected {
+    border-color: #6f42c1;
+    background: #6f42c1;
+    color: white;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="clothing-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-1"><i class="fas fa-tshirt me-2"></i>Custom Clothing</h2>
+            <p class="mb-0">Design and order custom apparel for your business</p>
+        </div>
+        <button class="btn btn-light btn-lg">
+            <i class="fas fa-plus me-1"></i>New Design
+        </button>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-tshirt fa-2x text-purple mb-2"></i>
+                <h5 class="card-title">15</h5>
+                <p class="card-text">Clothing Designs</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-shopping-cart fa-2x text-success mb-2"></i>
+                <h5 class="card-title">87</h5>
+                <p class="card-text">Items Ordered</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-palette fa-2x text-info mb-2"></i>
+                <h5 class="card-title">6</h5>
+                <p class="card-text">Color Options</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-star fa-2x text-warning mb-2"></i>
+                <h5 class="card-title">4.8</h5>
+                <p class="card-text">Avg Rating</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Clothing Catalog</h5>
+                <div class="d-flex gap-2">
+                    <select class="form-select" style="width: 200px;">
+                        <option>All Categories</option>
+                        <option>T-Shirts</option>
+                        <option>Polo Shirts</option>
+                        <option>Hoodies</option>
+                        <option>Hats</option>
+                        <option>Jackets</option>
+                    </select>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i>Add Item
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="clothing-item p-3">
+                            <div class="clothing-preview">
+                                <div>
+                                    <i class="fas fa-tshirt fa-4x text-primary mb-2"></i>
+                                    <div><strong>Company T-Shirt</strong></div>
+                                    <small class="text-muted">Cotton Blend</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <span class="badge bg-primary">T-Shirt</span>
+                                    <span class="fw-bold ms-2">€15.99</span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                            <div class="size-grid">
+                                <div class="size-btn">XS</div>
+                                <div class="size-btn selected">S</div>
+                                <div class="size-btn">M</div>
+                                <div class="size-btn">L</div>
+                                <div class="size-btn">XL</div>
+                                <div class="size-btn">XXL</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="clothing-item p-3">
+                            <div class="clothing-preview">
+                                <div>
+                                    <i class="fas fa-user-tie fa-4x text-success mb-2"></i>
+                                    <div><strong>Professional Polo</strong></div>
+                                    <small class="text-muted">Premium Cotton</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <span class="badge bg-success">Polo</span>
+                                    <span class="fw-bold ms-2">€24.99</span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                            <div class="size-grid">
+                                <div class="size-btn">XS</div>
+                                <div class="size-btn">S</div>
+                                <div class="size-btn selected">M</div>
+                                <div class="size-btn">L</div>
+                                <div class="size-btn">XL</div>
+                                <div class="size-btn">XXL</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="clothing-item p-3">
+                            <div class="clothing-preview">
+                                <div>
+                                    <i class="fas fa-hat-cowboy fa-4x text-warning mb-2"></i>
+                                    <div><strong>Baseball Cap</strong></div>
+                                    <small class="text-muted">Adjustable</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <span class="badge bg-warning">Hat</span>
+                                    <span class="fw-bold ms-2">€12.99</span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <small class="text-muted">One Size Fits All</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="clothing-item p-3">
+                            <div class="clothing-preview">
+                                <div>
+                                    <i class="fas fa-jacket fa-4x text-danger mb-2"></i>
+                                    <div><strong>Work Jacket</strong></div>
+                                    <small class="text-muted">Heavy Duty</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <span class="badge bg-danger">Jacket</span>
+                                    <span class="fw-bold ms-2">€45.99</span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                            <div class="size-grid">
+                                <div class="size-btn">S</div>
+                                <div class="size-btn">M</div>
+                                <div class="size-btn selected">L</div>
+                                <div class="size-btn">XL</div>
+                                <div class="size-btn">XXL</div>
+                                <div class="size-btn">3XL</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6 class="mb-0">Customization Options</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Logo Placement</label>
+                    <select class="form-select">
+                        <option>Front Center</option>
+                        <option>Front Left Chest</option>
+                        <option>Back Center</option>
+                        <option>Sleeve</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Print Method</label>
+                    <select class="form-select">
+                        <option>Screen Print</option>
+                        <option>Embroidery</option>
+                        <option>Heat Transfer</option>
+                        <option>Direct Print</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Colors Available</label>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <div style="width:30px;height:30px;background:black;border-radius:50%;cursor:pointer;border:2px solid #dee2e6;"></div>
+                        <div style="width:30px;height:30px;background:white;border-radius:50%;cursor:pointer;border:2px solid #dee2e6;"></div>
+                        <div style="width:30px;height:30px;background:navy;border-radius:50%;cursor:pointer;border:2px solid #dee2e6;"></div>
+                        <div style="width:30px;height:30px;background:red;border-radius:50%;cursor:pointer;border:2px solid #dee2e6;"></div>
+                        <div style="width:30px;height:30px;background:green;border-radius:50%;cursor:pointer;border:2px solid #dee2e6;"></div>
+                    </div>
+                </div>
+                <button class="btn btn-primary w-100">
+                    <i class="fas fa-paint-brush me-1"></i>Start Customizing
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">Recent Orders</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <div class="fw-bold small">HMD Polo Shirts</div>
+                        <div class="text-muted small">12 units - Navy Blue</div>
+                    </div>
+                    <small class="text-success">Shipped</small>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <div class="fw-bold small">Taxi Caps</div>
+                        <div class="text-muted small">25 units - Yellow</div>
+                    </div>
+                    <small class="text-warning">Production</small>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fw-bold small">AutoFix Jackets</div>
+                        <div class="text-muted small">8 units - Black</div>
+                    </div>
+                    <small class="text-primary">Ordered</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

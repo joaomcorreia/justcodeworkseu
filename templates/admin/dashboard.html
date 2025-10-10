@@ -70,11 +70,11 @@
                 <div class="stats-card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <div class="stats-number">0</div>
-                            <div class="stats-label">Custom Forms</div>
+                            <div class="stats-number">{{ website_projects }}</div>
+                            <div class="stats-label">Website Projects</div>
                         </div>
                         <div class="stats-icon bg-warning">
-                            <i class="fas fa-wpforms"></i>
+                            <i class="fas fa-magic"></i>
                         </div>
                     </div>
                 </div>
@@ -131,13 +131,13 @@
                     </div>
                     
                     <div class="col-md-6 col-lg-3">
-                        <a href="#" class="quick-action-item" data-page="form-builder">
+                        <a href="{% url 'website_builder:dashboard' %}" class="quick-action-item" target="_blank">
                             <div class="quick-action-icon bg-warning">
                                 <i class="fas fa-magic"></i>
                             </div>
                             <div class="quick-action-content">
-                                <div class="quick-action-title">AI Form Builder</div>
-                                <div class="quick-action-desc">Build smart forms</div>
+                                <div class="quick-action-title">AI Website Builder</div>
+                                <div class="quick-action-desc">Build with Clippy 2.0</div>
                             </div>
                         </a>
                     </div>
@@ -198,6 +198,46 @@
             </div>
         </div>
     </div>
+    
+    <!-- Website Builder Section -->
+    {% if recent_projects %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="website-builder-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-magic me-2 text-warning"></i>Recent AI Website Projects
+                    </h5>
+                    <a href="{% url 'customadmin:website_builder' %}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-eye me-1"></i>View All
+                    </a>
+                </div>
+                
+                <div class="row g-3">
+                    {% for project in recent_projects %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="project-mini-card">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h6 class="mb-0">{{ project.business_name }}</h6>
+                                <span class="badge bg-{{ project.status|yesno:'success,warning,primary' }} status-badge">
+                                    {{ project.get_status_display }}
+                                </span>
+                            </div>
+                            <p class="text-muted small mb-2">{{ project.industry|default:"Industry not specified" }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ project.created_at|date:"M d" }}</small>
+                                <a href="{% url 'website_builder:project_detail' project.project_id %}" class="btn btn-sm btn-outline-primary" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     
 </div>
 {% endblock %}
@@ -347,6 +387,31 @@
 .tips-list li {
     padding: 0.5rem 0;
     font-size: 0.875rem;
+}
+
+.website-builder-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f1f3f4;
+}
+
+.project-mini-card {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s ease;
+}
+
+.project-mini-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.status-badge {
+    font-size: 0.7rem;
 }
 </style>
 {% endblock %}

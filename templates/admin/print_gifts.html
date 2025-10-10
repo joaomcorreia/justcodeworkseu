@@ -1,0 +1,353 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}Corporate Gifts - JustCodeWorks Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+.gifts-header {
+    background: linear-gradient(135deg, #28a745 0%, #ffc107 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.gift-item {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    transition: transform 0.3s;
+    margin-bottom: 1rem;
+}
+
+.gift-item:hover {
+    transform: translateY(-2px);
+}
+
+.gift-preview {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+    border: 2px dashed #dee2e6;
+    text-align: center;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.price-range {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="gifts-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-1"><i class="fas fa-gift me-2"></i>Corporate Gifts</h2>
+            <p class="mb-0">Branded gifts and promotional items for your business</p>
+        </div>
+        <button class="btn btn-light btn-lg">
+            <i class="fas fa-plus me-1"></i>New Gift Item
+        </button>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-gift fa-2x text-success mb-2"></i>
+                <h5 class="card-title">24</h5>
+                <p class="card-text">Gift Categories</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-shopping-bag fa-2x text-warning mb-2"></i>
+                <h5 class="card-title">342</h5>
+                <p class="card-text">Items Sold</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-users fa-2x text-info mb-2"></i>
+                <h5 class="card-title">67</h5>
+                <p class="card-text">Happy Clients</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-heart fa-2x text-danger mb-2"></i>
+                <h5 class="card-title">98%</h5>
+                <p class="card-text">Satisfaction</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Gift Catalog</h5>
+                <div class="d-flex gap-2">
+                    <select class="form-select" style="width: 200px;">
+                        <option>All Categories</option>
+                        <option>Tech Accessories</option>
+                        <option>Office Supplies</option>
+                        <option>Drinkware</option>
+                        <option>Bags & Cases</option>
+                        <option>Eco-Friendly</option>
+                    </select>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i>Add Gift
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="gift-item p-3">
+                            <div class="gift-preview">
+                                <div>
+                                    <i class="fas fa-mug-hot fa-4x text-primary mb-2"></i>
+                                    <div><strong>Custom Mugs</strong></div>
+                                    <small class="text-muted">Ceramic & Travel</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary">Drinkware</span>
+                                    <div class="price-range mt-1">€8.99 - €15.99</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="gift-item p-3">
+                            <div class="gift-preview">
+                                <div>
+                                    <i class="fas fa-pen fa-4x text-success mb-2"></i>
+                                    <div><strong>Branded Pens</strong></div>
+                                    <small class="text-muted">Premium & Standard</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-success">Office</span>
+                                    <div class="price-range mt-1">€2.99 - €12.99</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="gift-item p-3">
+                            <div class="gift-preview">
+                                <div>
+                                    <i class="fas fa-usb fa-4x text-warning mb-2"></i>
+                                    <div><strong>USB Flash Drives</strong></div>
+                                    <small class="text-muted">8GB - 64GB</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-warning">Tech</span>
+                                    <div class="price-range mt-1">€5.99 - €18.99</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="gift-item p-3">
+                            <div class="gift-preview">
+                                <div>
+                                    <i class="fas fa-shopping-bag fa-4x text-info mb-2"></i>
+                                    <div><strong>Tote Bags</strong></div>
+                                    <small class="text-muted">Canvas & Eco-Friendly</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-info">Bags</span>
+                                    <div class="price-range mt-1">€6.99 - €14.99</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="gift-item p-3">
+                            <div class="gift-preview">
+                                <div>
+                                    <i class="fas fa-calendar fa-4x text-danger mb-2"></i>
+                                    <div><strong>Desk Calendars</strong></div>
+                                    <small class="text-muted">2025 & Custom Years</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-danger">Office</span>
+                                    <div class="price-range mt-1">€4.99 - €9.99</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="gift-item p-3">
+                            <div class="gift-preview">
+                                <div>
+                                    <i class="fas fa-seedling fa-4x text-secondary mb-2"></i>
+                                    <div><strong>Eco Notebooks</strong></div>
+                                    <small class="text-muted">Recycled Materials</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-secondary">Eco-Friendly</span>
+                                    <div class="price-range mt-1">€7.99 - €13.99</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm">Customize</button>
+                                    <button class="btn btn-outline-success btn-sm">Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6 class="mb-0">Bulk Pricing</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Quantity</th>
+                                <th>Discount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>25-49</td>
+                                <td class="text-success">5%</td>
+                            </tr>
+                            <tr>
+                                <td>50-99</td>
+                                <td class="text-success">10%</td>
+                            </tr>
+                            <tr>
+                                <td>100-249</td>
+                                <td class="text-success">15%</td>
+                            </tr>
+                            <tr>
+                                <td>250+</td>
+                                <td class="text-success">20%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-success w-100 mt-2">
+                    <i class="fas fa-calculator me-1"></i>Calculate Savings
+                </button>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6 class="mb-0">Popular Combinations</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <strong>🎁 Welcome Package</strong>
+                    <div class="small text-muted">Mug + Pen + Notebook</div>
+                    <div class="price-range">€18.99</div>
+                </div>
+                <div class="mb-2">
+                    <strong>💼 Executive Set</strong>
+                    <div class="small text-muted">Premium Pen + Calendar + USB</div>
+                    <div class="price-range">€32.99</div>
+                </div>
+                <div class="mb-2">
+                    <strong>🌱 Eco Bundle</strong>
+                    <div class="small text-muted">Eco Notebook + Tote + Plant</div>
+                    <div class="price-range">€24.99</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">Recent Gift Orders</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <div class="fw-bold small">HMD Welcome Kits</div>
+                        <div class="text-muted small">50 sets - Logo mugs</div>
+                    </div>
+                    <small class="text-success">Delivered</small>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <div class="fw-bold small">Taxi USB Drives</div>
+                        <div class="text-muted small">100 units - 16GB</div>
+                    </div>
+                    <small class="text-warning">Production</small>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fw-bold small">AutoFix Calendars</div>
+                        <div class="text-muted small">25 units - 2025</div>
+                    </div>
+                    <small class="text-primary">Ordered</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

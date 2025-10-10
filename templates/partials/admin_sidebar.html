@@ -30,54 +30,57 @@
 
     <!-- WEBSITE SECTION -->
     <div class="menu-section">
-        <div class="section-title">
+        <div class="section-title section-toggle" data-bs-toggle="collapse" data-bs-target="#websiteSubmenu" aria-expanded="true" style="cursor: pointer;">
             <i class="fas fa-globe"></i>
             <span>WEBSITE</span>
+            <i class="fas fa-chevron-down toggle-icon ms-auto"></i>
         </div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="menus">
-                    <i class="fas fa-bars"></i>
-                    <span>Menus</span><!-- Menu edit with some limitations due to structure or SEO-->
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="homepage">
-                    <i class="fas fa-star"></i>
-                    <span>Homepage Setup</span><!-- Edit homepage images and templates-->
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="about">
-                    <i class="fas fa-info-circle"></i>
-                    <span>About Page</span><!-- Edit about page images and templates-->
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="about">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Portfolio</span><!--Different templates for different portfolios available here-->
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="about">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Add New Page</span><!--Page parts related to this template available here-->
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="about">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Template Parts</span><!-- Sidebar widgets templates editable here -->
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="pages">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Footer</span>
-                </a>
-            </li>
-        </ul>
+        <div class="collapse show" id="websiteSubmenu">
+            <ul class="nav flex-column submenu">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:pages' %}">
+                        <i class="fas fa-file-alt"></i>
+                        <span>All Pages</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="menus">
+                        <i class="fas fa-bars"></i>
+                        <span>Menus</span><!-- Menu edit with some limitations due to structure or SEO-->
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="homepage">
+                        <i class="fas fa-star"></i>
+                        <span>Homepage Setup</span><!-- Edit homepage images and templates-->
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="about">
+                        <i class="fas fa-info-circle"></i>
+                        <span>About Page</span><!-- Edit about page images and templates-->
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="portfolio">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Portfolio</span><!--Different templates for different portfolios available here-->
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="template-parts">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <span>Template Parts</span><!-- Sidebar widgets templates editable here -->
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="footer">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                        <span>Footer</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <!-- CONTENT SECTION -->
@@ -88,7 +91,7 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="#" data-page="blog">
+                <a class="nav-link" href="{% url 'customadmin:blog' %}">
                     <i class="fas fa-blog"></i>
                     <span>Blog Posts</span>
                 </a>
@@ -100,6 +103,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="#" data-page="comments">
+                    <i class="fas fa-comments"></i>
+                    <span>Comments</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#" data-page="media">
                     <i class="fas fa-images"></i>
                     <span>Media Library</span>
@@ -108,38 +117,84 @@
         </ul>
     </div>
 
+    <!-- WEBSITE BUILDER SECTION -->
+    <div class="menu-section">
+        <div class="section-title section-toggle" data-bs-toggle="collapse" data-bs-target="#builderSubmenu" aria-expanded="true" style="cursor: pointer;">
+            <i class="fas fa-magic"></i>
+            <span>AI WEBSITE BUILDER</span>
+            <i class="fas fa-chevron-down toggle-icon ms-auto"></i>
+        </div>
+        <div class="collapse show" id="builderSubmenu">
+            <ul class="nav flex-column submenu">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:website_builder' %}">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:website_builder_iframe' %}">
+                        <i class="fas fa-magic"></i>
+                        <span>Website Builder App</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'website_builder:dashboard' %}" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Open in New Tab</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'website_builder:templates' %}" target="_blank">
+                        <i class="fas fa-palette"></i>
+                        <span>Template Gallery</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="website-builder-settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Builder Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <!-- FORMS SECTION -->
     <div class="menu-section">
-        <div class="section-title">
+        <div class="section-title section-toggle" data-bs-toggle="collapse" data-bs-target="#formsSubmenu" aria-expanded="false" style="cursor: pointer;">
             <i class="fas fa-wpforms"></i>
             <span>FORMS</span>
+            <i class="fas fa-chevron-down toggle-icon ms-auto"></i>
         </div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="forms">
-                    <i class="fas fa-list-alt"></i>
-                    <span>All Forms</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="form-builder">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Form Builder</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="form-templates">
-                    <i class="fas fa-clone"></i>
-                    <span>Templates</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="form-submissions">
-                    <i class="fas fa-inbox"></i>
-                    <span>Submissions</span>
-                </a>
-            </li>
-        </ul>
+        <div class="collapse" id="formsSubmenu">
+            <ul class="nav flex-column submenu">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:forms' %}">
+                        <i class="fas fa-list-alt"></i>
+                        <span>All Forms</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="form-builder">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Form Builder</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="form-templates">
+                        <i class="fas fa-clone"></i>
+                        <span>Templates</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="form-submissions">
+                        <i class="fas fa-inbox"></i>
+                        <span>Submissions</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <!-- AI TOOLS SECTION -->
@@ -150,7 +205,7 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="#" data-page="ai-content">
+                <a class="nav-link" href="{% url 'customadmin:ai_tools' %}">
                     <i class="fas fa-magic"></i>
                     <span>Content Generator</span>
                 </a>
@@ -170,59 +225,64 @@
         </ul>
     </div>
 
-    <!-- BUSINESS TOOLS SECTION -->
+    <!-- PRINT MATERIALS SECTION -->
     <div class="menu-section">
-        <div class="section-title">
-            <i class="fas fa-briefcase"></i>
-            <span>BUSINESS</span>
+        <div class="section-title section-toggle" data-bs-toggle="collapse" data-bs-target="#printSubmenu" aria-expanded="false" style="cursor: pointer;">
+            <i class="fas fa-print"></i>
+            <span>PRINT MATERIALS</span>
+            <i class="fas fa-chevron-down toggle-icon ms-auto"></i>
         </div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="print-materials">
-                    <i class="fas fa-print"></i>
-                    <span>Print Materials</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="orders">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Orders</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="analytics">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Analytics</span>
-                </a>
-            </li>
-        </ul>
+        <div class="collapse" id="printSubmenu">
+            <ul class="nav flex-column submenu">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:print_cards' %}">
+                        <i class="fas fa-id-card"></i>
+                        <span>Cards</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:print_trifolds' %}">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Trifolds</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:print_clothing' %}">
+                        <i class="fas fa-tshirt"></i>
+                        <span>Clothing</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:print_gifts' %}">
+                        <i class="fas fa-gift"></i>
+                        <span>Gifts</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <!-- ANALYTICS SECTION -->
+    <!-- BUSINESS TOOLS SECTION -->
     <div class="menu-section">
-        <div class="section-title">
+        <div class="section-title section-toggle" data-bs-toggle="collapse" data-bs-target="#businessSubmenu" aria-expanded="false" style="cursor: pointer;">
             <i class="fas fa-briefcase"></i>
-            <span>BUSINESS</span>
+            <span>BUSINESS TOOLS</span>
+            <i class="fas fa-chevron-down toggle-icon ms-auto"></i>
         </div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="print-materials">
-                    <i class="fas fa-print"></i>
-                    <span>Google</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="orders">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Bing</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-page="analytics">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Facebook</span>
-                </a>
-            </li>
+        <div class="collapse" id="businessSubmenu">
+            <ul class="nav flex-column submenu">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="orders">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="crm">
+                        <i class="fas fa-users"></i>
+                        <span>CRM</span>
+                    </a>
+                </li>
         </ul>
     </div>
 
@@ -234,7 +294,7 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="#" data-page="site-settings">
+                <a class="nav-link" href="{% url 'customadmin:settings' %}">
                     <i class="fas fa-wrench"></i>
                     <span>Site Settings</span>
                 </a>
@@ -252,25 +312,55 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-page="subscription">
+                <a class="nav-link" href="{% url 'customadmin:subscription' %}">
                     <i class="fas fa-credit-card"></i>
                     <span>Subscription</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'customadmin:translations' %}">
+                    <i class="fas fa-language"></i>
+                    <span>Translations</span>
                 </a>
             </li>
         </ul>
     </div>
 
-</div>
-
-<div class="sidebar-footer">
-    <div class="upgrade-banner">
-        <div class="upgrade-content">
-            <i class="fas fa-crown text-warning"></i>
-            <div class="upgrade-text">
-                <small class="fw-bold">Upgrade Plan</small>
-                <small class="text-muted d-block">Get more features</small>
-            </div>
+    <!-- ANALYTICS SECTION -->
+    <div class="menu-section">
+        <div class="section-title section-toggle" data-bs-toggle="collapse" data-bs-target="#analyticsSubmenu" aria-expanded="false" style="cursor: pointer;">
+            <i class="fas fa-chart-line"></i>
+            <span>ANALYTICS</span>
+            <i class="fas fa-chevron-down toggle-icon ms-auto"></i>
         </div>
-        <button class="btn btn-sm btn-warning">Upgrade</button>
+        <div class="collapse" id="analyticsSubmenu">
+            <ul class="nav flex-column submenu">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:analytics_facebook' %}">
+                        <i class="fab fa-facebook"></i>
+                        <span>Facebook</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:analytics_google' %}">
+                        <i class="fab fa-google"></i>
+                        <span>Google</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:analytics_bing' %}">
+                        <i class="fab fa-microsoft"></i>
+                        <span>Bing</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customadmin:analytics_integration' %}">
+                        <i class="fas fa-cogs"></i>
+                        <span>Integration Setup</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
+
 </div>

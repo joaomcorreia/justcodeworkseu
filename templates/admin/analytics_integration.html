@@ -1,0 +1,472 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .integration-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        margin: -2rem -2rem 2rem -2rem;
+        border-radius: 0 0 15px 15px;
+    }
+    
+    .setup-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .setup-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .setup-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header {
+        padding: 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    .card-title {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+    }
+    
+    .card-icon {
+        font-size: 2rem;
+        margin-right: 1rem;
+    }
+    
+    .card-body {
+        padding: 2rem;
+    }
+    
+    .integration-form {
+        margin-bottom: 2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        width: 100%;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        outline: none;
+    }
+    
+    .status-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .status-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid transparent;
+    }
+    
+    .status-item.connected {
+        border-left-color: #28a745;
+    }
+    
+    .status-item.pending {
+        border-left-color: #ffc107;
+    }
+    
+    .status-item.disconnected {
+        border-left-color: #dc3545;
+    }
+    
+    .status-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .status-icon.connected {
+        color: #28a745;
+    }
+    
+    .status-icon.pending {
+        color: #ffc107;
+    }
+    
+    .status-icon.disconnected {
+        color: #dc3545;
+    }
+    
+    .status-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+    
+    .status-value {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    .tracking-code {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .copy-btn {
+        background: #667eea;
+        border: none;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        cursor: pointer;
+    }
+    
+    .setup-btn {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-size: 0.95rem;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .setup-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .alert {
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: 1px solid transparent;
+    }
+    
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+    
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+    
+    .features-list {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0;
+    }
+    
+    .features-list li {
+        padding: 0.5rem 0;
+        display: flex;
+        align-items: center;
+    }
+    
+    .features-list i {
+        color: #28a745;
+        margin-right: 0.75rem;
+        font-size: 1.1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .setup-cards {
+            grid-template-columns: 1fr;
+        }
+        
+        .status-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="integration-header text-center">
+    <div class="container">
+        <h1><i class="fas fa-cogs me-3"></i>{{ page_title }}</h1>
+        <p class="lead mb-0">Connect your analytics platforms and automatically integrate tracking codes</p>
+    </div>
+</div>
+
+<div class="container-fluid">
+    
+    {% if success_message %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle me-2"></i>{{ success_message }}
+    </div>
+    {% endif %}
+    
+    {% if error_message %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-triangle me-2"></i>{{ error_message }}
+    </div>
+    {% endif %}
+    
+    <!-- Integration Status -->
+    <div class="status-grid">
+        <div class="status-item {% if integration_status.google_analytics == 'Connected' %}connected{% elif integration_status.google_analytics == 'Pending' %}pending{% else %}disconnected{% endif %}">
+            <div class="status-icon {% if integration_status.google_analytics == 'Connected' %}connected{% elif integration_status.google_analytics == 'Pending' %}pending{% else %}disconnected{% endif %}">
+                <i class="fab fa-google"></i>
+            </div>
+            <div class="status-label">Google Analytics</div>
+            <div class="status-value">{{ integration_status.google_analytics }}</div>
+        </div>
+        
+        <div class="status-item {% if integration_status.facebook_pixel == 'Connected' %}connected{% elif integration_status.facebook_pixel == 'Pending' %}pending{% else %}disconnected{% endif %}">
+            <div class="status-icon {% if integration_status.facebook_pixel == 'Connected' %}connected{% elif integration_status.facebook_pixel == 'Pending' %}pending{% else %}disconnected{% endif %}">
+                <i class="fab fa-facebook"></i>
+            </div>
+            <div class="status-label">Facebook Pixel</div>
+            <div class="status-value">{{ integration_status.facebook_pixel }}</div>
+        </div>
+        
+        <div class="status-item {% if integration_status.bing_ads == 'Connected' %}connected{% elif integration_status.bing_ads == 'Pending' %}pending{% else %}disconnected{% endif %}">
+            <div class="status-icon {% if integration_status.bing_ads == 'Connected' %}connected{% elif integration_status.bing_ads == 'Pending' %}pending{% else %}disconnected{% endif %}">
+                <i class="fab fa-microsoft"></i>
+            </div>
+            <div class="status-label">Bing Ads</div>
+            <div class="status-value">{{ integration_status.bing_ads }}</div>
+        </div>
+        
+        <div class="status-item">
+            <div class="status-icon">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+            <div class="status-label">Last Sync</div>
+            <div class="status-value">{{ integration_status.last_sync }}</div>
+        </div>
+    </div>
+    
+    <!-- Setup Cards -->
+    <div class="setup-cards">
+        
+        <!-- Google Analytics Setup -->
+        <div class="setup-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fab fa-google card-icon"></i>
+                    Google Analytics Setup
+                </h3>
+            </div>
+            <div class="card-body">
+                <p>Connect your Google Analytics account to automatically track website performance and user behavior.</p>
+                
+                <ul class="features-list">
+                    <li><i class="fas fa-check"></i>Automatic tracking code injection</li>
+                    <li><i class="fas fa-check"></i>Real-time data synchronization</li>
+                    <li><i class="fas fa-check"></i>Custom event tracking</li>
+                    <li><i class="fas fa-check"></i>Conversion goal monitoring</li>
+                </ul>
+                
+                <form method="post" class="integration-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="form-label">Gmail Address</label>
+                        <input type="email" class="form-control" name="google_email" 
+                               placeholder="your-account@gmail.com" required>
+                        <small class="form-text text-muted">Gmail account linked to Google Analytics</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Property ID</label>
+                        <input type="text" class="form-control" name="property_id" 
+                               placeholder="G-XXXXXXXXXX" required>
+                        <small class="form-text text-muted">Your Google Analytics 4 Property ID</small>
+                    </div>
+                    
+                    <button type="submit" class="setup-btn">
+                        <i class="fas fa-plug me-2"></i>Connect Google Analytics
+                    </button>
+                </form>
+                
+                {% if tracking_codes.google_analytics_code %}
+                <div class="tracking-code">
+                    <div class="code-header">
+                        <strong>Generated Tracking Code:</strong>
+                        <button class="copy-btn" onclick="copyToClipboard('ga-code')">Copy</button>
+                    </div>
+                    <pre id="ga-code">{{ tracking_codes.google_analytics_code }}</pre>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Facebook Pixel Setup -->
+        <div class="setup-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fab fa-facebook card-icon"></i>
+                    Facebook Pixel Setup
+                </h3>
+            </div>
+            <div class="card-body">
+                <p>Integrate Facebook Pixel to track conversions, optimize ads, and build targeted audiences.</p>
+                
+                <ul class="features-list">
+                    <li><i class="fas fa-check"></i>Conversion tracking</li>
+                    <li><i class="fas fa-check"></i>Custom audience creation</li>
+                    <li><i class="fas fa-check"></i>Ad optimization</li>
+                    <li><i class="fas fa-check"></i>Event monitoring</li>
+                </ul>
+                
+                <form method="post" class="integration-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="form-label">Facebook Account Email</label>
+                        <input type="email" class="form-control" name="facebook_email" 
+                               placeholder="your-account@domain.com">
+                        <small class="form-text text-muted">Email linked to Facebook Business Manager</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Pixel ID</label>
+                        <input type="text" class="form-control" name="pixel_id" 
+                               placeholder="123456789012345">
+                        <small class="form-text text-muted">Your Facebook Pixel ID (15-digit number)</small>
+                    </div>
+                    
+                    <button type="submit" class="setup-btn">
+                        <i class="fas fa-plug me-2"></i>Connect Facebook Pixel
+                    </button>
+                </form>
+                
+                {% if tracking_codes.facebook_pixel_code %}
+                <div class="tracking-code">
+                    <div class="code-header">
+                        <strong>Generated Pixel Code:</strong>
+                        <button class="copy-btn" onclick="copyToClipboard('fb-code')">Copy</button>
+                    </div>
+                    <pre id="fb-code">{{ tracking_codes.facebook_pixel_code }}</pre>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Automatic Integration Info -->
+        <div class="setup-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-magic card-icon"></i>
+                    Automatic Integration
+                </h3>
+            </div>
+            <div class="card-body">
+                <p>Once connected, tracking codes are automatically injected into all your websites and templates.</p>
+                
+                <ul class="features-list">
+                    <li><i class="fas fa-check"></i>Auto-inject tracking codes</li>
+                    <li><i class="fas fa-check"></i>Template integration</li>
+                    <li><i class="fas fa-check"></i>Multi-site deployment</li>
+                    <li><i class="fas fa-check"></i>Real-time activation</li>
+                </ul>
+                
+                <div class="form-group">
+                    <label class="form-label">Integration Features</label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" checked>
+                        <label class="form-check-label">Auto-inject on all new sites</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" checked>
+                        <label class="form-check-label">Track form submissions</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" checked>
+                        <label class="form-check-label">Monitor page performance</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input">
+                        <label class="form-check-label">Enable e-commerce tracking</label>
+                    </div>
+                </div>
+                
+                <button type="button" class="setup-btn">
+                    <i class="fas fa-cogs me-2"></i>Configure Auto-Integration
+                </button>
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+
+<script>
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    const text = element.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = element.parentNode.querySelector('.copy-btn');
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+            btn.textContent = originalText;
+        }, 2000);
+    });
+}
+</script>
+{% endblock %}

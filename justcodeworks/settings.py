@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'blog', 
     'ai_assistant',
     'website_builder',  # AI Website Builder with Clippy 2.0
+    'translations',  # Translation management system
 ]
 
 MIDDLEWARE = [
@@ -206,6 +207,9 @@ CORS_ALLOWED_ORIGINS = [
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/admin/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+# Security settings for iframe embedding
+X_FRAME_OPTIONS = 'SAMEORIGIN'  # Allow same-origin iframe embedding
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

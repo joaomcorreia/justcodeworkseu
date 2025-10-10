@@ -1,0 +1,378 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .analytics-header {
+        background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%);
+        color: white;
+        padding: 2rem 0;
+        margin: -2rem -2rem 2rem -2rem;
+        border-radius: 0 0 15px 15px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #0078d4;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #0078d4, #00bcf2);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0078d4;
+        line-height: 1;
+    }
+    
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+    
+    .content-section {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+    
+    .section-header {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 1.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .section-title {
+        margin: 0;
+        color: #495057;
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
+    
+    .section-title i {
+        margin-right: 0.75rem;
+        color: #0078d4;
+    }
+    
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 1rem 1.5rem;
+        text-align: left;
+        border-bottom: 1px solid #f1f3f4;
+    }
+    
+    .data-table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .data-table tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .data-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .keyword-text {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .ctr-value {
+        color: #0078d4;
+        font-weight: 600;
+    }
+    
+    .position-value {
+        background: #e3f2fd;
+        color: #0078d4;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+    
+    .performance-item {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #f1f3f4;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.2s ease;
+    }
+    
+    .performance-item:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .performance-item:last-child {
+        border-bottom: none;
+    }
+    
+    .performance-date {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .performance-stats {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    .performance-stat {
+        display: flex;
+        align-items: center;
+    }
+    
+    .performance-stat i {
+        margin-right: 0.25rem;
+        color: #0078d4;
+    }
+    
+    .action-btn {
+        background: linear-gradient(135deg, #0078d4, #00bcf2);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+    }
+    
+    .btn-secondary:hover {
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .data-table {
+            font-size: 0.85rem;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+        }
+        
+        .performance-stats {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-header text-center">
+    <div class="container">
+        <h1><i class="fab fa-microsoft me-3"></i>{{ page_title }}</h1>
+        <p class="lead mb-0">Monitor your Bing search performance and keyword rankings</p>
+    </div>
+</div>
+
+<div class="container-fluid">
+    
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-mouse-pointer"></i>
+            </div>
+            <div class="stat-value">{{ bing_stats.total_clicks }}</div>
+            <div class="stat-label">Total Clicks</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-eye"></i>
+            </div>
+            <div class="stat-value">{{ bing_stats.total_impressions }}</div>
+            <div class="stat-label">Total Impressions</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-percentage"></i>
+            </div>
+            <div class="stat-value">{{ bing_stats.avg_ctr }}</div>
+            <div class="stat-label">Average CTR</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-sort-numeric-down"></i>
+            </div>
+            <div class="stat-value">{{ bing_stats.avg_position }}</div>
+            <div class="stat-label">Average Position</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-key"></i>
+            </div>
+            <div class="stat-value">{{ bing_stats.total_keywords }}</div>
+            <div class="stat-label">Total Keywords</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-value">{{ bing_stats.top_keyword_clicks }}</div>
+            <div class="stat-label">Top Keyword Clicks</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-list"></i>
+            </div>
+            <div class="stat-value">{{ bing_stats.indexed_pages }}</div>
+            <div class="stat-label">Indexed Pages</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-value">{{ bing_stats.crawl_errors }}</div>
+            <div class="stat-label">Crawl Errors</div>
+        </div>
+    </div>
+    
+    <!-- Top Keywords Section -->
+    <div class="content-section">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-search"></i>
+                Top Keywords
+            </h3>
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Keyword</th>
+                    <th>Clicks</th>
+                    <th>Impressions</th>
+                    <th>CTR</th>
+                    <th>Position</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for keyword in top_keywords %}
+                <tr>
+                    <td><span class="keyword-text">{{ keyword.keyword }}</span></td>
+                    <td>{{ keyword.clicks }}</td>
+                    <td>{{ keyword.impressions }}</td>
+                    <td><span class="ctr-value">{{ keyword.ctr }}</span></td>
+                    <td><span class="position-value">{{ keyword.position }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Search Performance Section -->
+    <div class="content-section">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-chart-line"></i>
+                Recent Search Performance
+            </h3>
+        </div>
+        <div>
+            {% for performance in search_performance %}
+            <div class="performance-item">
+                <span class="performance-date">{{ performance.date }}</span>
+                <div class="performance-stats">
+                    <span class="performance-stat">
+                        <i class="fas fa-mouse-pointer"></i>
+                        {{ performance.clicks }} clicks
+                    </span>
+                    <span class="performance-stat">
+                        <i class="fas fa-eye"></i>
+                        {{ performance.impressions }} impressions
+                    </span>
+                    <span class="performance-stat">
+                        <i class="fas fa-percentage"></i>
+                        {{ performance.ctr }} CTR
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="text-center">
+        <a href="#" class="action-btn">
+            <i class="fab fa-microsoft me-2"></i>
+            View Bing Webmaster Tools
+        </a>
+        <a href="#" class="action-btn btn-secondary">
+            <i class="fas fa-download me-2"></i>
+            Export Report
+        </a>
+    </div>
+    
+</div>
+{% endblock %}

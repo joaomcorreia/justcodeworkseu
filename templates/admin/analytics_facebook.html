@@ -1,0 +1,315 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .analytics-header {
+        background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
+        color: white;
+        padding: 2rem 0;
+        margin: -2rem -2rem 2rem -2rem;
+        border-radius: 0 0 15px 15px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #1877f2;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #1877f2, #42a5f5);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1877f2;
+        line-height: 1;
+    }
+    
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+    
+    .content-section {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+    
+    .section-header {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 1.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .section-title {
+        margin: 0;
+        color: #495057;
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
+    
+    .section-title i {
+        margin-right: 0.75rem;
+        color: #1877f2;
+    }
+    
+    .posts-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+    
+    .post-item {
+        padding: 1.5rem;
+        border-bottom: 1px solid #f1f3f4;
+        transition: background-color 0.2s ease;
+    }
+    
+    .post-item:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .post-item:last-child {
+        border-bottom: none;
+    }
+    
+    .post-content {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.75rem;
+    }
+    
+    .post-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .post-date {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .post-stats {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .post-stat {
+        display: flex;
+        align-items: center;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .post-stat i {
+        margin-right: 0.25rem;
+        color: #1877f2;
+    }
+    
+    .action-btn {
+        background: linear-gradient(135deg, #1877f2, #42a5f5);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+    }
+    
+    .btn-secondary:hover {
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .post-meta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-header text-center">
+    <div class="container">
+        <h1><i class="fab fa-facebook me-3"></i>{{ page_title }}</h1>
+        <p class="lead mb-0">Monitor your Facebook page performance and engagement</p>
+    </div>
+</div>
+
+<div class="container-fluid">
+    
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-thumbs-up"></i>
+            </div>
+            <div class="stat-value">{{ facebook_stats.page_likes }}</div>
+            <div class="stat-label">Page Likes</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-eye"></i>
+            </div>
+            <div class="stat-value">{{ facebook_stats.page_reach }}</div>
+            <div class="stat-label">Page Reach</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="stat-value">{{ facebook_stats.post_engagement }}</div>
+            <div class="stat-label">Post Engagement</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-value">{{ facebook_stats.followers_growth }}</div>
+            <div class="stat-label">Followers Growth</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="stat-value">{{ facebook_stats.impressions }}</div>
+            <div class="stat-label">Impressions</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-mouse-pointer"></i>
+            </div>
+            <div class="stat-value">{{ facebook_stats.clicks }}</div>
+            <div class="stat-label">Clicks</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-share"></i>
+            </div>
+            <div class="stat-value">{{ facebook_stats.shares }}</div>
+            <div class="stat-label">Shares</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-value">{{ facebook_stats.top_post_likes }}</div>
+            <div class="stat-label">Top Post Likes</div>
+        </div>
+    </div>
+    
+    <!-- Recent Posts Section -->
+    <div class="content-section">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-clipboard-list"></i>
+                Recent Posts Performance
+            </h3>
+        </div>
+        <ul class="posts-list">
+            {% for post in recent_posts %}
+            <li class="post-item">
+                <div class="post-content">{{ post.content }}</div>
+                <div class="post-meta">
+                    <span class="post-date">
+                        <i class="fas fa-calendar"></i>
+                        {{ post.date }}
+                    </span>
+                    <div class="post-stats">
+                        <span class="post-stat">
+                            <i class="fas fa-thumbs-up"></i>
+                            {{ post.likes }} likes
+                        </span>
+                        <span class="post-stat">
+                            <i class="fas fa-comments"></i>
+                            {{ post.comments }} comments
+                        </span>
+                        <span class="post-stat">
+                            <i class="fas fa-share"></i>
+                            {{ post.shares }} shares
+                        </span>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="text-center">
+        <a href="#" class="action-btn">
+            <i class="fab fa-facebook me-2"></i>
+            View Facebook Page
+        </a>
+        <a href="#" class="action-btn btn-secondary">
+            <i class="fas fa-download me-2"></i>
+            Export Report
+        </a>
+    </div>
+    
+</div>
+{% endblock %}

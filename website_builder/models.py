@@ -46,8 +46,11 @@ class WebsiteProject(models.Model):
     business_description = models.TextField(blank=True)
     target_audience = models.CharField(max_length=500, blank=True)
     location = models.CharField(max_length=200, blank=True)
+    business_address = models.TextField(blank=True)  # Full business address
     phone = models.CharField(max_length=50, blank=True)
     email = models.EmailField(blank=True)
+    website_type = models.CharField(max_length=20, choices=PAGE_TYPE_CHOICES, default='one_page')  # From onboarding
+    payment_verified = models.BooleanField(default=False)  # Payment verification status
     website_url = models.URLField(blank=True)
     social_media = models.JSONField(default=dict, blank=True)  # Store social media links
     
@@ -69,6 +72,8 @@ class WebsiteProject(models.Model):
     generated_content = models.JSONField(default=dict, blank=True)
     final_html = models.TextField(blank=True)
     final_css = models.TextField(blank=True)
+    final_js = models.TextField(blank=True)
+    template_used = models.CharField(max_length=50, blank=True)  # Track which template was used
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

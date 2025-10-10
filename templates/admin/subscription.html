@@ -1,0 +1,528 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .subscription-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        margin: -2rem -2rem 2rem -2rem;
+        border-radius: 0 0 15px 15px;
+    }
+    
+    /* Pricing Cards Layout */
+    .pricing-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    
+    .pricing-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .pricing-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .pricing-card.featured {
+        border-color: #667eea;
+        transform: scale(1.02);
+    }
+    
+    .pricing-card.featured::before {
+        content: 'ACTIVE PLAN';
+        position: absolute;
+        top: 20px;
+        right: -30px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 8px 40px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        transform: rotate(45deg);
+        letter-spacing: 1px;
+        z-index: 10;
+    }
+    
+    .card-header {
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .card-header.domain-header {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+    }
+    
+    .card-header.hosting-header {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    .card-header.website-header {
+        background: linear-gradient(135deg, #FF6B6B, #ee5a52);
+        color: white;
+    }
+    
+    .card-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: rotate(45deg);
+    }
+    
+    .card-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+    }
+    
+    .card-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .card-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin: 0;
+    }
+    
+    .card-body {
+        padding: 0;
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .feature-item {
+        padding: 1rem 2rem;
+        border-bottom: 1px solid #f1f3f4;
+        display: flex;
+        align-items: flex-start;
+        transition: background-color 0.2s ease;
+    }
+    
+    .feature-item:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .feature-item:last-child {
+        border-bottom: none;
+    }
+    
+    .feature-label {
+        font-weight: 600;
+        color: #495057;
+        min-width: 140px;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .feature-value {
+        flex: 1;
+    }
+    
+    .feature-main {
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 0.25rem;
+    }
+    
+    .feature-desc {
+        font-size: 0.85rem;
+        color: #6c757d;
+        line-height: 1.4;
+    }
+    
+    .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+    
+    .status-active {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-warning {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .feature-check {
+        color: #28a745;
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .feature-cross {
+        color: #dc3545;
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .cost-highlight {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #667eea;
+        display: block;
+    }
+    
+    .progress-container {
+        margin-top: 0.5rem;
+    }
+    
+    .progress-bar-custom {
+        height: 6px;
+        background: #e9ecef;
+        border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.8s ease;
+        position: relative;
+    }
+    
+    .progress-storage {
+        background: linear-gradient(90deg, #28a745, #20c997);
+    }
+    
+    .progress-seo {
+        background: linear-gradient(90deg, #ffc107, #ff8f00);
+    }
+    
+    .progress-text {
+        font-size: 0.75rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+    
+    .card-footer {
+        padding: 2rem;
+        background: #f8f9fa;
+        text-align: center;
+        border-top: 1px solid #dee2e6;
+    }
+    
+    .upgrade-btn {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+    
+    .upgrade-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+    
+    @media (max-width: 768px) {
+        .pricing-cards {
+            grid-template-columns: 1fr;
+        }
+        
+        .feature-label {
+            min-width: 120px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="subscription-header text-center">
+    <div class="container">
+        <h1><i class="fas fa-credit-card me-3"></i>{{ page_title }}</h1>
+        <p class="lead mb-0">Manage your domain, hosting plan, and website subscription details</p>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="pricing-cards">
+        
+        <!-- Domain Information Card -->
+        <div class="pricing-card">
+            <div class="card-header domain-header">
+                <div class="card-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="card-title">Domain Registration</h3>
+                <p class="card-subtitle">Your website identity</p>
+            </div>
+            <div class="card-body">
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-label">Domain Name:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ domain_info.domain_name }}</div>
+                            <div class="feature-desc">Your primary domain name registered with JustCodeWorks</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Status:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">
+                                <span class="status-badge status-active">{{ domain_info.status }}</span>
+                            </div>
+                            <div class="feature-desc">Current registration status of your domain</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Expiry Date:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ domain_info.expiry_date }}</div>
+                            <div class="feature-desc">Date when domain registration expires and needs renewal</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Registrar:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ domain_info.registrar }}</div>
+                            <div class="feature-desc">Official registrar managing your domain registration</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Auto Renewal:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">
+                                {% if domain_info.auto_renewal %}
+                                    <i class="fas fa-check feature-check"></i>Enabled
+                                {% else %}
+                                    <i class="fas fa-times feature-cross"></i>Disabled
+                                {% endif %}
+                            </div>
+                            <div class="feature-desc">Automatic renewal prevents domain expiration</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">DNS Status:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ domain_info.dns_status }}</div>
+                            <div class="feature-desc">Domain Name System configuration status for your website</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="upgrade-btn">Manage Domain</a>
+            </div>
+        </div>
+
+        <!-- Hosting Plan Card -->
+        <div class="pricing-card featured">
+            <div class="card-header hosting-header">
+                <div class="card-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3 class="card-title">{{ hosting_plan.plan_name }} Hosting</h3>
+                <p class="card-subtitle">{{ hosting_plan.plan_type }}</p>
+            </div>
+            <div class="card-body">
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-label">Storage Space:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ hosting_plan.storage }}</div>
+                            <div class="feature-desc">Total disk space available for your website files and data</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Bandwidth:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ hosting_plan.bandwidth }}</div>
+                            <div class="feature-desc">Monthly data transfer limit for your website traffic</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Email Accounts:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ hosting_plan.email_accounts }}</div>
+                            <div class="feature-desc">Maximum number of professional email addresses you can create</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Databases:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ hosting_plan.databases }}</div>
+                            <div class="feature-desc">Number of MySQL/PostgreSQL databases included in your plan</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">SSL Certificate:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ hosting_plan.ssl_certificate }}</div>
+                            <div class="feature-desc">Security certificate for encrypted HTTPS connections</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Backup:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ hosting_plan.backup_frequency }}</div>
+                            <div class="feature-desc">How often automatic backups of your website are created</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Uptime:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ hosting_plan.uptime_guarantee }}</div>
+                            <div class="feature-desc">Guaranteed percentage of time your website will be accessible</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Monthly Cost:</div>
+                        <div class="feature-value">
+                            <div class="cost-highlight">{{ hosting_plan.monthly_cost }}</div>
+                            <div class="feature-desc">Recurring monthly fee for your hosting plan</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="upgrade-btn">Upgrade Plan</a>
+            </div>
+        </div>
+
+        <!-- Website Details Card -->
+        <div class="pricing-card">
+            <div class="card-header website-header">
+                <div class="card-icon">
+                    <i class="fas fa-window-restore"></i>
+                </div>
+                <h3 class="card-title">Website Analytics</h3>
+                <p class="card-subtitle">Performance & metrics</p>
+            </div>
+            <div class="card-body">
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-label">Website Name:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ website_details.website_name }}</div>
+                            <div class="feature-desc">Display name of your website project</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Template:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ website_details.template }}</div>
+                            <div class="feature-desc">Current design template used for your website</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Total Pages:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ website_details.pages_count }}</div>
+                            <div class="feature-desc">Number of pages created on your website</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Last Update:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ website_details.last_update }}</div>
+                            <div class="feature-desc">Date when content or design was last modified</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Monthly Visitors:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ website_details.visitors_month }}</div>
+                            <div class="feature-desc">Unique visitors to your website in the current month</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Storage Used:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ website_details.storage_used }}</div>
+                            <div class="feature-desc">Amount of hosting space currently occupied by your website</div>
+                            <div class="progress-container">
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill progress-storage" style="width: 25%"></div>
+                                </div>
+                                <div class="progress-text">25% of 50 GB used</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">SEO Score:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">{{ website_details.seo_score }}</div>
+                            <div class="feature-desc">Search engine optimization rating based on best practices</div>
+                            <div class="progress-container">
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill progress-seo" style="width: 85%"></div>
+                                </div>
+                                <div class="progress-text">Excellent optimization</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-label">Features:</div>
+                        <div class="feature-value">
+                            <div class="feature-main">
+                                {% if website_details.mobile_friendly %}
+                                    <i class="fas fa-check feature-check"></i>Mobile Friendly
+                                {% else %}
+                                    <i class="fas fa-times feature-cross"></i>Mobile Friendly
+                                {% endif %}
+                                <br>
+                                {% if website_details.ssl_enabled %}
+                                    <i class="fas fa-check feature-check"></i>SSL Enabled
+                                {% else %}
+                                    <i class="fas fa-times feature-cross"></i>SSL Enabled
+                                {% endif %}
+                                <br>
+                                {% if website_details.cdn_enabled %}
+                                    <i class="fas fa-check feature-check"></i>CDN Enabled
+                                {% else %}
+                                    <i class="fas fa-times feature-cross"></i>CDN Enabled
+                                {% endif %}
+                            </div>
+                            <div class="feature-desc">Website optimization and performance features</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="upgrade-btn">View Analytics</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
