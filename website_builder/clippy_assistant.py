@@ -150,6 +150,48 @@ class ClippyWebsiteBuilder(MagicAI):
                 'Aromatherapy', 'Hot Stone Massage', 'Deep Tissue Massage', 'Couples Massage'
             ],
             
+            # SPECIALIZED INDUSTRIES (New categories for "Other" business clarifications)
+            'musical_instruments': [
+                'Custom Guitar Building', 'Guitar Repair & Setup', 'Instrument Restoration',
+                'Bass Guitar Services', 'Acoustic Guitar Crafting', 'Electric Guitar Modification',
+                'String Instruments (Violin, Viola)', 'Piano Tuning & Repair', 'Drum Set Assembly',
+                'Amplifier Repair', 'Effects Pedal Services', 'Music Equipment Sales',
+                'Instrument Appraisal', 'Vintage Instrument Restoration', 'Music Lessons'
+            ],
+            'automotive_specialty': [
+                'Classic Car Restoration', 'Performance Tuning', 'Engine Rebuilding',
+                'Custom Paint Jobs', 'Interior Restoration', 'Suspension Upgrades',
+                'Brake System Upgrades', 'Exhaust System Modification', 'Turbo Installation',
+                'Motorcycle Customization', 'Vintage Parts Sourcing', 'Show Car Preparation',
+                'Racing Preparation', 'Diagnostic Services', 'Preventive Maintenance'
+            ],
+            'manufacturing': [
+                'Custom Product Design', 'Prototype Development', 'Small Batch Production',
+                'Quality Control & Testing', 'Assembly Services', 'Packaging Services',
+                'Material Sourcing', 'Product Finishing', 'CNC Machining', 'Welding Services',
+                'Metal Fabrication', 'Woodworking & Carpentry', 'Plastic Molding', 'Laser Cutting',
+                'Engraving Services', 'Product Consultation', 'Supply Chain Management'
+            ],
+            'technology_specialty': [
+                'Custom Software Development', 'Mobile App Creation', 'Database Design',
+                'API Development', 'Cloud Migration', 'DevOps Services', 'System Integration',
+                'Technical Consulting', 'Code Review & Optimization', 'Legacy System Modernization',
+                'Cybersecurity Assessment', 'IT Infrastructure Planning', 'Software Training',
+                'Digital Transformation', 'Automation Solutions', 'AI/ML Implementation'
+            ],
+            'culinary_specialty': [
+                'Custom Catering', 'Personal Chef Services', 'Meal Prep Services',
+                'Cooking Classes', 'Recipe Development', 'Food Styling', 'Nutritional Consulting',
+                'Special Event Catering', 'Corporate Lunch Services', 'Dietary Accommodation',
+                'Wine Pairing', 'Menu Planning', 'Kitchen Consulting', 'Food Photography',
+                'Culinary Workshops', 'Private Dining Experiences'
+            ],
+            'general_business': [
+                'Consultation Services', 'Custom Solutions', 'Project Management',
+                'Business Strategy', 'Client Support', 'Training Services',
+                'Assessment & Evaluation', 'Implementation Services', 'Maintenance & Support'
+            ],
+            
             # RETAIL & COMMERCE
             'retail': [
                 'Product Sales', 'Customer Service', 'Personal Shopping', 'Gift Wrapping',
@@ -705,15 +747,25 @@ class ClippyWebsiteBuilder(MagicAI):
     def _step_business_details(self, conversation: WebsiteBuilderConversation, user_input: str) -> str:
         """
         Collect business details and prepare for template selection
+        Enhanced with intelligent questioning for "Other" business types
         """
         if not user_input:
             return "Please share some information about your business - even a brief description helps!"
+        
+        project = conversation.project
+        
+        # Check if this is an "other" business type that needs clarification
+        if project.industry == 'other' and not conversation.conversation_data.get('business_clarified', False):
+            return self._handle_other_business_clarification(conversation, user_input, project)
+        
+        # Handle follow-up responses after business clarification
+        if conversation.conversation_data.get('business_clarified', False) and conversation.conversation_data.get('suggested_industry'):
+            return self._process_business_clarification_response(conversation, user_input, project)
         
         # Parse and store business details
         details = self._parse_business_details(user_input)
         
         # Update project with collected details
-        project = conversation.project
         if details.get('description'):
             project.business_description = details['description']
         if details.get('target_audience'):
@@ -1293,7 +1345,15 @@ class ClippyWebsiteBuilder(MagicAI):
             
             # MANUFACTURING & INDUSTRIAL
             'manufacturing': ['manufacturing', 'factory', 'production', 'industrial'],
-            'printing': ['printing', 'printer', 'graphics', 'signs', 'design']
+            'printing': ['printing', 'printer', 'graphics', 'signs', 'design'],
+            
+            # SPECIALIZED INDUSTRIES (New categories)
+            'musical_instruments': ['guitar', 'bass', 'violin', 'piano', 'drum', 'instrument', 'music store', 'luthier', 'guitar maker', 'music shop'],
+            'automotive_specialty': ['classic car', 'vintage car', 'restoration', 'custom car', 'performance', 'tuning', 'motorcycle', 'hot rod'],
+            'manufacturing': ['custom manufacturing', 'fabrication', 'metalwork', 'woodwork', 'crafting', 'maker', 'workshop'],
+            'technology_specialty': ['software development', 'app development', 'programming', 'coding', 'system', 'platform', 'saas', 'tech consulting'],
+            'culinary_specialty': ['personal chef', 'catering specialist', 'culinary', 'cooking class', 'meal prep', 'food consultant'],
+            'general_business': ['business', 'company', 'services', 'consulting', 'solutions', 'enterprise']
         }
         
         # First, try exact business name matches (for cases like "Jo's Tyres", "Window Washing")
@@ -1353,6 +1413,363 @@ class ClippyWebsiteBuilder(MagicAI):
             services = self.industry_services.get(industry, ['Main Service'])[:3]
         
         return services
+    
+    def _handle_other_business_clarification(self, conversation: WebsiteBuilderConversation, user_input: str, project: WebsiteProject) -> str:
+        """
+        Handle intelligent questioning for "Other" business types
+        Analyzes business name and description to ask relevant clarifying questions
+        """
+        business_name = project.business_name.lower()
+        user_input_lower = user_input.lower()
+        combined_text = f"{business_name} {user_input_lower}"
+        
+        # Musical Instruments & Audio Equipment
+        if any(keyword in combined_text for keyword in ['guitar', 'bass', 'violin', 'piano', 'drum', 'instrument', 'music', 'audio', 'sound']):
+            # Mark as clarified to avoid asking again
+            conversation.conversation_data['business_clarified'] = True
+            conversation.conversation_data['suggested_industry'] = 'musical_instruments'
+            conversation.save()
+            
+            return """🎸 **I can see you're in the music industry! That's fantastic!** 🎵
+
+I'd love to learn more about your musical business to create the perfect website for you:
+
+**🎯 Let me ask a few specific questions:**
+
+1️⃣ **What type of instruments do you focus on?**
+   • Electric guitars and basses
+   • Acoustic guitars 
+   • Classical instruments (violin, piano, etc.)
+   • Drums and percussion
+   • Audio equipment and amplifiers
+
+2️⃣ **What services do you provide?**
+   • Custom instrument building/crafting
+   • Instrument repair and maintenance
+   • Sales of new and used instruments
+   • Music lessons or instruction
+   • Recording studio services
+
+3️⃣ **Who are your main customers?**
+   • Professional musicians
+   • Music students and beginners
+   • Recording studios
+   • Music schools
+
+Just tell me about your specific focus and I'll suggest the best website features for your music business! 🎼"""
+
+        # Automotive Specialties
+        elif any(keyword in combined_text for keyword in ['car', 'auto', 'vehicle', 'truck', 'motorcycle', 'bike', 'engine', 'mechanic']):
+            conversation.conversation_data['business_clarified'] = True
+            conversation.conversation_data['suggested_industry'] = 'automotive_specialty'
+            conversation.save()
+            
+            return """🚗 **Automotive business detected!** 
+
+Tell me more about your automotive specialization:
+
+**🔧 What's your main focus?**
+   • Classic/vintage car restoration
+   • Performance tuning and modifications
+   • Motorcycle repair and customization
+   • Heavy truck/commercial vehicle service
+   • Specialty parts manufacturing
+
+**🎯 What services do you offer?**
+   • Custom builds and restorations
+   • Repair and maintenance
+   • Parts sales and distribution
+   • Performance upgrades
+   • Diagnostics and inspection
+
+I'll create a website that showcases your automotive expertise perfectly! 🏁"""
+
+        # Manufacturing & Production
+        elif any(keyword in combined_text for keyword in ['manufacturing', 'factory', 'production', 'maker', 'craft', 'build', 'create', 'fabrication']):
+            conversation.conversation_data['business_clarified'] = True
+            conversation.conversation_data['suggested_industry'] = 'manufacturing'
+            conversation.save()
+            
+            return """🏭 **Manufacturing business identified!**
+
+Let me understand your production focus:
+
+**🔨 What do you manufacture?**
+   • Custom products and crafts
+   • Industrial components
+   • Consumer goods
+   • Specialty materials
+   • Art and decorative items
+
+**📦 What's your business model?**
+   • Custom orders and commissions
+   • Bulk production and wholesale
+   • Direct-to-consumer sales
+   • B2B manufacturing services
+
+**🎯 Who are your customers?**
+   • Individual consumers
+   • Other businesses
+   • Retail stores
+   • Online marketplaces
+
+This will help me design a website that highlights your manufacturing capabilities! 🛠️"""
+
+        # Technology & Software
+        elif any(keyword in combined_text for keyword in ['software', 'app', 'tech', 'digital', 'coding', 'programming', 'system', 'platform']):
+            conversation.conversation_data['business_clarified'] = True
+            conversation.conversation_data['suggested_industry'] = 'technology_specialty'
+            conversation.save()
+            
+            return """💻 **Technology business recognized!**
+
+Help me understand your tech focus:
+
+**⚡ What's your specialty?**
+   • Custom software development
+   • Mobile app creation
+   • SaaS platforms and tools
+   • IT consulting and support
+   • Digital transformation services
+
+**🎯 What industries do you serve?**
+   • Small businesses
+   • Enterprise clients
+   • Healthcare or finance
+   • E-commerce and retail
+   • Government and non-profits
+
+**🚀 What's your main offering?**
+   • Custom development projects
+   • Ready-made software solutions
+   • Technical consulting
+   • System integration
+
+I'll create a professional tech website that showcases your expertise! 🌟"""
+
+        # Food & Culinary
+        elif any(keyword in combined_text for keyword in ['food', 'culinary', 'chef', 'catering', 'bakery', 'kitchen', 'cooking', 'recipe']):
+            conversation.conversation_data['business_clarified'] = True
+            conversation.conversation_data['suggested_industry'] = 'culinary_specialty'
+            conversation.save()
+            
+            return """🍽️ **Culinary business detected!**
+
+Tell me about your food business:
+
+**👨‍🍳 What's your specialty?**
+   • Custom catering services
+   • Specialty baked goods
+   • Personal chef services
+   • Cooking classes and workshops
+   • Food product manufacturing
+
+**🎯 What type of events/customers?**
+   • Weddings and special events
+   • Corporate catering
+   • Private dining
+   • Retail customers
+   • Online food sales
+
+**📍 How do you serve customers?**
+   • On-site catering
+   • Pickup and delivery
+   • In-home services
+   • Classes at your location
+
+Let's create a delicious website that showcases your culinary talents! 👩‍🍳"""
+
+        # General fallback for other businesses
+        else:
+            conversation.conversation_data['business_clarified'] = True
+            conversation.conversation_data['suggested_industry'] = 'general_business'
+            conversation.save()
+            
+            return f"""🏢 **Thanks for choosing "Other Business Type"!**
+
+I'd love to learn more about **{project.business_name}** to create the perfect website:
+
+**🎯 Help me understand your business:**
+
+1️⃣ **What products or services do you offer?**
+2️⃣ **Who are your main customers?**
+3️⃣ **What makes your business unique?**
+4️⃣ **Do you serve customers locally, nationally, or online?**
+
+**💡 Some examples to help me categorize:**
+   • Professional services (consulting, legal, accounting)
+   • Creative services (design, photography, marketing)  
+   • Retail or e-commerce
+   • Health and wellness
+   • Education and training
+   • Non-profit or community organization
+
+Just describe your business and I'll suggest the best website features and design for your industry! ✨"""
+    
+    def _process_business_clarification_response(self, conversation: WebsiteBuilderConversation, user_input: str, project: WebsiteProject) -> str:
+        """
+        Process user's response after business type clarification
+        Update industry and suggest services based on their detailed response
+        """
+        # Get the suggested industry from clarification
+        suggested_industry = conversation.conversation_data.get('suggested_industry', 'general_business')
+        
+        # Update project industry
+        project.industry = suggested_industry
+        project.business_description = user_input
+        project.save()
+        
+        # Parse services from their detailed response
+        suggested_services = self.industry_services.get(suggested_industry, [])
+        user_input_lower = user_input.lower()
+        
+        # Extract specific services mentioned in their response
+        relevant_services = []
+        for service in suggested_services:
+            service_keywords = service.lower().split()
+            if any(keyword in user_input_lower for keyword in service_keywords):
+                relevant_services.append(service)
+        
+        # If no specific services found, use top services for the industry
+        if not relevant_services:
+            relevant_services = suggested_services[:6]
+        
+        # Store services in conversation data
+        conversation.conversation_data['suggested_services'] = relevant_services
+        conversation.conversation_data['business_type_finalized'] = True
+        conversation.save()
+        
+        # Generate industry-specific response
+        business_name = project.business_name
+        industry_responses = {
+            'musical_instruments': f"""🎸 **Perfect! I understand {business_name} much better now!** 🎵
+
+Based on your description, I can see you're in the music industry. Here are the **website features** I'll include for your business:
+
+**🎯 Specialized Sections:**
+• **Instrument Gallery** - Showcase your guitars, basses, and other instruments
+• **Services Portfolio** - Highlight repair, customization, and crafting work
+• **Sound Samples** - Audio previews of instruments you've worked on
+• **Customer Testimonials** - Reviews from satisfied musicians
+• **Booking System** - For repairs, consultations, and custom orders
+
+**💡 Key Features:**
+• High-quality image galleries
+• Contact forms for custom quotes
+• Service pricing information
+• Before/after repair galleries
+• Music industry testimonials
+
+Ready to create your professional music website? Let's move to template selection! 🎼""",
+
+            'automotive_specialty': f"""🚗 **Excellent! {business_name} sounds like an amazing automotive business!** 
+
+I'll create a website that showcases your automotive expertise:
+
+**🔧 Specialized Features:**
+• **Project Gallery** - Before/after photos of restorations and modifications
+• **Services Showcase** - Detailed service descriptions and pricing
+• **Performance Portfolio** - Highlight custom builds and tuning work
+• **Customer Stories** - Success stories from satisfied car owners
+• **Quote Request System** - For custom work estimates
+
+**🏁 Automotive Website Elements:**
+• High-impact vehicle photography
+• Technical service descriptions
+• Performance specifications
+• Customer testimonials
+• Contact and location information
+
+Let's build you a website that drives business! Ready for templates? 🛠️""",
+
+            'manufacturing': f"""🏭 **Great! {business_name} is clearly a specialized manufacturing business!**
+
+Your website will highlight your manufacturing capabilities:
+
+**🔨 Manufacturing Features:**
+• **Product Showcase** - Gallery of your custom products and capabilities
+• **Process Documentation** - Show your manufacturing process
+• **Quality Standards** - Highlight your quality control and certifications
+• **Custom Order System** - Request quotes for custom manufacturing
+• **Client Portfolio** - Showcase successful projects
+
+**📦 Business Elements:**
+• Professional product photography
+• Capability descriptions
+• Manufacturing process videos
+• Quality certifications display
+• B2B contact forms
+
+Ready to showcase your manufacturing expertise online? 🛠️""",
+
+            'technology_specialty': f"""💻 **Perfect! {business_name} is clearly a technology-focused business!**
+
+Your tech website will include:
+
+**⚡ Technology Features:**
+• **Portfolio Section** - Showcase your software projects and solutions
+• **Service Descriptions** - Detail your technical capabilities
+• **Case Studies** - Success stories and client results
+• **Technology Stack** - Highlight your expertise and tools
+• **Contact & Consultation** - Easy ways for clients to reach you
+
+**🚀 Professional Elements:**
+• Clean, modern design
+• Technical portfolio displays
+• Client testimonials
+• Service process explanations
+• Professional contact forms
+
+Let's create a cutting-edge website for your tech business! 💡""",
+
+            'culinary_specialty': f"""🍽️ **Wonderful! {business_name} sounds like an amazing culinary business!**
+
+Your food website will feature:
+
+**👨‍🍳 Culinary Specialties:**
+• **Menu Showcase** - Beautiful photos of your dishes and specialties
+• **Services Overview** - Catering, classes, and culinary services
+• **Event Gallery** - Photos from successful events and satisfied clients
+• **Booking System** - Easy scheduling for services and consultations
+• **Testimonials** - Reviews from happy clients and event attendees
+
+**🎯 Food Business Elements:**
+• Mouth-watering food photography
+• Service descriptions and pricing
+• Event planning information
+• Contact and booking forms
+• Social media integration
+
+Ready to create a delicious website? Let's choose your template! 👩‍🍳""",
+
+            'general_business': f"""🏢 **Great! I have a much better understanding of {business_name} now!**
+
+Based on your description, I'll create a professional website that includes:
+
+**💼 Business Features:**
+• **Services Overview** - Clear description of what you offer
+• **About Section** - Your business story and expertise
+• **Portfolio/Gallery** - Showcase your work and results
+• **Client Testimonials** - Build trust with social proof
+• **Contact & Location** - Make it easy for customers to reach you
+
+**✨ Professional Elements:**
+• Clean, professional design
+• Mobile-responsive layout
+• Contact forms and call-to-actions
+• Business information display
+• Social media integration
+
+Perfect! Let's move forward with selecting your website template! 🌟"""
+        }
+        
+        response = industry_responses.get(suggested_industry, industry_responses['general_business'])
+        
+        # Mark that we're ready to move to template selection
+        conversation.conversation_data['ready_for_templates'] = True
+        conversation.save()
+        
+        return response
     
     def _parse_business_details(self, user_input: str) -> Dict[str, str]:
         """Parse business details from user input"""

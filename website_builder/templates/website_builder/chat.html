@@ -197,6 +197,21 @@
             border: none;
         }
 
+        /* Services Section Styles */
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea !important;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3) !important;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+
+        .service-icon {
+            transition: transform 0.3s ease;
+        }
+
         /* Live Preview Styles */
         .preview-header-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -604,6 +619,272 @@
                         </div>
                     </div>
 
+                    <!-- Services Section for Portfolio & Creative -->
+                    <div class="card-body bg-white p-0" id="servicesSection" style="display: none;">
+                        <div style="padding: 4rem 0; background: #f8f9fa;">
+                            <div class="container-fluid">
+                                <div class="text-center mb-5">
+                                    <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: #333; font-weight: 600;">Our Creative Services</h2>
+                                    <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto;">Transform your vision into stunning visual reality with our professional creative services</p>
+                                </div>
+                                
+                                <div id="servicesGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%;">
+                                    <!-- Service Card 1 - Graphic Design -->
+                                    <div style="width: 100%;">
+                                        <div class="service-card" style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 2px solid transparent; transition: all 0.3s ease; height: 100%;">
+                                            <div class="service-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+                                                <i class="fas fa-palette"></i>
+                                            </div>
+                                            <h5 style="color: #333; margin-bottom: 0.8rem; font-weight: 600; font-size: 1.1rem;">Graphic Design</h5>
+                                            <p style="color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0;">Logo design, branding, print materials, and digital graphics</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Service Card 2 - Web Design -->
+                                    <div style="width: 100%;">
+                                        <div class="service-card" style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 2px solid transparent; transition: all 0.3s ease; height: 100%;">
+                                            <div class="service-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+                                                <i class="fas fa-globe"></i>
+                                            </div>
+                                            <h5 style="color: #333; margin-bottom: 0.8rem; font-weight: 600; font-size: 1.1rem;">Web Design & Development</h5>
+                                            <p style="color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0;">Custom websites, UI/UX design, and responsive layouts</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Service Card 3 - Photography -->
+                                    <div style="width: 100%;">
+                                        <div class="service-card" style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 2px solid transparent; transition: all 0.3s ease; height: 100%;">
+                                            <div class="service-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+                                                <i class="fas fa-camera"></i>
+                                            </div>
+                                            <h5 style="color: #333; margin-bottom: 0.8rem; font-weight: 600; font-size: 1.1rem;">Photography</h5>
+                                            <p style="color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0;">Portrait, commercial, event, and product photography</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Service Card 4 - Video Production -->
+                                    <div style="width: 100%;">
+                                        <div class="service-card" style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 2px solid transparent; transition: all 0.3s ease; height: 100%;">
+                                            <div class="service-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #dc3545 0%, #e91e63 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+                                                <i class="fas fa-video"></i>
+                                            </div>
+                                            <h5 style="color: #333; margin-bottom: 0.8rem; font-weight: 600; font-size: 1.1rem;">Video Production</h5>
+                                            <p style="color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0;">Promotional videos, editing, animation, and motion graphics</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Service Card 5 - Brand Identity -->
+                                    <div style="width: 100%;">
+                                        <div class="service-card" style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 2px solid transparent; transition: all 0.3s ease; height: 100%;">
+                                            <div class="service-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #6f42c1 0%, #495057 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+                                                <i class="fas fa-award"></i>
+                                            </div>
+                                            <h5 style="color: #333; margin-bottom: 0.8rem; font-weight: 600; font-size: 1.1rem;">Brand Identity Design</h5>
+                                            <p style="color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0;">Complete branding packages, style guides, and corporate identity</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Service Card 6 - Creative Consultation -->
+                                    <div style="width: 100%;">
+                                        <div class="service-card" style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 2px solid transparent; transition: all 0.3s ease; height: 100%;">
+                                            <div class="service-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+                                                <i class="fas fa-lightbulb"></i>
+                                            </div>
+                                            <h5 style="color: #333; margin-bottom: 0.8rem; font-weight: 600; font-size: 1.1rem;">Creative Consultation</h5>
+                                            <p style="color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0;">Creative direction, concept development, and visual strategy</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Us Section -->
+                    <div class="card-body bg-white p-0" id="aboutSection">
+                        <div style="padding: 4rem 0; background: #ffffff;">
+                            <div class="container-fluid">
+                                <div class="row align-items-center">
+                                    <!-- About Content - Left Side -->
+                                    <div class="col-md-6">
+                                        <div style="padding-right: 2rem;">
+                                            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; color: #333; font-weight: 600;" id="aboutTitle">About Our Company</h2>
+                                            <p style="font-size: 1.1rem; color: #666; line-height: 1.7; margin-bottom: 1.5rem;" id="aboutDescription">
+                                                We are a professional business dedicated to providing exceptional services to our clients. With years of experience in our industry, we have built a reputation for quality, reliability, and customer satisfaction.
+                                            </p>
+                                            <p style="font-size: 1.1rem; color: #666; line-height: 1.7; margin-bottom: 2rem;" id="aboutMission">
+                                                Our mission is to deliver outstanding results that exceed expectations while maintaining the highest standards of professionalism and integrity in everything we do.
+                                            </p>
+                                            <div class="row" style="margin-bottom: 2rem;">
+                                                <div class="col-6">
+                                                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                                                        <h3 style="color: #007bff; font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;" id="aboutYears">10+</h3>
+                                                        <p style="color: #666; font-size: 0.9rem; margin: 0;">Years Experience</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                                                        <h3 style="color: #28a745; font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;" id="aboutClients">500+</h3>
+                                                        <p style="color: #666; font-size: 0.9rem; margin: 0;">Happy Clients</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <a href="#contact" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; display: inline-block; transition: transform 0.3s ease;">
+                                                    Learn More About Us
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- About Image - Right Side -->
+                                    <div class="col-md-6">
+                                        <div style="text-align: center; padding-left: 2rem;">
+                                            <div style="position: relative; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 20px; padding: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                                                <!-- Placeholder for business image -->
+                                                <div id="aboutImageContainer" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 300px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+                                                    <div style="text-align: center;">
+                                                        <i class="fas fa-building fa-3x" style="margin-bottom: 1rem; opacity: 0.8;" id="aboutIcon"></i>
+                                                        <p style="margin: 0; font-weight: 500;" id="aboutImageText">Your Business</p>
+                                                        <p style="margin: 0.5rem 0 0; font-size: 1rem; opacity: 0.9;">Professional Excellence</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Decorative elements -->
+                                                <div style="position: absolute; top: -10px; right: -10px; width: 60px; height: 60px; background: #ffc107; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-star" style="color: white; font-size: 1.5rem;"></i>
+                                                </div>
+                                                <div style="position: absolute; bottom: -15px; left: -15px; width: 40px; height: 40px; background: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-check" style="color: white; font-size: 1rem;"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Section -->
+                    <div class="card-body bg-white p-0" id="contactSection" style="display: none;">
+                        <div style="padding: 4rem 0; background: #f8f9fa;">
+                            <div class="container-fluid">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 text-center mb-5">
+                                        <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: #333; font-weight: 600;" id="contactTitle">Get In Touch</h2>
+                                        <p style="font-size: 1.1rem; color: #666;" id="contactSubtitle">Ready to work with us? Contact us today!</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <!-- Contact Form -->
+                                    <div class="col-md-6 mb-4">
+                                        <div style="background: white; border-radius: 15px; padding: 2rem; box-shadow: 0 5px 20px rgba(0,0,0,0.1); height: 100%;">
+                                            <h4 style="color: #333; margin-bottom: 1.5rem; font-weight: 600;" id="formTitle">Send us a Message</h4>
+                                            <form id="contactForm">
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label style="color: #555; font-weight: 500; margin-bottom: 0.5rem;">First Name</label>
+                                                        <input type="text" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;" required>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label style="color: #555; font-weight: 500; margin-bottom: 0.5rem;">Last Name</label>
+                                                        <input type="text" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label style="color: #555; font-weight: 500; margin-bottom: 0.5rem;">Email Address</label>
+                                                    <input type="email" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label style="color: #555; font-weight: 500; margin-bottom: 0.5rem;">Phone Number</label>
+                                                    <input type="tel" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label style="color: #555; font-weight: 500; margin-bottom: 0.5rem;" id="serviceLabel">Service Needed</label>
+                                                    <select style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                                                        <option value="">Select a service...</option>
+                                                        <option value="consultation" id="serviceOption1">Consultation</option>
+                                                        <option value="quote" id="serviceOption2">Free Quote</option>
+                                                        <option value="emergency" id="serviceOption3">Emergency Service</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label style="color: #555; font-weight: 500; margin-bottom: 0.5rem;">Message</label>
+                                                    <textarea style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; resize: vertical;" rows="4" placeholder="Tell us about your project or needs..." required></textarea>
+                                                </div>
+                                                <button type="submit" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; width: 100%; cursor: pointer; transition: transform 0.3s ease;">
+                                                    <i class="fas fa-paper-plane" style="margin-right: 0.5rem;"></i>Send Message
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Contact Info & Map -->
+                                    <div class="col-md-6 mb-4">
+                                        <div style="background: white; border-radius: 15px; padding: 2rem; box-shadow: 0 5px 20px rgba(0,0,0,0.1); height: 100%;">
+                                            <h4 style="color: #333; margin-bottom: 1.5rem; font-weight: 600;">Contact Information</h4>
+                                            
+                                            <!-- Contact Details -->
+                                            <div style="margin-bottom: 2rem;">
+                                                <div style="display: flex; align-items: center; margin-bottom: 1rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                                                    <div style="margin-right: 1rem; color: #007bff;">
+                                                        <i class="fas fa-map-marker-alt" style="font-size: 1.2rem;"></i>
+                                                    </div>
+                                                    <div>
+                                                        <strong style="color: #333;">Address</strong><br>
+                                                        <span style="color: #666;" id="businessAddress">123 Business Street<br>City, State 12345</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div style="display: flex; align-items: center; margin-bottom: 1rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                                                    <div style="margin-right: 1rem; color: #007bff;">
+                                                        <i class="fas fa-phone" style="font-size: 1.2rem;"></i>
+                                                    </div>
+                                                    <div>
+                                                        <strong style="color: #333;">Phone</strong><br>
+                                                        <span style="color: #666;" id="businessPhone">(555) 123-4567</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div style="display: flex; align-items: center; margin-bottom: 1rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                                                    <div style="margin-right: 1rem; color: #007bff;">
+                                                        <i class="fas fa-envelope" style="font-size: 1.2rem;"></i>
+                                                    </div>
+                                                    <div>
+                                                        <strong style="color: #333;">Email</strong><br>
+                                                        <span style="color: #666;" id="businessEmail">info@business.com</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div style="display: flex; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                                                    <div style="margin-right: 1rem; color: #007bff;">
+                                                        <i class="fas fa-clock" style="font-size: 1.2rem;"></i>
+                                                    </div>
+                                                    <div>
+                                                        <strong style="color: #333;">Hours</strong><br>
+                                                        <span style="color: #666;" id="businessHours">Mon-Fri: 9:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Map Container -->
+                                            <div>
+                                                <h5 style="color: #333; margin-bottom: 1rem; font-weight: 600;">Find Us Here</h5>
+                                                <div id="mapContainer" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                                                    <div style="text-align: center; color: white;">
+                                                        <i class="fas fa-map-marked-alt" style="font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.9;"></i>
+                                                        <h6 id="mapTitle" style="margin: 0; font-weight: 600;">Interactive Map</h6>
+                                                        <p id="mapAddress" style="margin: 0.25rem 0 0; font-size: 0.9rem; opacity: 0.8;">123 Business Street, City, State</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card-body p-0">
                         <div id="websitePreviewContainer" class="preview-container">
                             <!-- Real-time website preview will be rendered here -->
@@ -988,6 +1269,43 @@
                 const businessTypeElement = document.getElementById('projectBusinessType');
                 if (businessTypeElement) {
                     businessTypeElement.textContent = displayText;
+                }
+
+                // Show services section for all business types with dynamic content
+                const servicesSection = document.getElementById('servicesSection');
+                
+                if (servicesSection && projectData.business_type) {
+                    // Update services content based on business type
+                    updateServicesContent(projectData.business_type);
+                    // Update about content based on business type
+                    updateAboutContent(projectData.business_type);
+                    // Update contact content based on business type
+                    updateContactContent(projectData.business_type);
+                    
+                    // Show the services section
+                    servicesSection.style.display = 'block';
+                    
+                    // Show the contact section
+                    const contactSection = document.getElementById('contactSection');
+                    if (contactSection) {
+                        contactSection.style.display = 'block';
+                    }
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                        const serviceCards = servicesSection.querySelectorAll('.service-card');
+                        serviceCards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '0';
+                                card.style.transform = 'translateY(30px)';
+                                card.style.transition = 'all 0.6s ease';
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, 100);
+                            }, index * 150);
+                        });
+                    }, 300);
                 }
             }
             
@@ -1456,6 +1774,378 @@
             }
         }
 
+        // Update services content based on business type
+        function updateServicesContent(businessType) {
+            const servicesGrid = document.getElementById('servicesGrid');
+            const servicesTitle = document.querySelector('#servicesSection h2');
+            const servicesSubtitle = document.querySelector('#servicesSection p');
+            
+            if (!servicesGrid) return;
+            
+            // Also update about section
+            updateAboutContent(businessType);
+            
+            // Define services for each business type
+            const businessServices = {
+                'automotive': {
+                    title: 'Our Automotive Services',
+                    subtitle: 'Professional automotive solutions you can trust for all your vehicle needs',
+                    services: [
+                        { icon: 'fas fa-car', name: 'General Auto Repair', desc: 'Complete vehicle diagnostics, maintenance, and repair services', gradient: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)' },
+                        { icon: 'fas fa-cog', name: 'Engine Diagnostics', desc: 'Advanced computer diagnostics and engine performance analysis', gradient: 'linear-gradient(135deg, #fd7e14 0%, #e8590c 100%)' },
+                        { icon: 'fas fa-tools', name: 'Brake & Suspension', desc: 'Brake system service, suspension repair, and safety inspections', gradient: 'linear-gradient(135deg, #28a745 0%, #1e7e34 100%)' },
+                        { icon: 'fas fa-oil-can', name: 'Oil Change & Fluids', desc: 'Regular maintenance, oil changes, and fluid replacements', gradient: 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)' },
+                        { icon: 'fas fa-battery-full', name: 'Electrical Systems', desc: 'Battery service, alternator repair, and electrical diagnostics', gradient: 'linear-gradient(135deg, #ffc107 0%, #e0a800 100%)' },
+                        { icon: 'fas fa-snowflake', name: 'A/C & Heating', desc: 'Climate control repair, A/C service, and heating system maintenance', gradient: 'linear-gradient(135deg, #17a2b8 0%, #117a8b 100%)' }
+                    ]
+                },
+                'construction': {
+                    title: 'Our Construction Services',
+                    subtitle: 'Professional construction and renovation services for residential and commercial projects',
+                    services: [
+                        { icon: 'fas fa-hammer', name: 'General Construction', desc: 'Complete construction services from foundation to finishing', gradient: 'linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%)' },
+                        { icon: 'fas fa-home', name: 'Home Renovation', desc: 'Kitchen, bathroom, and whole-home renovation projects', gradient: 'linear-gradient(135deg, #28a745 0%, #1e7e34 100%)' },
+                        { icon: 'fas fa-paint-roller', name: 'Painting Services', desc: 'Interior and exterior painting with premium materials', gradient: 'linear-gradient(135deg, #fd7e14 0%, #e8590c 100%)' },
+                        { icon: 'fas fa-wrench', name: 'Plumbing & HVAC', desc: 'Complete plumbing installation, repair, and HVAC services', gradient: 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)' },
+                        { icon: 'fas fa-bolt', name: 'Electrical Work', desc: 'Licensed electrical installation, wiring, and panel upgrades', gradient: 'linear-gradient(135deg, #ffc107 0%, #e0a800 100%)' },
+                        { icon: 'fas fa-layer-group', name: 'Flooring & Tile', desc: 'Hardwood, tile, laminate, and carpet installation services', gradient: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)' }
+                    ]
+                },
+                'portfolio': {
+                    title: 'Our Creative Services',
+                    subtitle: 'Transform your vision into stunning visual reality with our professional creative services',
+                    services: [
+                        { icon: 'fas fa-palette', name: 'Graphic Design', desc: 'Logo design, branding, print materials, and digital graphics', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+                        { icon: 'fas fa-globe', name: 'Web Design & Development', desc: 'Custom websites, UI/UX design, and responsive layouts', gradient: 'linear-gradient(135deg, #28a745 0%, #20c997 100%)' },
+                        { icon: 'fas fa-camera', name: 'Photography', desc: 'Portrait, commercial, event, and product photography', gradient: 'linear-gradient(135deg, #ffc107 0%, #fd7e14 100%)' },
+                        { icon: 'fas fa-video', name: 'Video Production', desc: 'Promotional videos, editing, animation, and motion graphics', gradient: 'linear-gradient(135deg, #dc3545 0%, #e91e63 100%)' },
+                        { icon: 'fas fa-award', name: 'Brand Identity Design', desc: 'Complete branding packages, style guides, and corporate identity', gradient: 'linear-gradient(135deg, #6f42c1 0%, #495057 100%)' },
+                        { icon: 'fas fa-lightbulb', name: 'Creative Consultation', desc: 'Creative direction, concept development, and visual strategy', gradient: 'linear-gradient(135deg, #17a2b8 0%, #138496 100%)' }
+                    ]
+                },
+                'healthcare': {
+                    title: 'Our Healthcare Services',
+                    subtitle: 'Comprehensive healthcare services focused on your health and well-being',
+                    services: [
+                        { icon: 'fas fa-user-md', name: 'General Consultation', desc: 'Comprehensive health assessments and medical consultations', gradient: 'linear-gradient(135deg, #28a745 0%, #20c997 100%)' },
+                        { icon: 'fas fa-heartbeat', name: 'Preventive Care', desc: 'Regular checkups, screenings, and preventive health programs', gradient: 'linear-gradient(135deg, #dc3545 0%, #e91e63 100%)' },
+                        { icon: 'fas fa-pills', name: 'Treatment Services', desc: 'Medical treatment, prescription management, and follow-up care', gradient: 'linear-gradient(135deg, #007bff 0%, #6f42c1 100%)' },
+                        { icon: 'fas fa-dumbbell', name: 'Wellness Programs', desc: 'Fitness programs, nutrition counseling, and lifestyle coaching', gradient: 'linear-gradient(135deg, #fd7e14 0%, #ffc107 100%)' },
+                        { icon: 'fas fa-brain', name: 'Mental Health', desc: 'Counseling, therapy, and mental health support services', gradient: 'linear-gradient(135deg, #6f42c1 0%, #495057 100%)' },
+                        { icon: 'fas fa-ambulance', name: 'Emergency Care', desc: 'Urgent care services and emergency medical support', gradient: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)' }
+                    ]
+                },
+                'restaurant': {
+                    title: 'Our Culinary Services',
+                    subtitle: 'Delicious dining experiences crafted with passion and the finest ingredients',
+                    services: [
+                        { icon: 'fas fa-utensils', name: 'Fine Dining', desc: 'Exquisite dining experience with carefully curated menus', gradient: 'linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%)' },
+                        { icon: 'fas fa-pizza-slice', name: 'Casual Dining', desc: 'Comfortable atmosphere with delicious, everyday favorites', gradient: 'linear-gradient(135deg, #fd7e14 0%, #e8590c 100%)' },
+                        { icon: 'fas fa-shipping-fast', name: 'Takeout & Delivery', desc: 'Convenient ordering with fast delivery to your location', gradient: 'linear-gradient(135deg, #28a745 0%, #1e7e34 100%)' },
+                        { icon: 'fas fa-glass-cheers', name: 'Catering Services', desc: 'Professional catering for events, parties, and special occasions', gradient: 'linear-gradient(135deg, #17a2b8 0%, #117a8b 100%)' },
+                        { icon: 'fas fa-birthday-cake', name: 'Special Events', desc: 'Custom menus and service for weddings and celebrations', gradient: 'linear-gradient(135deg, #e83e8c 0%, #d91a72 100%)' },
+                        { icon: 'fas fa-wine-glass-alt', name: 'Bar & Beverages', desc: 'Craft cocktails, wine selection, and beverage pairings', gradient: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)' }
+                    ]
+                }
+            };
+            
+            // Default services for unknown business types
+            const defaultServices = {
+                title: 'Our Professional Services',
+                subtitle: 'Quality services tailored to meet your specific business needs',
+                services: [
+                    { icon: 'fas fa-briefcase', name: 'Consultation Services', desc: 'Professional consultation and strategic business advice', gradient: 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)' },
+                    { icon: 'fas fa-cogs', name: 'Custom Solutions', desc: 'Tailored solutions designed specifically for your requirements', gradient: 'linear-gradient(135deg, #28a745 0%, #1e7e34 100%)' },
+                    { icon: 'fas fa-users', name: 'Client Support', desc: 'Dedicated support and assistance throughout our partnership', gradient: 'linear-gradient(135deg, #6f42c1 0%, #495057 100%)' },
+                    { icon: 'fas fa-chart-line', name: 'Performance Analysis', desc: 'Data-driven analysis and performance improvement strategies', gradient: 'linear-gradient(135deg, #ffc107 0%, #e0a800 100%)' },
+                    { icon: 'fas fa-handshake', name: 'Partnership Services', desc: 'Long-term partnerships and collaborative business relationships', gradient: 'linear-gradient(135deg, #17a2b8 0%, #117a8b 100%)' },
+                    { icon: 'fas fa-star', name: 'Premium Support', desc: 'Premium-level service with priority support and maintenance', gradient: 'linear-gradient(135deg, #fd7e14 0%, #e8590c 100%)' }
+                ]
+            };
+            
+            // Get services for the business type or use defaults
+            const serviceData = businessServices[businessType] || defaultServices;
+            
+            // Update title and subtitle
+            if (servicesTitle) {
+                servicesTitle.textContent = serviceData.title;
+            }
+            if (servicesSubtitle) {
+                servicesSubtitle.textContent = serviceData.subtitle;
+            }
+            
+            // Generate services HTML
+            const servicesHTML = serviceData.services.map(function(service) {
+                return '<div style="width: 100%;">' +
+                    '<div class="service-card" style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 2px solid transparent; transition: all 0.3s ease; height: 100%;">' +
+                        '<div class="service-icon" style="width: 60px; height: 60px; background: ' + service.gradient + '; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">' +
+                            '<i class="' + service.icon + '"></i>' +
+                        '</div>' +
+                        '<h5 style="color: #333; margin-bottom: 0.8rem; font-weight: 600; font-size: 1.1rem;">' + service.name + '</h5>' +
+                        '<p style="color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0;">' + service.desc + '</p>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+            
+            // Update the services grid and ensure it has proper CSS Grid properties
+            servicesGrid.innerHTML = servicesHTML;
+            servicesGrid.style.display = 'grid';
+            servicesGrid.style.gridTemplateColumns = '1fr 1fr';
+            servicesGrid.style.gap = '1rem';
+            servicesGrid.style.width = '100%';
+        }
+
+        // Update about content based on business type
+        function updateAboutContent(businessType) {
+            const aboutTitle = document.getElementById('aboutTitle');
+            const aboutDescription = document.getElementById('aboutDescription');
+            const aboutMission = document.getElementById('aboutMission');
+            const aboutYears = document.getElementById('aboutYears');
+            const aboutClients = document.getElementById('aboutClients');
+            const aboutIcon = document.getElementById('aboutIcon');
+            const aboutImageText = document.getElementById('aboutImageText');
+            const aboutImageContainer = document.getElementById('aboutImageContainer');
+            
+            // Define about content for each business type
+            const aboutContent = {
+                'automotive': {
+                    title: 'About Our Automotive Shop',
+                    description: 'We are a trusted automotive service center with certified technicians and state-of-the-art equipment. Our team is committed to keeping your vehicle running safely and efficiently with honest, reliable service.',
+                    mission: 'Our mission is to provide exceptional automotive care that keeps you on the road with confidence. We believe in transparent pricing, quality workmanship, and building lasting relationships with our customers.',
+                    years: '15+',
+                    clients: '2000+',
+                    icon: 'fas fa-car',
+                    imageText: 'Professional Auto Care',
+                    gradient: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)'
+                },
+                'construction': {
+                    title: 'About Our Construction Company',
+                    description: 'We are a full-service construction company specializing in residential and commercial projects. From new builds to renovations, our experienced team delivers quality craftsmanship on time and within budget.',
+                    mission: 'Our mission is to build lasting relationships through exceptional construction services. We take pride in turning your vision into reality with attention to detail and unwavering commitment to quality.',
+                    years: '20+',
+                    clients: '800+',
+                    icon: 'fas fa-hard-hat',
+                    imageText: 'Quality Construction',
+                    gradient: 'linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%)'
+                },
+                'healthcare': {
+                    title: 'About Our Healthcare Practice',
+                    description: 'We are a dedicated healthcare practice focused on providing comprehensive, compassionate care to our patients. Our experienced medical professionals are committed to your health and well-being.',
+                    mission: 'Our mission is to deliver exceptional healthcare services that promote wellness and improve quality of life. We believe in treating each patient with dignity, respect, and personalized attention.',
+                    years: '12+',
+                    clients: '5000+',
+                    icon: 'fas fa-user-md',
+                    imageText: 'Compassionate Care',
+                    gradient: 'linear-gradient(135deg, #28a745 0%, #20c997 100%)'
+                },
+                'restaurant': {
+                    title: 'About Our Restaurant',
+                    description: 'We are a family-owned restaurant passionate about creating memorable dining experiences. Using fresh, locally-sourced ingredients, we craft delicious meals that bring people together.',
+                    mission: 'Our mission is to provide exceptional food and service in a warm, welcoming atmosphere. We believe that great meals create lasting memories and bring communities together.',
+                    years: '8+',
+                    clients: '10000+',
+                    icon: 'fas fa-utensils',
+                    imageText: 'Culinary Excellence',
+                    gradient: 'linear-gradient(135deg, #fd7e14 0%, #e8590c 100%)'
+                },
+                'portfolio': {
+                    title: 'About Our Creative Studio',
+                    description: 'We are a creative studio specializing in innovative design solutions that help brands tell their story. Our talented team combines artistic vision with strategic thinking to deliver impactful results.',
+                    mission: 'Our mission is to transform ideas into powerful visual experiences that connect brands with their audiences. We believe in the power of creativity to inspire, engage, and drive success.',
+                    years: '10+',
+                    clients: '300+',
+                    icon: 'fas fa-palette',
+                    imageText: 'Creative Innovation',
+                    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                }
+            };
+            
+            // Default content for unknown business types
+            const defaultContent = {
+                title: 'About Our Company',
+                description: 'We are a professional business dedicated to providing exceptional services to our clients. With years of experience in our industry, we have built a reputation for quality, reliability, and customer satisfaction.',
+                mission: 'Our mission is to deliver outstanding results that exceed expectations while maintaining the highest standards of professionalism and integrity in everything we do.',
+                years: '10+',
+                clients: '500+',
+                icon: 'fas fa-building',
+                imageText: 'Professional Excellence',
+                gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+            };
+            
+            // Get content for the business type or use defaults
+            const content = aboutContent[businessType] || defaultContent;
+            
+            // Update about section elements
+            if (aboutTitle) aboutTitle.textContent = content.title;
+            if (aboutDescription) aboutDescription.textContent = content.description;
+            if (aboutMission) aboutMission.textContent = content.mission;
+            if (aboutYears) aboutYears.textContent = content.years;
+            if (aboutClients) aboutClients.textContent = content.clients;
+            if (aboutIcon) aboutIcon.className = content.icon;
+            if (aboutImageText) aboutImageText.textContent = content.imageText;
+            if (aboutImageContainer) aboutImageContainer.style.background = content.gradient;
+        }
+
+        // Update contact content based on business type
+        function updateContactContent(businessType) {
+            const contactTitle = document.getElementById('contactTitle');
+            const contactSubtitle = document.getElementById('contactSubtitle');
+            const formTitle = document.getElementById('formTitle');
+            const serviceLabel = document.getElementById('serviceLabel');
+            const serviceOption1 = document.getElementById('serviceOption1');
+            const serviceOption2 = document.getElementById('serviceOption2');
+            const serviceOption3 = document.getElementById('serviceOption3');
+            const businessAddress = document.getElementById('businessAddress');
+            const businessPhone = document.getElementById('businessPhone');
+            const businessEmail = document.getElementById('businessEmail');
+            const businessHours = document.getElementById('businessHours');
+            const mapTitle = document.getElementById('mapTitle');
+            const mapAddress = document.getElementById('mapAddress');
+            
+            // Define contact content for each business type
+            const contactContent = {
+                'automotive': {
+                    title: 'Schedule Your Service',
+                    subtitle: 'Get your vehicle serviced by certified professionals. Contact us today for a free estimate!',
+                    formTitle: 'Book Your Appointment',
+                    serviceLabel: 'Service Type',
+                    serviceOptions: ['Oil Change', 'Brake Repair', 'Engine Diagnostics'],
+                    address: '456 Auto Service Blvd<br>Mechanic City, ST 54321',
+                    phone: '(555) CAR-CARE',
+                    email: 'service@autoshop.com',
+                    hours: 'Mon-Fri: 7:00 AM - 6:00 PM<br>Sat: 8:00 AM - 4:00 PM<br>Sun: Emergency Only',
+                    mapTitle: 'Visit Our Shop',
+                    mapAddress: '456 Auto Service Blvd, Mechanic City, ST'
+                },
+                'construction': {
+                    title: 'Start Your Project',
+                    subtitle: 'Ready to build your dream? Get a free consultation and quote from our expert team!',
+                    formTitle: 'Request a Quote',
+                    serviceLabel: 'Project Type',
+                    serviceOptions: ['New Construction', 'Renovation', 'Commercial Project'],
+                    address: '789 Builder\'s Way<br>Construction City, ST 67890',
+                    phone: '(555) BUILD-IT',
+                    email: 'projects@constructco.com',
+                    hours: 'Mon-Fri: 6:00 AM - 5:00 PM<br>Sat: 7:00 AM - 3:00 PM<br>Sun: Closed',
+                    mapTitle: 'Find Our Office',
+                    mapAddress: '789 Builder\'s Way, Construction City, ST'
+                },
+                'healthcare': {
+                    title: 'Book Your Appointment',
+                    subtitle: 'Your health is our priority. Schedule your appointment with our experienced medical team.',
+                    formTitle: 'Schedule Appointment',
+                    serviceLabel: 'Appointment Type',
+                    serviceOptions: ['General Checkup', 'Specialist Consultation', 'Emergency Care'],
+                    address: '321 Health Plaza<br>Medical Center, ST 13579',
+                    phone: '(555) HEALTH-1',
+                    email: 'appointments@healthcenter.com',
+                    hours: 'Mon-Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 2:00 PM<br>Sun: Emergency Only',
+                    mapTitle: 'Visit Our Clinic',
+                    mapAddress: '321 Health Plaza, Medical Center, ST'
+                },
+                'restaurant': {
+                    title: 'Make a Reservation',
+                    subtitle: 'Experience exceptional dining! Reserve your table or place an order for pickup.',
+                    formTitle: 'Table Reservation',
+                    serviceLabel: 'Service Type',
+                    serviceOptions: ['Dine-In Reservation', 'Takeout Order', 'Catering Inquiry'],
+                    address: '654 Culinary Street<br>Food District, ST 24680',
+                    phone: '(555) FOOD-YUM',
+                    email: 'reservations@restaurant.com',
+                    hours: 'Mon-Thu: 11:00 AM - 10:00 PM<br>Fri-Sat: 11:00 AM - 11:00 PM<br>Sun: 12:00 PM - 9:00 PM',
+                    mapTitle: 'Find Our Restaurant',
+                    mapAddress: '654 Culinary Street, Food District, ST'
+                },
+                'portfolio': {
+                    title: 'Start Your Project',
+                    subtitle: 'Let\'s bring your creative vision to life! Contact us to discuss your next project.',
+                    formTitle: 'Project Inquiry',
+                    serviceLabel: 'Project Type',
+                    serviceOptions: ['Web Design', 'Branding', 'Marketing Campaign'],
+                    address: '987 Creative Ave<br>Design District, ST 97531',
+                    phone: '(555) CREATE-1',
+                    email: 'hello@creativestudio.com',
+                    hours: 'Mon-Fri: 9:00 AM - 6:00 PM<br>Sat: 10:00 AM - 4:00 PM<br>Sun: By Appointment',
+                    mapTitle: 'Visit Our Studio',
+                    mapAddress: '987 Creative Ave, Design District, ST'
+                }
+            };
+            
+            // Default content for unknown business types
+            const defaultContent = {
+                title: 'Get In Touch',
+                subtitle: 'Ready to work with us? Contact us today for more information!',
+                formTitle: 'Send us a Message',
+                serviceLabel: 'Service Needed',
+                serviceOptions: ['Consultation', 'Free Quote', 'General Inquiry'],
+                address: '123 Business Street<br>City, State 12345',
+                phone: '(555) 123-4567',
+                email: 'info@business.com',
+                hours: 'Mon-Fri: 9:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM<br>Sun: Closed',
+                mapTitle: 'Find Our Location',
+                mapAddress: '123 Business Street, City, State'
+            };
+            
+            // Get content for the business type or use defaults
+            const content = contactContent[businessType] || defaultContent;
+            
+            // Update contact section elements
+            if (contactTitle) contactTitle.textContent = content.title;
+            if (contactSubtitle) contactSubtitle.textContent = content.subtitle;
+            if (formTitle) formTitle.textContent = content.formTitle;
+            if (serviceLabel) serviceLabel.textContent = content.serviceLabel;
+            if (serviceOption1) serviceOption1.textContent = content.serviceOptions[0];
+            if (serviceOption2) serviceOption2.textContent = content.serviceOptions[1];
+            if (serviceOption3) serviceOption3.textContent = content.serviceOptions[2];
+            if (businessAddress) businessAddress.innerHTML = content.address;
+            if (businessPhone) businessPhone.textContent = content.phone;
+            if (businessEmail) businessEmail.textContent = content.email;
+            if (businessHours) businessHours.innerHTML = content.hours;
+            if (mapTitle) mapTitle.textContent = content.mapTitle;
+            if (mapAddress) mapAddress.textContent = content.mapAddress;
+        }
+
+        function initializeServicesSection() {
+            // Check if there's existing business type data and show services section accordingly
+            const businessTypeElement = document.getElementById('projectBusinessType');
+            if (businessTypeElement) {
+                const currentText = businessTypeElement.textContent;
+                // Extract business type from display text (remove emoji and format)
+                let businessType = 'other';
+                if (currentText.includes('Automotive')) businessType = 'automotive';
+                else if (currentText.includes('Construction')) businessType = 'construction';
+                else if (currentText.includes('Portfolio')) businessType = 'portfolio';
+                else if (currentText.includes('Healthcare')) businessType = 'healthcare';
+                else if (currentText.includes('Restaurant')) businessType = 'restaurant';
+                else if (currentText.includes('Retail')) businessType = 'retail';
+                else if (currentText.includes('Plumbing')) businessType = 'construction'; // Use construction services for plumbing
+                else if (currentText.includes('Legal')) businessType = 'other';
+                else if (currentText.includes('Accounting')) businessType = 'other';
+                else if (currentText.includes('Real Estate')) businessType = 'other';
+                else if (currentText.includes('Photography')) businessType = 'portfolio';
+                else if (currentText.includes('Design')) businessType = 'portfolio';
+                else if (currentText.includes('Marketing')) businessType = 'portfolio';
+                else if (currentText.includes('Web Development')) businessType = 'portfolio';
+                else if (currentText.includes('Technology')) businessType = 'other';
+                else if (currentText.includes('Education')) businessType = 'other';
+                
+                // Update and show services section for all business types
+                updateServicesContent(businessType);
+                // Update about section for all business types
+                updateAboutContent(businessType);
+                // Update contact section for all business types
+                updateContactContent(businessType);
+                const servicesSection = document.getElementById('servicesSection');
+                const contactSection = document.getElementById('contactSection');
+                if (servicesSection && businessType) {
+                    servicesSection.style.display = 'block';
+                }
+                if (contactSection && businessType) {
+                    contactSection.style.display = 'block';
+                }
+            }
+        }
+
         // Initialize preview on page load
         document.addEventListener('DOMContentLoaded', function () {
             togglePreviewDevice('desktop'); // Set default to desktop view
@@ -1464,18 +2154,20 @@
             handleBusinessDetailsSubmission();
             populateBusinessDetailsModal();
 
+            // Initialize services section visibility
+            initializeServicesSection();
+
             // Initialize with any existing project data
             {% if project %}
             const initialData = {
                 name: '{{ project.business_name|default:"" }}',
-                services: {{ project.services|default: "[]" | safe
-        }},
-            about: '{{ project.business_description|default:"" }}'
+                services: {{ project.services|default:"[]"|safe }},
+                about: '{{ project.business_description|default:"" }}'
             };
-        if (initialData.name) {
-            updateLivePreview(initialData);
-        }
-        {% endif %}
+            if (initialData.name) {
+                updateLivePreview(initialData);
+            }
+            {% endif %}
         });
     </script>
 </body>
