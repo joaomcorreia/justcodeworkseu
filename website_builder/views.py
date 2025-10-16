@@ -345,10 +345,14 @@ def template_preview(request, template_id):
     try:
         template_obj = WebsiteTemplate.objects.get(template_id=template_id, is_active=True)
         
-        # Sample data for template preview
+        # Sample data for template preview - matching template variables
         sample_data = {
             'business_name': 'Your Business Name',
-            'business_description': 'Your business description goes here...',
+            'business_description': 'Your business description goes here. We provide excellent services to help your business grow and succeed.',
+            'business_phone': '+1 (555) 123-4567',
+            'business_email': 'info@yourbusiness.com',
+            'business_address': '123 Main Street<br>Suite 100<br>Your City, ST 12345',
+            'business_hours': 'Mon-Fri: 9:00 AM - 6:00 PM<br>Sat: 10:00 AM - 4:00 PM<br>Sun: Closed',
             'contact_phone': '+1 (555) 123-4567',
             'contact_email': 'info@yourbusiness.com',
             'address': '123 Main St, Your City, State 12345',
@@ -361,7 +365,12 @@ def template_preview(request, template_id):
                 'Feature 1',
                 'Feature 2',
                 'Feature 3'
-            ]
+            ],
+            # Social media links for footer
+            'social_facebook': '#',
+            'social_twitter': '#',
+            'social_linkedin': '#',
+            'social_instagram': '#'
         }
         
         # Render template with sample data
@@ -672,7 +681,11 @@ def update_project_api(request, project_id):
         data = json.loads(request.body)
         
         # Update allowed fields
-        allowed_fields = ['project_name', 'business_description', 'location', 'phone', 'email']
+        allowed_fields = [
+            'project_name', 'business_name', 'business_description', 'business_address', 
+            'location', 'phone', 'email', 'business_email', 'whatsapp_number', 'opening_times',
+            'industry', 'website_type'
+        ]
         updated_fields = []
         
         for field in allowed_fields:
@@ -787,6 +800,9 @@ def create_from_business_details(request):
             business_name=data.get('business_name', ''),
             business_address=data.get('business_address', ''),
             phone=data.get('phone_number', ''),
+            business_email=data.get('business_email', ''),  # New field
+            whatsapp_number=data.get('whatsapp_number', ''),  # New field  
+            opening_times=data.get('opening_times', ''),  # New field
             industry=data.get('business_type', ''),  # Map business_type to industry field
             website_type=data.get('website_type', 'one_page'),
             # Store payment info securely (in production, this would be encrypted/tokenized)
@@ -802,6 +818,9 @@ def create_from_business_details(request):
                 'business_name': data.get('business_name', ''),
                 'business_address': data.get('business_address', ''),
                 'phone_number': data.get('phone_number', ''),
+                'business_email': data.get('business_email', ''),
+                'whatsapp_number': data.get('whatsapp_number', ''),
+                'opening_times': data.get('opening_times', ''),
                 'business_type': data.get('business_type', ''),
                 'website_type': data.get('website_type', 'one_page'),
                 'onboarding_completed': True

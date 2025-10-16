@@ -237,13 +237,13 @@
 
         .preview-container {
             position: relative;
-            height: 100%;
+            height: 300px; /* Reduced height for better layout */
             background: #f8f9fa;
         }
 
         .preview-frame {
             width: 100%;
-            height: 100%;
+            height: 300px; /* Reduced height for better layout */
             border: none;
             background: white;
             transition: all 0.3s ease;
@@ -562,17 +562,17 @@
                                         {{ project.business_name|default:"Your Business" }}
                                     </div>
                                     <ul class="nav d-none d-md-flex" style="list-style: none; margin: 0; padding: 0;">
-                                        <li style="margin: 0 15px;"><a href="#home"
-                                                style="text-decoration: none; color: #333; font-weight: 500;">Home</a>
+                                        <li style="margin: 0 15px;"><a href="javascript:void(0)" onclick="scrollToSection('home')"
+                                                style="text-decoration: none; color: #333; font-weight: 500; cursor: pointer;">Home</a>
                                         </li>
-                                        <li style="margin: 0 15px;"><a href="#services"
-                                                style="text-decoration: none; color: #333; font-weight: 500;">Services</a>
+                                        <li style="margin: 0 15px;"><a href="javascript:void(0)" onclick="scrollToSection('services')"
+                                                style="text-decoration: none; color: #333; font-weight: 500; cursor: pointer;">Services</a>
                                         </li>
-                                        <li style="margin: 0 15px;"><a href="#about"
-                                                style="text-decoration: none; color: #333; font-weight: 500;">About</a>
+                                        <li style="margin: 0 15px;"><a href="javascript:void(0)" onclick="scrollToSection('about')"
+                                                style="text-decoration: none; color: #333; font-weight: 500; cursor: pointer;">About</a>
                                         </li>
-                                        <li style="margin: 0 15px;"><a href="#contact"
-                                                style="text-decoration: none; color: #333; font-weight: 500;">Contact</a>
+                                        <li style="margin: 0 15px;"><a href="javascript:void(0)" onclick="scrollToSection('contact')"
+                                                style="text-decoration: none; color: #333; font-weight: 500; cursor: pointer;">Contact</a>
                                         </li>
                                     </ul>
                                     <div class="d-md-none">
@@ -586,7 +586,7 @@
                     </div>
 
                     <!-- Hero/Slideshow Section -->
-                    <div
+                    <div id="home"
                         style="height: 600px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; display: flex; align-items: center; justify-content: center;">
                         <div class="text-center text-white">
                             <div
@@ -620,7 +620,7 @@
                     </div>
 
                     <!-- Services Section for Portfolio & Creative -->
-                    <div class="card-body bg-white p-0" id="servicesSection" style="display: none;">
+                    <div class="card-body bg-white p-0" id="services" style="display: block;">
                         <div style="padding: 4rem 0; background: #f8f9fa;">
                             <div class="container-fluid">
                                 <div class="text-center mb-5">
@@ -700,7 +700,7 @@
                     </div>
 
                     <!-- About Us Section -->
-                    <div class="card-body bg-white p-0" id="aboutSection">
+                    <div class="card-body bg-white p-0" id="about">
                         <div style="padding: 4rem 0; background: #ffffff;">
                             <div class="container-fluid">
                                 <div class="row align-items-center">
@@ -765,7 +765,7 @@
                     </div>
 
                     <!-- Contact Section -->
-                    <div class="card-body bg-white p-0" id="contactSection" style="display: none;">
+                    <div class="card-body bg-white p-0" id="contact" style="display: block;">
                         <div style="padding: 4rem 0; background: #f8f9fa;">
                             <div class="container-fluid">
                                 <div class="row justify-content-center">
@@ -855,6 +855,16 @@
                                                         <span style="color: #666;" id="businessEmail">info@business.com</span>
                                                     </div>
                                                 </div>
+
+                                                <div style="display: flex; align-items: center; margin-bottom: 1rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                                                    <div style="margin-right: 1rem; color: #28a745;">
+                                                        <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i>
+                                                    </div>
+                                                    <div>
+                                                        <strong style="color: #333;">WhatsApp</strong><br>
+                                                        <span style="color: #666;" id="businessWhatsApp">+1 (555) 123-4567</span>
+                                                    </div>
+                                                </div>
                                                 
                                                 <div style="display: flex; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
                                                     <div style="margin-right: 1rem; color: #007bff;">
@@ -888,18 +898,25 @@
                     <div class="card-body p-0">
                         <div id="websitePreviewContainer" class="preview-container">
                             <!-- Real-time website preview will be rendered here -->
-                            <iframe id="websitePreviewFrame" src="about:blank" class="preview-frame" frameborder="0">
+                            <iframe id="websitePreviewFrame" src="{% if project.template_id %}{% url 'website_builder:template_preview' project.template_id %}{% else %}{% url 'website_builder:template_preview' 'jcw-tpl00' %}{% endif %}" class="preview-frame" frameborder="0">
                             </iframe>
 
                             <!-- Preview placeholder when no content -->
                             <div id="previewPlaceholder" class="preview-placeholder">
-                                <div class="placeholder-content">
+                                <div class="placeholder-content text-center">
                                     <i class="fas fa-globe fa-3x text-muted mb-3"></i>
                                     <h5 class="text-muted">Website Preview</h5>
                                     <p class="text-muted mb-0">Your website will appear here as we build it together!
                                     </p>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <!-- Preview Controls -->
+                        <div class="text-center mt-2 mb-3">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="scrollToFooterInPreview()">
+                                <i class="fas fa-arrow-down me-1"></i>Scroll to Footer
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -927,8 +944,20 @@
                                         <td id="projectBusinessName">{{ project.business_name|default:"Not specified" }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">Phone Number:</td>
+                                        <td class="fw-bold">Phone:</td>
                                         <td id="projectPhoneNumber">{{ conversation_data.phone_number|default:project.phone|default:"Not specified" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Email:</td>
+                                        <td id="projectBusinessEmail">{{ project.business_email|default:"Not specified" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">WhatsApp:</td>
+                                        <td id="projectWhatsappNumber">{{ project.whatsapp_number|default:"Not specified" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Opening Times:</td>
+                                        <td id="projectOpeningTimes">{{ project.opening_times|default:"Not specified"|truncatewords:5 }}</td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">Address:</td>
@@ -937,10 +966,6 @@
                                     <tr>
                                         <td class="fw-bold">Business Type:</td>
                                         <td id="projectBusinessType">{{ conversation_data.business_type|default:project.industry|format_business_type }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">Website Type:</td>
-                                        <td id="projectWebsiteType">{{ project.website_type|default:"Not specified"|title }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -1226,6 +1251,33 @@
                     phoneElement.textContent = projectData.phone_number;
                 }
             }
+
+            // Update Business Email
+            if (projectData.business_email) {
+                const emailElement = document.getElementById('projectBusinessEmail');
+                if (emailElement) {
+                    emailElement.textContent = projectData.business_email;
+                }
+            }
+
+            // Update WhatsApp Number
+            if (projectData.whatsapp_number) {
+                const whatsappElement = document.getElementById('projectWhatsappNumber');
+                if (whatsappElement) {
+                    whatsappElement.textContent = projectData.whatsapp_number;
+                }
+            }
+
+            // Update Opening Times
+            if (projectData.opening_times) {
+                const openingTimesElement = document.getElementById('projectOpeningTimes');
+                if (openingTimesElement) {
+                    // Truncate to first few words for table display
+                    const truncated = projectData.opening_times.split(' ').slice(0, 5).join(' ') + 
+                                    (projectData.opening_times.split(' ').length > 5 ? '...' : '');
+                    openingTimesElement.textContent = truncated;
+                }
+            }
             
             // Update Business Address
             if (projectData.business_address) {
@@ -1326,6 +1378,56 @@
                 const servicesElement = document.getElementById('projectServices');
                 if (servicesElement) {
                     servicesElement.innerHTML = `<span class="badge bg-secondary">${projectData.services_count}</span>`;
+                }
+            }
+            
+            // Update contact details in preview sections
+            updateContactDetails(projectData);
+        }
+
+        function updateContactDetails(businessData) {
+            // Update contact details in the static preview section
+            if (businessData.phone_number) {
+                const phoneElement = document.getElementById('businessPhone');
+                if (phoneElement) {
+                    phoneElement.textContent = businessData.phone_number;
+                }
+            }
+
+            if (businessData.business_email) {
+                const emailElement = document.getElementById('businessEmail');
+                if (emailElement) {
+                    emailElement.textContent = businessData.business_email;
+                }
+            }
+
+            if (businessData.whatsapp_number) {
+                const whatsappElement = document.getElementById('businessWhatsApp');
+                if (whatsappElement) {
+                    whatsappElement.textContent = businessData.whatsapp_number;
+                }
+            }
+
+            if (businessData.opening_times) {
+                const hoursElement = document.getElementById('businessHours');
+                if (hoursElement) {
+                    // Format opening times with proper line breaks
+                    const formattedHours = businessData.opening_times.replace(/\n/g, '<br>');
+                    hoursElement.innerHTML = formattedHours;
+                }
+            }
+
+            if (businessData.business_address) {
+                const addressElement = document.getElementById('businessAddress');
+                if (addressElement) {
+                    const formattedAddress = businessData.business_address.replace(/\n/g, '<br>');
+                    addressElement.innerHTML = formattedAddress;
+                }
+
+                // Also update map address
+                const mapAddressElement = document.getElementById('mapAddress');
+                if (mapAddressElement) {
+                    mapAddressElement.textContent = businessData.business_address.split('\n')[0]; // First line only
                 }
             }
         }
@@ -1554,6 +1656,33 @@
             }
         }
 
+        function scrollToFooterInPreview() {
+            // Scroll to footer in the preview iframe
+            const previewFrame = document.getElementById('websitePreviewFrame');
+            if (previewFrame && previewFrame.contentWindow) {
+                try {
+                    // Try to scroll to footer in the preview frame
+                    const frameDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
+                    const footer = frameDocument.querySelector('footer') || frameDocument.querySelector('.footer');
+                    if (footer) {
+                        footer.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        // If no footer found, scroll to bottom
+                        previewFrame.contentWindow.scrollTo({
+                            top: previewFrame.contentDocument.body.scrollHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+                } catch (e) {
+                    console.log('Cannot access iframe content due to CORS. Trying postMessage...');
+                    // Send message to iframe to scroll to footer
+                    previewFrame.contentWindow.postMessage({
+                        action: 'scrollToFooter'
+                    }, '*');
+                }
+            }
+        }
+
         function generatePreviewHTML(businessData, templateData) {
             // Generate the actual website HTML based on business data and template
             const template = `
@@ -1687,10 +1816,46 @@
                     
 
                     
+                    // Save business details to backend
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || getCookie('csrftoken');
+                    
+                    fetch(`{% url 'website_builder:update_project_api' project.project_id %}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify({
+                            business_name: businessData.business_name,
+                            phone: businessData.phone_number,
+                            business_email: businessData.business_email,
+                            whatsapp_number: businessData.whatsapp_number,
+                            opening_times: businessData.opening_times,
+                            business_address: businessData.business_address,
+                            industry: businessData.business_type,
+                            website_type: businessData.website_type
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log('Business details saved successfully:', data.message);
+                        } else {
+                            console.error('Failed to save business details:', data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error saving business details:', error);
+                    });
+                    
                     // Update the project information table immediately
                     updateProjectInfo({
                         business_name: businessData.business_name,
-                        phone_number: businessData.phone_number,
+                        phone_number: businessData.phone_number, // Form field is phone_number, model field is phone
+                        phone: businessData.phone_number, // Also update the phone field for model compatibility
+                        business_email: businessData.business_email,
+                        whatsapp_number: businessData.whatsapp_number,
+                        opening_times: businessData.opening_times,
                         business_address: businessData.business_address,
                         business_type: businessData.business_type,
                         website_type: businessData.website_type
@@ -1702,16 +1867,44 @@
                         previewTitle.textContent = businessData.business_name + ' Preview';
                     }
                     
+                    // Send business details to preview iframe for dynamic updates
+                    const previewFrame = document.getElementById('websitePreviewFrame');
+                    if (previewFrame && previewFrame.contentWindow) {
+                        const businessContactData = {
+                            business_name: businessData.business_name,
+                            business_phone: businessData.phone_number,
+                            business_email: businessData.business_email,
+                            whatsapp_number: businessData.whatsapp_number,
+                            business_address: businessData.business_address,
+                            business_hours: businessData.opening_times || 'Mon-Fri: 9:00 AM - 6:00 PM<br>Sat: 10:00 AM - 4:00 PM'
+                        };
+                        
+                        // Send message to iframe with business details
+                        previewFrame.contentWindow.postMessage({
+                            type: 'updateBusinessDetails',
+                            businessData: businessContactData
+                        }, '*');
+                    }
+                    
                     // Close the modal
                     const modal = bootstrap.Modal.getInstance(document.getElementById('websiteBuilderModal'));
                     if (modal) {
                         modal.hide();
                     }
                     
-                    // Send a message to continue the chat flow
-                    if (businessData.business_name) {
+                    // Check if this is a new project (no business name was set before) or editing existing
+                    const isNewProject = !document.getElementById('projectBusinessName')?.textContent || 
+                                         document.getElementById('projectBusinessName')?.textContent === 'Not specified';
+                    
+                    if (isNewProject && businessData.business_name) {
+                        // For new projects, send a message to start the building process
                         setTimeout(() => {
-                            sendMessage(`My business name is ${businessData.business_name}. I have completed the business details form with all information.`);
+                            sendMessage(`My business name is ${businessData.business_name}. I have completed the business details form. Please help me choose a template and start building my website.`);
+                        }, 500);
+                    } else {
+                        // For existing projects, just confirm the update
+                        setTimeout(() => {
+                            sendMessage(`I have updated my business details. The information should now be reflected across the website.`);
                         }, 500);
                     }
                 });
@@ -1726,6 +1919,9 @@
                     // Get current values from the project information table
                     const businessName = document.getElementById('projectBusinessName')?.textContent;
                     const phoneNumber = document.getElementById('projectPhoneNumber')?.textContent;
+                    const businessEmail = document.getElementById('projectBusinessEmail')?.textContent;
+                    const whatsappNumber = document.getElementById('projectWhatsappNumber')?.textContent;
+                    const openingTimes = document.getElementById('projectOpeningTimes')?.textContent;
                     const businessAddress = document.getElementById('projectBusinessAddress')?.textContent;
                     const businessType = document.getElementById('projectBusinessType')?.textContent;
                     const websiteType = document.getElementById('projectWebsiteType')?.textContent;
@@ -1739,6 +1935,21 @@
                     if (phoneNumber && phoneNumber !== 'Not specified') {
                         const phoneField = document.getElementById('phoneNumber');
                         if (phoneField) phoneField.value = phoneNumber;
+                    }
+                    
+                    if (businessEmail && businessEmail !== 'Not specified') {
+                        const emailField = document.getElementById('businessEmail');
+                        if (emailField) emailField.value = businessEmail;
+                    }
+                    
+                    if (whatsappNumber && whatsappNumber !== 'Not specified') {
+                        const whatsappField = document.getElementById('whatsappNumber');
+                        if (whatsappField) whatsappField.value = whatsappNumber;
+                    }
+                    
+                    if (openingTimes && openingTimes !== 'Not specified') {
+                        // Parse and populate the interactive opening hours widget
+                        populateOpeningHours(openingTimes);
                     }
                     
                     if (businessAddress && businessAddress !== 'Not specified') {
@@ -2168,6 +2379,103 @@
                 updateLivePreview(initialData);
             }
             {% endif %}
+            
+            // Initialize navigation scroll functionality
+            window.scrollToSection = function(sectionId) {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            };
+            
+            // Initialize business details modal functionality
+            handleBusinessDetailsSubmission();
+            populateBusinessDetailsModal();
+        });
+
+        // Function to populate opening hours widget from existing text
+        function populateOpeningHours(hoursText) {
+            if (!hoursText || hoursText === 'Not specified') return;
+            
+            // Clear all days first
+            const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+            days.forEach(day => {
+                document.getElementById(day + '-active').checked = false;
+                toggleDay(day);
+            });
+            
+            try {
+                // Parse common formats
+                const lines = hoursText.split('\n').map(line => line.trim()).filter(line => line);
+                
+                lines.forEach(line => {
+                    // Try to parse different formats
+                    if (line.toLowerCase().includes('mon') && line.toLowerCase().includes('fri')) {
+                        // Monday-Friday format
+                        const timeMatch = line.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+                        if (timeMatch) {
+                            const openTime = convertTo24Hour(timeMatch[1], timeMatch[2], timeMatch[3]);
+                            const closeTime = convertTo24Hour(timeMatch[4], timeMatch[5], timeMatch[6]);
+                            
+                            ['mon', 'tue', 'wed', 'thu', 'fri'].forEach(day => {
+                                document.getElementById(day + '-active').checked = true;
+                                document.getElementById(day + '-open').value = openTime;
+                                document.getElementById(day + '-close').value = closeTime;
+                                toggleDay(day);
+                            });
+                        }
+                    } else if (line.toLowerCase().includes('sat') || line.toLowerCase().includes('sun')) {
+                        // Weekend formats
+                        const timeMatch = line.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+                        if (timeMatch) {
+                            const openTime = convertTo24Hour(timeMatch[1], timeMatch[2], timeMatch[3]);
+                            const closeTime = convertTo24Hour(timeMatch[4], timeMatch[5], timeMatch[6]);
+                            
+                            if (line.toLowerCase().includes('sat')) {
+                                document.getElementById('sat-active').checked = true;
+                                document.getElementById('sat-open').value = openTime;
+                                document.getElementById('sat-close').value = closeTime;
+                                toggleDay('sat');
+                            }
+                            if (line.toLowerCase().includes('sun')) {
+                                document.getElementById('sun-active').checked = true;
+                                document.getElementById('sun-open').value = openTime;
+                                document.getElementById('sun-close').value = closeTime;
+                                toggleDay('sun');
+                            }
+                        }
+                    }
+                });
+                
+                // Update preview after parsing
+                if (typeof updateHoursPreview === 'function') {
+                    updateHoursPreview();
+                }
+                
+            } catch (error) {
+                console.log('Could not parse opening hours:', error);
+                // Fallback: just set the text in the hidden field
+                document.getElementById('openingTimes').value = hoursText;
+            }
+        }
+
+        function convertTo24Hour(hour, minute, ampm) {
+            let h = parseInt(hour);
+            const m = minute.padStart(2, '0');
+            
+            if (ampm && ampm.toLowerCase() === 'pm' && h !== 12) {
+                h += 12;
+            } else if (ampm && ampm.toLowerCase() === 'am' && h === 12) {
+                h = 0;
+            }
+            
+            return h.toString().padStart(2, '0') + ':' + m;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
         });
     </script>
 </body>

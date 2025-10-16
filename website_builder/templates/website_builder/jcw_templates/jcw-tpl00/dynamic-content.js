@@ -341,3 +341,81 @@ function initializeTemplate(businessType = 'default', businessData = {}) {
     
     console.log('JCW-TPL00 initialized for business type:', businessType);
 }
+
+/**
+ * Update business contact information throughout the template
+ * This function can be called when business details are updated
+ */
+function updateBusinessContactInfo(contactData) {
+    if (!contactData) return;
+    
+    // Update contact section elements
+    if (contactData.business_phone) {
+        const phoneElements = document.querySelectorAll('#businessPhone, #footerPhone');
+        phoneElements.forEach(el => {
+            if (el.tagName === 'A') {
+                el.href = `tel:${contactData.business_phone}`;
+                el.textContent = contactData.business_phone;
+            } else {
+                el.textContent = contactData.business_phone;
+            }
+        });
+    }
+    
+    if (contactData.business_email) {
+        const emailElements = document.querySelectorAll('#businessEmail, #footerEmail');
+        emailElements.forEach(el => {
+            if (el.tagName === 'A') {
+                el.href = `mailto:${contactData.business_email}`;
+                el.textContent = contactData.business_email;
+            } else {
+                el.textContent = contactData.business_email;
+            }
+        });
+    }
+    
+    if (contactData.business_address) {
+        const addressElements = document.querySelectorAll('#businessAddress, #footerAddress, #mapAddress');
+        addressElements.forEach(el => {
+            el.innerHTML = contactData.business_address;
+        });
+    }
+    
+    if (contactData.business_hours) {
+        const hoursElements = document.querySelectorAll('#businessHours, #footerHours');
+        hoursElements.forEach(el => {
+            el.innerHTML = contactData.business_hours;
+        });
+    }
+    
+    if (contactData.business_name) {
+        const nameElements = document.querySelectorAll('#footerCompanyName, #copyrightCompany');
+        nameElements.forEach(el => {
+            el.textContent = contactData.business_name;
+        });
+    }
+    
+    console.log('Business contact info updated:', contactData);
+}
+
+/**
+ * Listen for business details updates from parent window or forms
+ */
+function setupBusinessDetailsListener() {
+    // Listen for postMessage from parent window (chat interface)
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.type === 'updateBusinessDetails') {
+            updateBusinessContactInfo(event.data.businessData);
+        }
+    });
+    
+    // Listen for form submissions in the same window
+    document.addEventListener('businessDetailsUpdated', function(event) {
+        if (event.detail && event.detail.businessData) {
+            updateBusinessContactInfo(event.detail.businessData);
+        }
+    });
+}
+
+// Initialize business details listener when DOM is loaded
+document.addEventListener('DOMContentLoaded', setupBusinessDetailsListener);

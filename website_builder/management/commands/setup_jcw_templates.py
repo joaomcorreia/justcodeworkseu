@@ -13,25 +13,33 @@ class Command(BaseCommand):
         # Template configurations
         templates_config = [
             {
-                'template_id': 'jcw-tpl01',
-                'name': 'JCW Professional Business Template 01',
-                'description': 'Modern professional business template with clean design and corporate layout',
+                'template_id': 'jcw-tpl00',
+                'name': 'JCW Default Universal Template',
+                'description': 'Professional default template with hero slider, service sections, contact forms, and comprehensive footer. Perfect for any business type.',
                 'category': 'business',
+                'preview_image': '/media/website_templates/previews/jcw-tpl00.png',
+                'thumbnail_image': '/media/website_templates/thumbnails/jcw-tpl00.png',
+            },
+            {
+                'template_id': 'jcw-tpl01',
+                'name': 'JCW AI-Powered Business Template',
+                'description': 'Advanced AI-powered template with dynamic content generation, scalable card system (3-9 cards per section), and MagicAI integration for professional business websites.',
+                'category': 'technology',
                 'preview_image': '/media/website_templates/previews/jcw-tpl01.png',
                 'thumbnail_image': '/media/website_templates/thumbnails/jcw-tpl01.png',
             },
             {
                 'template_id': 'jcw-tpl02',
-                'name': 'JCW Creative Portfolio Template 02',
-                'description': 'Creative and modern template perfect for portfolios and creative businesses',
-                'category': 'creative',
+                'name': 'JCW Agriculture & Organic Template',
+                'description': 'Professional agriculture template with nature-inspired design, perfect for organic farms, food production, and sustainable agriculture businesses.',
+                'category': 'business',
                 'preview_image': '/media/website_templates/previews/jcw-tpl02.png',
                 'thumbnail_image': '/media/website_templates/thumbnails/jcw-tpl02.png',
             },
             {
                 'template_id': 'jcw-tpl03',
-                'name': 'JCW Service Business Template 03',
-                'description': 'Service-oriented template ideal for consultants and service providers',
+                'name': 'JCW Professional Business Template',
+                'description': 'Modern professional business template with blue color scheme and comprehensive sections',
                 'category': 'business',
                 'preview_image': '/media/website_templates/previews/jcw-tpl03.png',
                 'thumbnail_image': '/media/website_templates/thumbnails/jcw-tpl03.png',
@@ -81,8 +89,18 @@ class Command(BaseCommand):
         )
 
     def get_template_html(self, template_id):
-        """Generate basic HTML content for each template"""
-        base_html = f'''<!DOCTYPE html>
+        """Load actual HTML content for each template"""
+        if template_id == 'jcw-tpl00':
+            return self.load_jcw_tpl00_html()
+        elif template_id == 'jcw-tpl01':
+            return self.load_jcw_tpl01_html()
+        elif template_id == 'jcw-tpl02':
+            return self.load_jcw_tpl02_html()
+        elif template_id == 'jcw-tpl03':
+            return self.load_jcw_tpl03_html()
+        else:
+            # Generate basic HTML for other templates
+            base_html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -145,9 +163,9 @@ class Command(BaseCommand):
             <div class="container">
                 <h2>Contact Us</h2>
                 <div class="contact-info">
-                    <p><strong>Phone:</strong> {{{{ phone }}}}</p>
-                    <p><strong>Email:</strong> {{{{ email }}}}</p>
-                    <p><strong>Address:</strong> {{{{ address }}}}</p>
+                    <p><strong>Phone:</strong> {{{{ contact_phone }}}}</p>
+                    <p><strong>Email:</strong> {{{{ contact_email }}}}</p>
+                    <p><strong>Address:</strong> {{{{ business_address }}}}</p>
                 </div>
             </div>
         </section>
@@ -160,14 +178,100 @@ class Command(BaseCommand):
     </footer>
 </body>
 </html>'''
-        return base_html
+            return base_html
+
+    def load_jcw_tpl01_html(self):
+        """Load the actual JCW-TPL01 HTML content"""
+        import os
+        from django.conf import settings
+        
+        template_path = os.path.join(
+            settings.BASE_DIR,
+            'website_builder',
+            'templates',
+            'website_builder',
+            'jcw_templates',
+            'jcw-tpl01',
+            'template.html'
+        )
+        
+        try:
+            with open(template_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+                return html_content
+        except FileNotFoundError:
+            self.stdout.write(
+                self.style.WARNING(f'JCW-TPL01 template file not found at: {template_path}')
+            )
+            return self.get_fallback_jcw_tpl01_html()
+    
+    def get_fallback_jcw_tpl01_html(self):
+        """Fallback HTML if template file is not found"""
+        return '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ business_name }} - AI-Powered Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <h1>{{ business_name }}</h1>
+    <p>{{ business_description }}</p>
+    <p>JCW-TPL01 AI-Powered Template - File loading issue</p>
+</body>
+</html>'''
+
+    def load_jcw_tpl02_html(self):
+        """Load the actual JCW-TPL02 HTML content"""
+        import os
+        from django.conf import settings
+        
+        template_path = os.path.join(
+            settings.BASE_DIR,
+            'website_builder',
+            'templates',
+            'website_builder',
+            'jcw_templates',
+            'jcw-tpl02',
+            'template.html'
+        )
+        
+        try:
+            with open(template_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+                return html_content
+        except FileNotFoundError:
+            self.stdout.write(
+                self.style.WARNING(f'JCW-TPL02 template file not found at: {template_path}')
+            )
+            return self.get_fallback_jcw_tpl02_html()
+    
+    def get_fallback_jcw_tpl02_html(self):
+        """Fallback HTML if template file is not found"""
+        return '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ business_name }} - Agriculture Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <h1>{{ business_name }}</h1>
+    <p>{{ business_description }}</p>
+    <p>JCW-TPL02 Agriculture Template - File loading issue</p>
+</body>
+</html>'''
 
     def get_template_css(self, template_id):
         """Generate basic CSS content for each template"""
         if template_id == 'jcw-tpl01':
-            return self.get_tpl01_css()
+            return ''  # JCW-TPL01 includes Bootstrap and custom styles in HTML
         elif template_id == 'jcw-tpl02':
-            return self.get_tpl02_css()
+            return ''  # JCW-TPL02 includes Bootstrap and custom styles in HTML
         elif template_id == 'jcw-tpl03':
             return self.get_tpl03_css()
         else:
@@ -577,6 +681,90 @@ footer {
         font-size: 2.2rem;
     }
 }'''
+
+    def load_jcw_tpl03_html(self):
+        """Load the actual JCW-TPL03 HTML content"""
+        import os
+        from django.conf import settings
+        
+        template_path = os.path.join(settings.BASE_DIR, 'jcw_templates', 'jcw-tpl03', 'template.html')
+        
+        try:
+            with open(template_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+                return html_content
+        except FileNotFoundError:
+            self.stdout.write(
+                self.style.WARNING(f'JCW-TPL03 template file not found at: {template_path}')
+            )
+            return self.get_fallback_jcw_tpl03_html()
+    
+    def get_fallback_jcw_tpl03_html(self):
+        """Fallback HTML if template file is not found"""
+        return '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ business_name }} - Professional Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <h1>JCW Professional Business Template</h1>
+    <p>Professional business content will appear here.</p>
+</body>
+</html>'''
+
+    def load_jcw_tpl00_html(self):
+        """Load the actual JCW-TPL00 HTML content"""
+        import os
+        from django.conf import settings
+        
+        # Try loading from the website_builder templates directory first
+        template_path = os.path.join(
+            settings.BASE_DIR,
+            'website_builder',
+            'templates',
+            'website_builder',
+            'jcw_templates',
+            'jcw-tpl00',
+            'template.html'
+        )
+        
+        try:
+            with open(template_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+                return html_content
+        except FileNotFoundError:
+            # Try the root jcw_templates directory as fallback
+            fallback_path = os.path.join(settings.BASE_DIR, 'jcw_templates', 'jcw-tpl00', 'template.html')
+            try:
+                with open(fallback_path, 'r', encoding='utf-8') as f:
+                    html_content = f.read()
+                    return html_content
+            except FileNotFoundError:
+                self.stdout.write(
+                    self.style.WARNING(f'JCW-TPL00 template file not found at: {template_path} or {fallback_path}')
+                )
+                return self.get_fallback_jcw_tpl00_html()
+    
+    def get_fallback_jcw_tpl00_html(self):
+        """Fallback HTML if template file is not found"""
+        return '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ business_name }} - Default Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <h1>JCW Default Universal Template</h1>
+    <p>Default template with footer - content will appear here.</p>
+</body>
+</html>'''
 
     def get_default_css(self):
         """Default CSS template"""

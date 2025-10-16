@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ business_name|default:"Your Business" }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        /* AI Content Editing Styles */
+        .ai-editable {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-editable:hover {
+            background: rgba(34, 197, 94, 0.05);
+            border-radius: 8px;
+        }
+        
+        .ai-edit-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .ai-editable:hover .ai-edit-btn {
+            opacity: 1;
+        }
+        
+        .ai-edit-btn:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+        }
+        
+        /* Row Sections */
+        .template-row {
+            margin-bottom: 0;
+            padding: 4rem 0;
+        }
+        
+        .template-row.hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .template-row.content-section {
+            background: white;
+        }
+        
+        .template-row.stats-section {
+            background: #f8f9fa;
+        }
+        
+        .template-row.blog-section {
+            background: white;
+        }
+        
+        .template-row.pricing-section {
+            background: #f8f9fa;
+        }
+        
+        .template-row.faq-section {
+            background: white;
+        }
+        
+        /* Hero Image Upload */
+        .hero-image-container {
+            position: relative;
+            height: 600px;
+            background-size: cover;
+            background-position: center;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" fill="%23e5e7eb"><rect width="1200" height="600" fill="%23f3f4f6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" fill="%23374151">1920 x 600</text></svg>');
+        }
+        
+        .change-image-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Content Cards */
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        /* Stats Cards */
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #22c55e;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Blog Cards */
+        .blog-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .blog-image {
+            height: 200px;
+            background: #e5e7eb;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Pricing Cards */
+        .pricing-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            border: 3px solid #22c55e;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+        
+        /* FAQ Styles */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #666;
+            display: none;
+        }
+        
+        .faq-answer.active {
+            display: block;
+        }
+        
+        /* Navigation Sidebar */
+        .nav-sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .nav-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            color: #22c55e;
+            transform: translateX(10px);
+        }
+        
+        .nav-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Loading States */
+        .ai-loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .template-row {
+                padding: 2rem 0;
+            }
+            
+            .hero-image-container {
+                height: 400px;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Row 1: Hero Section with Image -->
+    <section class="template-row hero-section">
+        <div class="hero-image-container" id="heroImageContainer">
+            <button class="change-image-btn" onclick="changeHeroImage()">
+                <i class="fas fa-camera me-2"></i>Change Image
+            </button>
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="ai-editable" data-section="hero">
+                            <button class="ai-edit-btn" onclick="editContent('hero')">
+                                <i class="fas fa-magic me-2"></i>Change Content
+                            </button>
+                            <h1 class="display-3 fw-bold mb-4" id="heroTitle">{{ business_name|default:"Transform Your Business" }}</h1>
+                            <p class="lead mb-4" id="heroSubtitle">Professional solutions that drive results and exceed expectations</p>
+                            <div class="hero-buttons">
+                                <button class="btn btn-light btn-lg me-3">Get Started</button>
+                                <button class="btn btn-outline-light btn-lg">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 2: About/Content Section -->
+    <section class="template-row content-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="ai-editable" data-section="about">
+                        <button class="ai-edit-btn" onclick="editContent('about')">
+                            <i class="fas fa-magic me-2"></i>Change Content
+                        </button>
+                        <h2 class="display-5 fw-bold mb-4" id="aboutTitle">About Our Company</h2>
+                        <p class="lead mb-4" id="aboutDescription">
+                            We deliver innovative solutions that help businesses thrive in today's competitive landscape. Our team of experts combines industry knowledge with cutting-edge technology.
+                        </p>
+                        <p class="mb-4" id="aboutDetails">
+                            With years of experience and a commitment to excellence, we've helped hundreds of companies achieve their goals through strategic planning and execution.
+                        </p>
+                        <button class="btn btn-primary btn-lg">Learn More</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="content-card">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' fill='%23e5e7eb'><rect width='400' height='300' fill='%23f3f4f6'/><circle cx='150' cy='100' r='50' fill='%23374151'/><path d='M200 150 Q250 100 300 150 Q250 200 200 150' fill='%23374151'/></svg>" 
+                             alt="About Image" 
+                             class="img-fluid rounded">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 3: Statistics Section -->
+    <section class="template-row stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="ai-editable stat-card" data-section="stats1">
+                        <button class="ai-edit-btn" onclick="editContent('stats1')">
+                            <i class="fas fa-magic me-2"></i>Edit
+                        </button>
+                        <i class="fas fa-users fa-3x text-success mb-3"></i>
+                        <div class="stat-number" id="stat1Number">500+</div>
+                        <h5 id="stat1Label">Happy Clients</h5>
+                        <p class="text-muted" id="stat1Description">Satisfied customers worldwide</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="ai-editable stat-card" data-section="stats2">
+                        <button class="ai-edit-btn" onclick="editContent('stats2')">
+                            <i class="fas fa-magic me-2"></i>Edit
+                        </button>
+                        <i class="fas fa-project-diagram fa-3x text-success mb-3"></i>
+                        <div class="stat-number" id="stat2Number">1000+</div>
+                        <h5 id="stat2Label">Projects Completed</h5>
+                        <p class="text-muted" id="stat2Description">Successful project deliveries</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="ai-editable stat-card" data-section="stats3">
+                        <button class="ai-edit-btn" onclick="editContent('stats3')">
+                            <i class="fas fa-magic me-2"></i>Edit
+                        </button>
+                        <i class="fas fa-award fa-3x text-success mb-3"></i>
+                        <div class="stat-number" id="stat3Number">15+</div>
+                        <h5 id="stat3Label">Years Experience</h5>
+                        <p class="text-muted" id="stat3Description">Industry expertise and knowledge</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 4: Dynamic Services Section -->
+    <section class="template-row content-section" id="services">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <div class="ai-editable" data-section="services-header">
+                        <button class="ai-edit-btn" onclick="editContent('services-header')">
+                            <i class="fas fa-magic me-2"></i>Change Content
+                        </button>
+                        <h2 class="display-5 fw-bold mb-3" id="servicesTitle">Our Services</h2>
+                        <p class="lead text-muted" id="servicesSubtitle">Professional solutions tailored to your needs</p>
+                    </div>
+                    <!-- Dynamic Section Controls -->
+                    <div class="mt-3">
+                        <button class="btn btn-outline-success btn-sm me-2" onclick="addDynamicCard('services')">
+                            <i class="fas fa-plus me-2"></i>Add Service
+                        </button>
+                        <span class="text-muted">Up to 9 services supported</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="dynamicServicesContainer">
+                <!-- Dynamic service cards will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 5: Blog Section -->
+    <section class="template-row blog-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <div class="ai-editable" data-section="blog-header">
+                        <button class="ai-edit-btn" onclick="editContent('blog-header')">
+                            <i class="fas fa-magic me-2"></i>Change Content
+                        </button>
+                        <h2 class="display-5 fw-bold mb-3" id="blogTitle">Latest Insights</h2>
+                        <p class="lead text-muted" id="blogSubtitle">Stay updated with our latest news and industry insights</p>
+                    </div>
+                    <!-- Dynamic Section Controls -->
+                    <div class="mt-3">
+                        <button class="btn btn-outline-success btn-sm me-2" onclick="addDynamicCard('blog')">
+                            <i class="fas fa-plus me-2"></i>Add Blog Post
+                        </button>
+                        <span class="text-muted">Up to 9 blog posts supported</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="dynamicBlogContainer">
+                <!-- Dynamic blog cards will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 6: Team Section (Optional Dynamic Section) -->
+    <section class="template-row content-section" id="team" style="display: none;">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <div class="ai-editable" data-section="team-header">
+                        <button class="ai-edit-btn" onclick="editContent('team-header')">
+                            <i class="fas fa-magic me-2"></i>Change Content
+                        </button>
+                        <h2 class="display-5 fw-bold mb-3" id="teamTitle">Our Team</h2>
+                        <p class="lead text-muted" id="teamSubtitle">Meet the experts behind our success</p>
+                    </div>
+                    <!-- Dynamic Section Controls -->
+                    <div class="mt-3">
+                        <button class="btn btn-outline-success btn-sm me-2" onclick="addDynamicCard('team')">
+                            <i class="fas fa-plus me-2"></i>Add Team Member
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm me-2" onclick="toggleSection('team')">
+                            <i class="fas fa-eye-slash me-2"></i>Hide Section
+                        </button>
+                        <span class="text-muted">Up to 9 team members supported</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="dynamicTeamContainer">
+                <!-- Dynamic team member cards will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 7: Navigation/Menu Section -->
+    <section class="template-row content-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="nav-sidebar">
+                        <h4 class="mb-4">Quick Navigation</h4>
+                        <div class="nav-item" onclick="scrollToSection('hero')">
+                            <i class="fas fa-home me-3"></i>Home
+                        </div>
+                        <div class="nav-item" onclick="scrollToSection('about')">
+                            <i class="fas fa-info-circle me-3"></i>About Us
+                        </div>
+                        <div class="nav-item" onclick="scrollToSection('services')">
+                            <i class="fas fa-cogs me-3"></i>Services
+                        </div>
+                        <div class="nav-item" onclick="scrollToSection('team')">
+                            <i class="fas fa-users me-3"></i>Team
+                        </div>
+                        <div class="nav-item" onclick="scrollToSection('blog')">
+                            <i class="fas fa-blog me-3"></i>Blog
+                        </div>
+                        <div class="nav-item" onclick="scrollToSection('pricing')">
+                            <i class="fas fa-dollar-sign me-3"></i>Pricing
+                        </div>
+                        <div class="nav-item" onclick="scrollToSection('contact')">
+                            <i class="fas fa-envelope me-3"></i>Contact
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="ai-editable content-card" data-section="featured-content">
+                        <button class="ai-edit-btn" onclick="editContent('featured-content')">
+                            <i class="fas fa-magic me-2"></i>Change Content
+                        </button>
+                        <div class="text-center p-5">
+                            <i class="fas fa-lightbulb fa-4x text-success mb-4"></i>
+                            <h3 class="mb-4" id="featuredTitle">Featured Solution</h3>
+                            <p class="lead mb-4" id="featuredDescription">
+                                Discover our flagship solution that has transformed businesses across industries. 
+                                Experience innovation at its finest with our comprehensive platform.
+                            </p>
+                            <button class="btn btn-success btn-lg">Explore Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 8: Pricing Table -->
+    <section class="template-row pricing-section" id="pricing">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <div class="ai-editable" data-section="pricing-header">
+                        <button class="ai-edit-btn" onclick="editContent('pricing-header')">
+                            <i class="fas fa-magic me-2"></i>Change Content
+                        </button>
+                        <h2 class="display-5 fw-bold mb-3" id="pricingTitle">Pricing Plans</h2>
+                        <p class="lead text-muted" id="pricingSubtitle">Choose the perfect plan for your business needs</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="ai-editable pricing-card" data-section="pricing-free">
+                        <button class="ai-edit-btn" onclick="editContent('pricing-free')">
+                            <i class="fas fa-magic me-2"></i>Edit Plan
+                        </button>
+                        <h4 class="mb-4" id="plan1Name">Free</h4>
+                        <div class="price mb-4" id="plan1Price">$0</div>
+                        <p class="text-muted mb-4" id="plan1Description">Perfect for getting started</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Basic Features</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Email Support</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>1 Project</li>
+                        </ul>
+                        <button class="btn btn-outline-success btn-lg w-100">Get Started</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="ai-editable pricing-card featured" data-section="pricing-business">
+                        <button class="ai-edit-btn" onclick="editContent('pricing-business')">
+                            <i class="fas fa-magic me-2"></i>Edit Plan
+                        </button>
+                        <div class="badge bg-success position-absolute top-0 start-50 translate-middle px-3 py-2">Most Popular</div>
+                        <h4 class="mb-4" id="plan2Name">Business</h4>
+                        <div class="price mb-4" id="plan2Price">$19</div>
+                        <p class="text-muted mb-4" id="plan2Description">Best for growing businesses</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>All Free Features</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Priority Support</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>10 Projects</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced Analytics</li>
+                        </ul>
+                        <button class="btn btn-success btn-lg w-100">Choose Business</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="ai-editable pricing-card" data-section="pricing-premium">
+                        <button class="ai-edit-btn" onclick="editContent('pricing-premium')">
+                            <i class="fas fa-magic me-2"></i>Edit Plan
+                        </button>
+                        <h4 class="mb-4" id="plan3Name">Premium</h4>
+                        <div class="price mb-4" id="plan3Price">$49</div>
+                        <p class="text-muted mb-4" id="plan3Description">For enterprise solutions</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>All Business Features</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>24/7 Support</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unlimited Projects</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Custom Integrations</li>
+                        </ul>
+                        <button class="btn btn-outline-success btn-lg w-100">Choose Premium</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 9: FAQ Section -->
+    <section class="template-row faq-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <div class="ai-editable" data-section="faq-header">
+                        <button class="ai-edit-btn" onclick="editContent('faq-header')">
+                            <i class="fas fa-magic me-2"></i>Change Content
+                        </button>
+                        <h2 class="display-5 fw-bold mb-3" id="faqTitle">Frequently Asked Questions</h2>
+                        <p class="lead text-muted" id="faqSubtitle">Find answers to common questions about our services</p>
+                    </div>
+                    <!-- Dynamic FAQ Controls -->
+                    <div class="mt-3">
+                        <button class="btn btn-outline-success btn-sm me-2" onclick="addDynamicFAQ()">
+                            <i class="fas fa-plus me-2"></i>Add FAQ
+                        </button>
+                        <span class="text-muted">Up to 9 FAQs supported</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="ai-editable faq-item" data-section="faq1">
+                        <button class="ai-edit-btn" onclick="editContent('faq1')">
+                            <i class="fas fa-magic me-2"></i>Edit FAQ
+                        </button>
+                        <button class="faq-question" onclick="toggleFaq(1)">
+                            <span id="faq1Question">What services do you offer?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer" id="faq1Answer">
+                            We offer a comprehensive range of professional services tailored to meet your business needs. Our solutions include consulting, implementation, and ongoing support to ensure your success.
+                        </div>
+                    </div>
+                    
+                    <div class="ai-editable faq-item" data-section="faq2">
+                        <button class="ai-edit-btn" onclick="editContent('faq2')">
+                            <i class="fas fa-magic me-2"></i>Edit FAQ
+                        </button>
+                        <button class="faq-question" onclick="toggleFaq(2)">
+                            <span id="faq2Question">How do I get started?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer" id="faq2Answer">
+                            Getting started is easy! Simply contact us through our website or give us a call. We'll schedule a consultation to discuss your needs and create a customized solution for your business.
+                        </div>
+                    </div>
+                    
+                    <div class="ai-editable faq-item" data-section="faq3">
+                        <button class="ai-edit-btn" onclick="editContent('faq3')">
+                            <i class="fas fa-magic me-2"></i>Edit FAQ
+                        </button>
+                        <button class="faq-question" onclick="toggleFaq(3)">
+                            <span id="faq3Question">What is your support policy?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer" id="faq3Answer">
+                            We provide comprehensive support to all our clients. Our support team is available during business hours, and premium clients receive 24/7 support access for urgent matters.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Row 10: Contact/Footer Section -->
+    <section class="template-row content-section bg-dark text-light" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="ai-editable" data-section="contact-info">
+                        <button class="ai-edit-btn" onclick="editContent('contact-info')">
+                            <i class="fas fa-magic me-2"></i>Change Content
+                        </button>
+                        <h3 class="mb-4" id="contactTitle">Get In Touch</h3>
+                        <p class="mb-4" id="contactDescription">Ready to take your business to the next level? Contact us today to discuss how we can help you achieve your goals.</p>
+                        <div class="mb-3">
+                            <i class="fas fa-envelope me-3"></i>
+                            <span id="contactEmail">{{ business_email|default:"info@business.com" }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-phone me-3"></i>
+                            <span id="contactPhone">{{ business_phone|default:"(555) 123-4567" }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-map-marker-alt me-3"></i>
+                            <span id="contactAddress">{{ business_address|default:"123 Business Street, City, ST 12345" }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="content-card bg-light text-dark">
+                        <h4 class="mb-4">Send us a Message</h4>
+                        <form id="contactForm">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-lg w-100">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dynamic-content.js"></script>
+    <script>
+        // Global variables for AI integration
+        let isEditing = false;
+        const MAGIC_AI_BASE_URL = 'https://tools.justcodeworks.net';
+        
+        // Content editing functionality
+        async function editContent(section) {
+            if (isEditing) return;
+            
+            isEditing = true;
+            const editableElement = document.querySelector(`[data-section="${section}"]`);
+            const editBtn = editableElement.querySelector('.ai-edit-btn');
+            
+            // Show loading state
+            editBtn.innerHTML = '<span class="loading-spinner"></span> Generating...';
+            editableElement.classList.add('ai-loading');
+            
+            try {
+                // This will call MagicAI API
+                await generateAIContent(section);
+                
+                // Reset button
+                editBtn.innerHTML = '<i class="fas fa-magic me-2"></i>Change Content';
+                editableElement.classList.remove('ai-loading');
+                
+            } catch (error) {
+                console.error('AI content generation failed:', error);
+                editBtn.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>Try Again';
+            } finally {
+                isEditing = false;
+            }
+        }
+        
+        // MagicAI content generation (placeholder for now)
+        async function generateAIContent(section) {
+            // This will be implemented to call MagicAI API
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log(`Generated AI content for section: ${section}`);
+                    resolve();
+                }, 2000);
+            });
+        }
+        
+        // Hero image change functionality
+        function changeHeroImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('heroImageContainer').style.backgroundImage = `url(${e.target.result})`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+        
+        // FAQ functionality
+        function toggleFaq(number) {
+            const answer = document.getElementById(`faq${number}Answer`);
+            const icon = document.querySelector(`#faq${number}Question`).parentElement.querySelector('i');
+            
+            if (answer.classList.contains('active')) {
+                answer.classList.remove('active');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                // Close all other FAQs
+                document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('active'));
+                document.querySelectorAll('.faq-question i').forEach(i => {
+                    i.classList.remove('fa-chevron-up');
+                    i.classList.add('fa-chevron-down');
+                });
+                
+                // Open this FAQ
+                answer.classList.add('active');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+        
+        // Smooth scrolling navigation
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId) || document.querySelector(`[data-section="${sectionId}"]`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Initialize template
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('JCW-TPL01 AI Template Loaded');
+            
+            // Add smooth scrolling for all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

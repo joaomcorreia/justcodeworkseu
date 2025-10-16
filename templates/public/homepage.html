@@ -257,6 +257,16 @@
                         <a class="nav-link" href="#features">Features</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'websites_page' %}">
+                            <i class="fas fa-globe me-1"></i>Websites
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'prints_page' %}">
+                            <i class="fas fa-print me-1"></i>Prints
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#about">About</a>
                     </li>
                     <li class="nav-item">
@@ -414,59 +424,60 @@
             });
         });
 
-        // Business Details Form Handler - Version 2.0 - Fixed
+        // Standard Bootstrap form handler
         document.addEventListener('DOMContentLoaded', function() {
-            const submitBtn = document.getElementById('startBuildingBtn');
-            if (submitBtn) {
-                submitBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const form = document.getElementById('businessDetailsForm');
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-            
-            // Get CSRF token from the form
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            
-            console.log('Submitting data:', data);
-            console.log('CSRF Token:', csrfToken);
-            
-            // Use the current URL to build the correct API URL with language prefix
-            const currentURL = window.location.href;
-            const baseURL = currentURL.includes('/en/') ? window.location.origin + '/en' : window.location.origin + '/en';
-            const apiUrl = baseURL + '/website-builder/api/create-from-business-details/';
-            console.log('Current URL:', currentURL);
-            console.log('API URL:', apiUrl);
-            
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                console.log('Response status:', response.status);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data);
-                if (data.success) {
-                    // Redirect to chat interface
-                    window.location.href = `/website-builder/chat/${data.project_id}/`;
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again. Check console for details.');
-            });
+            const modal = document.getElementById('websiteBuilderModal');
+            if (modal) {
+                modal.addEventListener('shown.bs.modal', function() {
+                    const form = document.getElementById('businessDetailsForm');
+                    const submitBtn = document.getElementById('startBuildingBtn');
+                    
+                    if (form && submitBtn) {
+                        submitBtn.onclick = function(e) {
+                            e.preventDefault();
+                            
+                            // Set loading
+                            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating...';
+                            submitBtn.disabled = true;
+                            
+                            // Get form data
+                            const formData = new FormData(form);
+                            const data = Object.fromEntries(formData);
+                            
+                            // Get CSRF token
+                            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                            
+                            // Submit
+                            fetch('/en/website-builder/api/create-from-business-details/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRFToken': csrfToken
+                                },
+                                body: JSON.stringify(data)
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // Close modal and redirect
+                                    const modalInstance = bootstrap.Modal.getInstance(modal);
+                                    modalInstance.hide();
+                                    setTimeout(() => {
+                                        window.location.href = `/en/website-builder/chat/${data.project_id}/`;
+                                    }, 500);
+                                } else {
+                                    alert('Error: ' + data.message);
+                                    submitBtn.innerHTML = '<i class="fas fa-rocket me-2"></i>Start Building My Website';
+                                    submitBtn.disabled = false;
+                                }
+                            })
+                            .catch(err => {
+                                alert('Error: ' + err.message);
+                                submitBtn.innerHTML = '<i class="fas fa-rocket me-2"></i>Start Building My Website';
+                                submitBtn.disabled = false;
+                            });
+                        };
+                    }
                 });
             }
         });

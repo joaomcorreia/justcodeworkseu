@@ -24,6 +24,50 @@
             "usage_count": 0,
             "rating": 0,
             "description": "Foundational template with dynamic content system, perfect for most business types."
+        },
+        
+        "jcw-tpl01": {
+            "name": "JustCodeWorks AI-Powered Template",
+            "status": "active",
+            "type": "premium",
+            "version": "1.0.0",
+            "path": "jcw_templates/jcw-tpl01/",
+            "created_date": "2025-10-10",
+            "last_modified": "2025-10-10",
+            "author": "JustCodeWorks.EU Team",
+            "business_types": ["construction", "technology", "consulting", "professional_services"],
+            "features": ["ai_content_generation", "dynamic_cards", "magicai_integration", "responsive", "advanced_sections", "team_management", "blog_system", "faq_system"],
+            "framework": "Bootstrap 5.1.3",
+            "dependencies": ["MagicAI Plugin", "tools.justcodeworks.net"],
+            "card_limits": {"min": 3, "max": 9},
+            "preview_image": "jcw-tpl01-preview.jpg",
+            "demo_url": "https://demo.justcodeworks.eu/jcw-tpl01/",
+            "usage_count": 0,
+            "rating": 0,
+            "description": "Advanced AI-powered template with dynamic content generation and scalable card system supporting 3-9 cards per section."
+        },
+        
+        "jcw-tpl02": {
+            "name": "JCW Agriculture & Organic Template",
+            "status": "active",
+            "type": "premium",
+            "version": "1.0.0",
+            "path": "jcw_templates/jcw-tpl02/",
+            "created_date": "2025-10-10",
+            "last_modified": "2025-10-10",
+            "author": "JustCodeWorks.EU Team",
+            "business_types": ["agriculture", "organic_farming", "food_production", "sustainable_business"],
+            "features": ["agriculture_focused", "dynamic_gallery", "testimonials_system", "newsletter_signup", "responsive", "ai_content_generation", "nature_inspired_design"],
+            "framework": "Bootstrap 5.1.3",
+            "dependencies": ["MagicAI Plugin", "Agriculture Content Library"],
+            "card_limits": {"min": 3, "max": 9},
+            "sections": 9,
+            "color_scheme": "nature_green",
+            "preview_image": "jcw-tpl02-preview.jpg",
+            "demo_url": "https://demo.justcodeworks.eu/jcw-tpl02/",
+            "usage_count": 0,
+            "rating": 0,
+            "description": "Professional agriculture template with nature-inspired design, perfect for organic farms, food production, and sustainable agriculture businesses with dynamic gallery and testimonial systems."
         }
     },
     

@@ -48,7 +48,10 @@ class WebsiteProject(models.Model):
     location = models.CharField(max_length=200, blank=True)
     business_address = models.TextField(blank=True)  # Full business address
     phone = models.CharField(max_length=50, blank=True)
-    email = models.EmailField(blank=True)
+    business_email = models.EmailField(blank=True)  # Business email (new field)
+    whatsapp_number = models.CharField(max_length=50, blank=True)  # WhatsApp number (new field)
+    opening_times = models.TextField(blank=True)  # Opening times (new field)
+    email = models.EmailField(blank=True)  # Keep for backward compatibility
     website_type = models.CharField(max_length=20, choices=PAGE_TYPE_CHOICES, default='one_page')  # From onboarding
     payment_verified = models.BooleanField(default=False)  # Payment verification status
     website_url = models.URLField(blank=True)

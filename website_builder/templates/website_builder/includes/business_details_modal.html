@@ -39,6 +39,208 @@
                                    placeholder="+1 (555) 123-4567" required>
                             <div class="form-text">For customer contact and verification</div>
                         </div>
+
+                        <!-- Email Address -->
+                        <div class="col-md-6 mb-3">
+                            <label for="businessEmail" class="form-label fw-bold">
+                                <i class="fas fa-envelope text-primary me-1"></i>Email Address *
+                            </label>
+                            <input type="email" class="form-control" id="businessEmail" name="business_email" 
+                                   placeholder="info@yourbusiness.com" required>
+                            <div class="form-text">Main business email for customer inquiries</div>
+                        </div>
+
+                        <!-- WhatsApp Number -->
+                        <div class="col-md-6 mb-3">
+                            <label for="whatsappNumber" class="form-label fw-bold">
+                                <i class="fab fa-whatsapp text-success me-1"></i>WhatsApp Number
+                            </label>
+                            <input type="tel" class="form-control" id="whatsappNumber" name="whatsapp_number" 
+                                   placeholder="+1 (555) 123-4567">
+                            <div class="form-text">Optional: For WhatsApp business communication</div>
+                        </div>
+
+                        <!-- Opening Times -->
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-clock text-primary me-1"></i>Business Hours
+                            </label>
+                            <div class="opening-hours-container">
+                                <!-- Quick Preset Buttons -->
+                                <div class="mb-4">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-magic text-primary me-2"></i>
+                                        <small class="text-muted fw-bold">Quick Setup:</small>
+                                    </div>
+                                    <div class="btn-group-sm" role="group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm preset-btn" onclick="applyHoursPreset('standard')" data-bs-toggle="tooltip" title="Monday-Friday 9AM-5PM">
+                                            <i class="fas fa-briefcase me-1"></i>Office Hours
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm preset-btn" onclick="applyHoursPreset('retail')" data-bs-toggle="tooltip" title="Monday-Saturday 10AM-8PM, Sunday 12PM-6PM">
+                                            <i class="fas fa-store me-1"></i>Retail Shop
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm preset-btn" onclick="applyHoursPreset('restaurant')" data-bs-toggle="tooltip" title="Tuesday-Sunday 11AM-10PM">
+                                            <i class="fas fa-utensils me-1"></i>Restaurant
+                                        </button>
+                                        <button type="button" class="btn btn-outline-info btn-sm preset-btn" onclick="applyHoursPreset('24h')" data-bs-toggle="tooltip" title="Open 24 hours, 7 days a week">
+                                            <i class="fas fa-clock me-1"></i>24/7
+                                        </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="fas fa-lightbulb me-1"></i>
+                                            Choose a preset or customize each day below
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!-- Helpful Tips -->
+                                <div class="alert alert-info border-0 py-2 px-3 mb-3" style="background-color: rgba(13, 110, 253, 0.1);">
+                                    <small class="text-primary">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        <strong>Pro tip:</strong> Uncheck any day your business is closed. You can set different hours for each day.
+                                    </small>
+                                </div>
+                                </div>
+
+                                <!-- Interactive Day-by-Day Schedule -->
+                                <div class="hours-grid">
+                                    <!-- Monday -->
+                                    <div class="day-row">
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="mon-active" checked onchange="toggleDay('mon')">
+                                            <label for="mon-active" class="day-label">Monday</label>
+                                        </div>
+                                        <div class="time-inputs">
+                                            <input type="time" id="mon-open" value="09:00" class="form-control form-control-sm">
+                                            <span class="time-separator">to</span>
+                                            <input type="time" id="mon-close" value="17:00" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="closed-indicator" id="mon-closed" style="display: none;">
+                                            <span class="text-muted">Closed</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tuesday -->
+                                    <div class="day-row">
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="tue-active" checked onchange="toggleDay('tue')">
+                                            <label for="tue-active" class="day-label">Tuesday</label>
+                                        </div>
+                                        <div class="time-inputs">
+                                            <input type="time" id="tue-open" value="09:00" class="form-control form-control-sm">
+                                            <span class="time-separator">to</span>
+                                            <input type="time" id="tue-close" value="17:00" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="closed-indicator" id="tue-closed" style="display: none;">
+                                            <span class="text-muted">Closed</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Wednesday -->
+                                    <div class="day-row">
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="wed-active" checked onchange="toggleDay('wed')">
+                                            <label for="wed-active" class="day-label">Wednesday</label>
+                                        </div>
+                                        <div class="time-inputs">
+                                            <input type="time" id="wed-open" value="09:00" class="form-control form-control-sm">
+                                            <span class="time-separator">to</span>
+                                            <input type="time" id="wed-close" value="17:00" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="closed-indicator" id="wed-closed" style="display: none;">
+                                            <span class="text-muted">Closed</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Thursday -->
+                                    <div class="day-row">
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="thu-active" checked onchange="toggleDay('thu')">
+                                            <label for="thu-active" class="day-label">Thursday</label>
+                                        </div>
+                                        <div class="time-inputs">
+                                            <input type="time" id="thu-open" value="09:00" class="form-control form-control-sm">
+                                            <span class="time-separator">to</span>
+                                            <input type="time" id="thu-close" value="17:00" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="closed-indicator" id="thu-closed" style="display: none;">
+                                            <span class="text-muted">Closed</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Friday -->
+                                    <div class="day-row">
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="fri-active" checked onchange="toggleDay('fri')">
+                                            <label for="fri-active" class="day-label">Friday</label>
+                                        </div>
+                                        <div class="time-inputs">
+                                            <input type="time" id="fri-open" value="09:00" class="form-control form-control-sm">
+                                            <span class="time-separator">to</span>
+                                            <input type="time" id="fri-close" value="17:00" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="closed-indicator" id="fri-closed" style="display: none;">
+                                            <span class="text-muted">Closed</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Saturday -->
+                                    <div class="day-row">
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="sat-active" onchange="toggleDay('sat')">
+                                            <label for="sat-active" class="day-label">Saturday</label>
+                                        </div>
+                                        <div class="time-inputs" style="display: none;">
+                                            <input type="time" id="sat-open" value="10:00" class="form-control form-control-sm">
+                                            <span class="time-separator">to</span>
+                                            <input type="time" id="sat-close" value="16:00" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="closed-indicator" id="sat-closed">
+                                            <span class="text-muted">Closed</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sunday -->
+                                    <div class="day-row">
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="sun-active" onchange="toggleDay('sun')">
+                                            <label for="sun-active" class="day-label">Sunday</label>
+                                        </div>
+                                        <div class="time-inputs" style="display: none;">
+                                            <input type="time" id="sun-open" value="12:00" class="form-control form-control-sm">
+                                            <span class="time-separator">to</span>
+                                            <input type="time" id="sun-close" value="17:00" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="closed-indicator" id="sun-closed">
+                                            <span class="text-muted">Closed</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Preview -->
+                                <div class="mt-4 p-3 bg-gradient rounded-3 border">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-eye text-primary me-2"></i>
+                                        <small class="text-muted fw-bold">How it appears on your website:</small>
+                                    </div>
+                                    <div id="hoursPreview" class="hours-preview-text">
+                                        Mon-Fri: 9:00 AM - 5:00 PM<br>
+                                        Sat-Sun: Closed
+                                    </div>
+                                    <div class="mt-2 pt-2 border-top">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-clock text-success me-2"></i>
+                                            <span class="current-status badge bg-success">Currently Open</span>
+                                            <small class="text-muted ms-auto">Updates automatically</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden input to store the final formatted hours -->
+                                <textarea id="openingTimes" name="opening_times" style="display: none;"></textarea>
+                            </div>
+                        </div>
                         
                         <!-- Business Address -->
                         <div class="col-12 mb-3">
@@ -224,4 +426,505 @@
     position: absolute;
     opacity: 0;
 }
+
+/* Opening Hours Styles */
+.opening-hours-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    padding: 1.25rem;
+    border: 2px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.opening-hours-container:hover {
+    border-color: #007bff;
+    box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+}
+
+.hours-grid .day-row {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.hours-grid .day-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.day-checkbox {
+    min-width: 110px;
+    display: flex;
+    align-items: center;
+}
+
+.day-checkbox input[type="checkbox"] {
+    margin-right: 0.75rem;
+    width: 18px;
+    height: 18px;
+    accent-color: #007bff;
+}
+
+.day-label {
+    font-weight: 600;
+    color: #495057;
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.day-checkbox:hover .day-label {
+    color: #007bff;
+}
+
+.time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    animation: fadeIn 0.3s ease;
+}
+
+.time-inputs input[type="time"] {
+    width: 100px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    transition: all 0.2s ease;
+}
+
+.time-inputs input[type="time"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.time-separator {
+    color: #6c757d;
+    font-size: 0.85rem;
+    font-weight: 500;
+    min-width: 20px;
+    text-align: center;
+}
+
+.closed-indicator {
+    flex: 1;
+    text-align: center;
+    font-style: italic;
+    color: #6c757d;
+    animation: fadeIn 0.3s ease;
+}
+
+.btn-group-sm .btn-sm {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    border: 1px solid #dee2e6;
+}
+
+.btn-group-sm .btn-sm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hours-preview-text {
+    font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+    line-height: 1.6;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    font-size: 0.9rem;
+    color: #2c3e50;
+    font-weight: 500;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.bg-gradient {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+}
+
+.current-status {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+.preset-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.preset-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.preset-btn:hover::before {
+    left: 100%;
+}
+
+/* Hover effects */
+.day-row:hover {
+    background-color: rgba(0, 123, 255, 0.08);
+    transform: translateX(2px);
+    box-shadow: 0 2px 8px rgba(0,123,255,0.15);
+}
+
+/* Disabled state for closed days */
+.day-row.closed {
+    opacity: 0.6;
+    background-color: #f8f9fa;
+}
+
+.day-row.closed .time-inputs {
+    display: none !important;
+}
+
+.day-row.closed .closed-indicator {
+    display: block !important;
+}
+
+.day-row.closed .day-label {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .opening-hours-container {
+        padding: 1rem;
+    }
+    
+    .hours-grid .day-row {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem 0.75rem;
+    }
+    
+    .day-checkbox {
+        min-width: auto;
+        margin-bottom: 0.5rem;
+    }
+    
+    .time-inputs {
+        justify-content: space-between;
+        margin-top: 0.5rem;
+    }
+    
+    .time-inputs input[type="time"] {
+        width: 120px;
+    }
+    
+    .btn-group-sm {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .btn-group-sm .btn-sm {
+        margin: 0;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+    }
+}
 </style>
+
+<script>
+// Opening Hours Management
+function toggleDay(day) {
+    const checkbox = document.getElementById(day + '-active');
+    const timeInputs = document.querySelector(`#${day}-active`).closest('.day-row').querySelector('.time-inputs');
+    const closedIndicator = document.getElementById(day + '-closed');
+    const dayRow = checkbox.closest('.day-row');
+    
+    if (checkbox.checked) {
+        timeInputs.style.display = 'flex';
+        closedIndicator.style.display = 'none';
+        dayRow.classList.remove('closed');
+    } else {
+        timeInputs.style.display = 'none';
+        closedIndicator.style.display = 'block';
+        dayRow.classList.add('closed');
+    }
+    
+    updateHoursPreview();
+}
+
+function applyHoursPreset(preset) {
+    const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    
+    // Clear all first
+    days.forEach(day => {
+        document.getElementById(day + '-active').checked = false;
+        toggleDay(day);
+    });
+    
+    switch(preset) {
+        case 'standard':
+            // Monday-Friday 9AM-5PM
+            ['mon', 'tue', 'wed', 'thu', 'fri'].forEach(day => {
+                document.getElementById(day + '-active').checked = true;
+                document.getElementById(day + '-open').value = '09:00';
+                document.getElementById(day + '-close').value = '17:00';
+                toggleDay(day);
+            });
+            break;
+            
+        case 'retail':
+            // Monday-Saturday 10AM-8PM, Sunday 12PM-6PM
+            ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'].forEach(day => {
+                document.getElementById(day + '-active').checked = true;
+                document.getElementById(day + '-open').value = '10:00';
+                document.getElementById(day + '-close').value = '20:00';
+                toggleDay(day);
+            });
+            document.getElementById('sun-active').checked = true;
+            document.getElementById('sun-open').value = '12:00';
+            document.getElementById('sun-close').value = '18:00';
+            toggleDay('sun');
+            break;
+            
+        case 'restaurant':
+            // Tuesday-Sunday 11AM-10PM (Monday closed)
+            ['tue', 'wed', 'thu', 'fri', 'sat', 'sun'].forEach(day => {
+                document.getElementById(day + '-active').checked = true;
+                document.getElementById(day + '-open').value = '11:00';
+                document.getElementById(day + '-close').value = '22:00';
+                toggleDay(day);
+            });
+            break;
+            
+        case '24h':
+            // All days 24/7
+            days.forEach(day => {
+                document.getElementById(day + '-active').checked = true;
+                document.getElementById(day + '-open').value = '00:00';
+                document.getElementById(day + '-close').value = '23:59';
+                toggleDay(day);
+            });
+            break;
+    }
+    
+    updateHoursPreview();
+}
+
+function updateHoursPreview() {
+    const days = [
+        {code: 'mon', name: 'Monday', short: 'Mon'},
+        {code: 'tue', name: 'Tuesday', short: 'Tue'},
+        {code: 'wed', name: 'Wednesday', short: 'Wed'},
+        {code: 'thu', name: 'Thursday', short: 'Thu'},
+        {code: 'fri', name: 'Friday', short: 'Fri'},
+        {code: 'sat', name: 'Saturday', short: 'Sat'},
+        {code: 'sun', name: 'Sunday', short: 'Sun'}
+    ];
+    
+    const openDays = [];
+    let currentGroup = [];
+    let currentTimes = '';
+    
+    days.forEach((day, index) => {
+        const checkbox = document.getElementById(day.code + '-active');
+        
+        if (checkbox.checked) {
+            const openTime = document.getElementById(day.code + '-open').value;
+            const closeTime = document.getElementById(day.code + '-close').value;
+            const times = formatTime(openTime) + ' - ' + formatTime(closeTime);
+            
+            // Check if this day has the same times as the previous group
+            if (currentTimes === times && currentGroup.length > 0) {
+                // Add to current group
+                currentGroup.push(day);
+            } else {
+                // Save previous group if exists
+                if (currentGroup.length > 0) {
+                    openDays.push({
+                        days: [...currentGroup],
+                        times: currentTimes
+                    });
+                }
+                // Start new group
+                currentGroup = [day];
+                currentTimes = times;
+            }
+        } else {
+            // Day is closed, save previous group if exists
+            if (currentGroup.length > 0) {
+                openDays.push({
+                    days: [...currentGroup],
+                    times: currentTimes
+                });
+                currentGroup = [];
+                currentTimes = '';
+            }
+        }
+    });
+    
+    // Don't forget the last group
+    if (currentGroup.length > 0) {
+        openDays.push({
+            days: [...currentGroup],
+            times: currentTimes
+        });
+    }
+    
+    // Format the preview
+    let preview = '';
+    let fullText = '';
+    
+    if (openDays.length === 0) {
+        preview = 'Closed all week';
+        fullText = 'Closed';
+    } else {
+        const lines = [];
+        const fullLines = [];
+        
+        openDays.forEach(group => {
+            const dayNames = group.days.map(d => d.short);
+            const fullDayNames = group.days.map(d => d.name);
+            
+            let dayRange;
+            let fullDayRange;
+            
+            if (group.days.length === 1) {
+                dayRange = dayNames[0];
+                fullDayRange = fullDayNames[0];
+            } else if (group.days.length > 2 && areConsecutive(group.days)) {
+                dayRange = dayNames[0] + '-' + dayNames[dayNames.length - 1];
+                fullDayRange = fullDayNames[0] + ' - ' + fullDayNames[fullDayNames.length - 1];
+            } else {
+                dayRange = dayNames.join(', ');
+                fullDayRange = fullDayNames.join(', ');
+            }
+            
+            lines.push(dayRange + ': ' + group.times);
+            fullLines.push(fullDayRange + ': ' + group.times);
+        });
+        
+        preview = lines.join('<br>');
+        fullText = fullLines.join('\n');
+    }
+    
+    // Update preview
+    document.getElementById('hoursPreview').innerHTML = preview;
+    
+    // Update current status
+    updateCurrentStatus();
+    
+    // Update hidden textarea
+    document.getElementById('openingTimes').value = fullText;
+}
+
+function areConsecutive(dayArray) {
+    const dayOrder = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    const indices = dayArray.map(day => dayOrder.indexOf(day.code)).sort((a, b) => a - b);
+    
+    for (let i = 1; i < indices.length; i++) {
+        if (indices[i] !== indices[i-1] + 1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function formatTime(timeString) {
+    if (!timeString) return '';
+    
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    
+    return displayHour + ':' + minutes + ' ' + ampm;
+}
+
+function updateCurrentStatus() {
+    const now = new Date();
+    const currentDay = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][now.getDay()];
+    const currentTime = now.getHours() * 60 + now.getMinutes(); // Minutes since midnight
+    
+    const statusElement = document.querySelector('.current-status');
+    if (!statusElement) return;
+    
+    const dayCheckbox = document.getElementById(currentDay + '-active');
+    
+    if (dayCheckbox && dayCheckbox.checked) {
+        const openInput = document.getElementById(currentDay + '-open');
+        const closeInput = document.getElementById(currentDay + '-close');
+        
+        if (openInput && closeInput && openInput.value && closeInput.value) {
+            const [openHour, openMin] = openInput.value.split(':').map(Number);
+            const [closeHour, closeMin] = closeInput.value.split(':').map(Number);
+            
+            const openTime = openHour * 60 + openMin;
+            const closeTime = closeHour * 60 + closeMin;
+            
+            if (currentTime >= openTime && currentTime < closeTime) {
+                statusElement.textContent = 'Currently Open';
+                statusElement.className = 'current-status badge bg-success';
+            } else {
+                statusElement.textContent = 'Currently Closed';
+                statusElement.className = 'current-status badge bg-danger';
+            }
+        } else {
+            statusElement.textContent = 'Hours Not Set';
+            statusElement.className = 'current-status badge bg-warning';
+        }
+    } else {
+        statusElement.textContent = 'Closed Today';
+        statusElement.className = 'current-status badge bg-secondary';
+    }
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners to all time inputs
+    const timeInputs = document.querySelectorAll('input[type="time"]');
+    timeInputs.forEach(input => {
+        input.addEventListener('change', updateHoursPreview);
+    });
+    
+    // Initial preview update
+    updateHoursPreview();
+});
+</script>

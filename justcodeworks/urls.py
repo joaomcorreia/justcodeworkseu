@@ -19,9 +19,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
-from .public_views import homepage, static_page
+from .public_views import homepage, static_page, websites_page, prints_page, submit_print_order, robots_txt
 
 urlpatterns = [
+    # Robots.txt - block search engines from development site
+    path('robots.txt', robots_txt, name='robots_txt'),
+    
     # Language switching
     path('i18n/', include('django.conf.urls.i18n')),
     
@@ -32,6 +35,15 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     # Root URL - public homepage
     path('', homepage, name='homepage'),
+    
+    # Websites page - dedicated website builder landing
+    path('websites/', websites_page, name='websites_page'),
+    
+    # Print services page - where customers order prints
+    path('prints/', prints_page, name='prints_page'),
+    
+    # Print order submission
+    path('api/submit-print-order/', submit_print_order, name='submit_print_order'),
     
     # Static pages (user-editable)
     path('static/<str:page_name>/', static_page, name='static_page'),

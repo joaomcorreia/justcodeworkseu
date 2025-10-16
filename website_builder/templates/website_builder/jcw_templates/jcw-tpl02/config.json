@@ -1,0 +1,206 @@
+{
+    "template_info": {
+        "id": "jcw-tpl02",
+        "name": "JCW Agriculture & Organic Template",
+        "version": "1.0.0",
+        "description": "Professional agriculture and organic produce template with nature-inspired design, perfect for farms, organic food businesses, and agricultural services.",
+        "author": "JustCodeWorks.EU Team",
+        "category": "agriculture",
+        "subcategory": "organic_farming",
+        "created_date": "2025-10-10",
+        "last_modified": "2025-10-10"
+    },
+    
+    "design_specs": {
+        "color_palette": {
+            "primary": "#2d5016",
+            "secondary": "#4a7c59", 
+            "accent": "#6aa64c",
+            "light": "#f8fff4",
+            "text_dark": "#333333",
+            "text_light": "#666666"
+        },
+        "typography": {
+            "primary_font": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+            "heading_weight": "700",
+            "body_weight": "400"
+        },
+        "layout": {
+            "sections": 9,
+            "responsive_breakpoints": ["sm", "md", "lg", "xl"],
+            "container_max_width": "1200px"
+        }
+    },
+    
+    "sections": {
+        "1": {
+            "name": "hero_section",
+            "title": "Hero Section",
+            "description": "Full-height hero with background image and call-to-action",
+            "editable_elements": ["heroTitle", "heroSubtitle"],
+            "ai_generation": true
+        },
+        "2": {
+            "name": "services_section",
+            "title": "Services Grid", 
+            "description": "Dynamic grid of service cards with icons",
+            "dynamic_cards": true,
+            "min_cards": 3,
+            "max_cards": 9,
+            "ai_generation": true
+        },
+        "3": {
+            "name": "about_section",
+            "title": "About Section",
+            "description": "About company with farmer image and experience highlights",
+            "editable_elements": ["aboutTitle", "aboutDescription"],
+            "ai_generation": true
+        },
+        "4": {
+            "name": "mission_section", 
+            "title": "Mission Statement",
+            "description": "Company mission with image and values",
+            "editable_elements": ["missionTitle", "missionDescription"],
+            "ai_generation": true
+        },
+        "5": {
+            "name": "gallery_section",
+            "title": "Gallery",
+            "description": "Photo gallery of farm and produce",
+            "dynamic_cards": true,
+            "min_cards": 3,
+            "max_cards": 9,
+            "ai_generation": true
+        },
+        "6": {
+            "name": "testimonials_section",
+            "title": "Testimonials",
+            "description": "Customer testimonial cards",
+            "dynamic_cards": true,
+            "min_cards": 3,
+            "max_cards": 9,
+            "ai_generation": true
+        },
+        "7": {
+            "name": "blog_section",
+            "title": "Recent Posts",
+            "description": "Blog posts with images and excerpts",
+            "dynamic_cards": true,
+            "min_cards": 3,
+            "max_cards": 9,
+            "ai_generation": true
+        },
+        "8": {
+            "name": "newsletter_section",
+            "title": "Newsletter Signup",
+            "description": "Email subscription form",
+            "editable_elements": ["newsletterTitle", "newsletterDescription"],
+            "ai_generation": true
+        },
+        "9": {
+            "name": "footer_section",
+            "title": "Footer",
+            "description": "Contact information and links",
+            "editable_elements": ["footerDescription", "contactInfo"],
+            "ai_generation": true
+        }
+    },
+    
+    "business_types": {
+        "primary": ["agriculture", "organic_farming", "food_production"],
+        "secondary": ["restaurants", "health_food", "sustainable_business"],
+        "compatible": ["environmental_services", "wellness", "natural_products"]
+    },
+    
+    "features": {
+        "responsive_design": true,
+        "ai_content_generation": true,
+        "dynamic_card_system": true,
+        "smooth_scrolling": true,
+        "contact_forms": true,
+        "newsletter_signup": true,
+        "social_media_integration": true,
+        "seo_optimized": true,
+        "accessibility_compliant": true,
+        "bootstrap_framework": "5.1.3",
+        "font_awesome_icons": "6.0.0"
+    },
+    
+    "dynamic_content": {
+        "services": {
+            "type": "card_grid",
+            "min_items": 3,
+            "max_items": 9,
+            "default_items": 8,
+            "content_types": ["icon", "title", "description"]
+        },
+        "gallery": {
+            "type": "image_grid", 
+            "min_items": 3,
+            "max_items": 9,
+            "default_items": 6,
+            "content_types": ["image", "caption"]
+        },
+        "testimonials": {
+            "type": "card_grid",
+            "min_items": 3, 
+            "max_items": 9,
+            "default_items": 4,
+            "content_types": ["avatar", "name", "title", "testimonial"]
+        },
+        "blog": {
+            "type": "card_grid",
+            "min_items": 3,
+            "max_items": 9, 
+            "default_items": 3,
+            "content_types": ["image", "title", "excerpt", "date"]
+        }
+    },
+    
+    "ai_integration": {
+        "magicai_endpoint": "/tools/magicai/",
+        "supported_sections": ["hero", "about", "mission", "services", "testimonials", "blog", "newsletter", "footer"],
+        "content_generation_prompts": {
+            "agriculture_focus": true,
+            "organic_keywords": true,
+            "sustainability_themes": true,
+            "farm_to_table_concepts": true
+        }
+    },
+    
+    "customization": {
+        "color_variations": ["green_primary", "earth_tones", "natural_palette"],
+        "layout_options": ["standard", "wide", "compact"],
+        "image_placeholders": "unsplash_agriculture",
+        "icon_theme": "nature_organic"
+    },
+    
+    "seo": {
+        "meta_title_template": "{{ business_name }} - Fresh Organic Produce & Agriculture Services",
+        "meta_description_template": "{{ business_description }} Professional agriculture services, organic farming, and fresh produce delivery.",
+        "keywords": ["agriculture", "organic", "farming", "fresh produce", "sustainable", "farm to table", "organic vegetables", "healthy food"]
+    },
+    
+    "performance": {
+        "image_optimization": true,
+        "lazy_loading": true,
+        "minified_css": false,
+        "cdn_resources": ["bootstrap", "font_awesome"],
+        "estimated_load_time": "2-3 seconds"
+    },
+    
+    "browser_support": {
+        "chrome": "90+",
+        "firefox": "88+", 
+        "safari": "14+",
+        "edge": "90+",
+        "ie": "not_supported"
+    },
+    
+    "deployment": {
+        "cdn_ready": true,
+        "ssl_required": true,
+        "mobile_optimized": true,
+        "print_friendly": true
+    }
+}

@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ business_name|default:"Agriculture Business" }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2d5016;
+            --secondary-green: #4a7c59;
+            --accent-green: #6aa64c;
+            --light-green: #f8fff4;
+            --text-dark: #333333;
+            --text-light: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-green) !important;
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-green) !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(45, 80, 22, 0.7), rgba(45, 80, 22, 0.7)), 
+                        url('https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-primary-green {
+            background-color: var(--accent-green);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary-green:hover {
+            background-color: var(--primary-green);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 80px 0;
+            background-color: var(--light-green);
+        }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .services-header h2 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .services-header p {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 2rem;
+            height: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-green), var(--secondary-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .service-card h5 {
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about-section {
+            background: var(--primary-green);
+            color: white;
+            padding: 80px 0;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .about-image {
+            flex: 1;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .experience-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .experience-item i {
+            color: var(--accent-green);
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .mission-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .mission-text {
+            flex: 1;
+        }
+
+        .mission-text h2 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-image {
+            flex: 1;
+        }
+
+        .mission-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 80px 0;
+            background: var(--light-green);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .testimonial-card {
+            background: var(--light-green);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            height: 100%;
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 4px solid var(--accent-green);
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        /* Blog Section */
+        .blog-section {
+            padding: 80px 0;
+            background: var(--light-green);
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            margin-bottom: 2rem;
+            height: 100%;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .blog-card-body {
+            padding: 2rem;
+        }
+
+        .blog-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-title {
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background: var(--primary-green);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter-section h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+
+        .newsletter-btn {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .newsletter-btn:hover {
+            background: var(--secondary-green);
+        }
+
+        /* Footer */
+        .footer-section {
+            background: #1a1a1a;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section-title {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-green);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            text-align: center;
+            color: #999;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-green);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-green);
+        }
+
+        /* AI Edit Buttons */
+        .ai-editable {
+            position: relative;
+        }
+
+        .ai-edit-btn {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .ai-editable:hover .ai-edit-btn {
+            opacity: 1;
+        }
+
+        .ai-edit-btn:hover {
+            background: linear-gradient(135deg, #732d91, #8e44ad);
+        }
+
+        .section-controls {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .add-btn {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .add-btn:hover {
+            background: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content, .mission-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">{{ business_name|default:"Agriculture Co." }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section 1: Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="ai-editable" data-section="hero">
+                <button class="ai-edit-btn" onclick="editContent('hero')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <div class="hero-content">
+                    <h1 id="heroTitle">{{ business_name|default:"Organic vegetables is good for health" }}</h1>
+                    <p id="heroSubtitle">{{ business_description|default:"Fresh, organic produce delivered straight from our farm to your table. Experience the pure taste of nature with our sustainable farming practices." }}</p>
+                    <a href="#services" class="btn btn-primary-green">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Services Grid -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="ai-editable" data-section="services-header">
+                <button class="ai-edit-btn" onclick="editContent('services-header')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <div class="services-header">
+                    <h2>Providing Fresh Produce Every Single Day</h2>
+                    <p>Discover our comprehensive range of fresh, organic products and services</p>
+                </div>
+            </div>
+
+            <div class="row" id="dynamicServicesContainer">
+                <!-- Services will be generated by JavaScript -->
+            </div>
+
+            <div class="section-controls">
+                <button class="add-btn" onclick="addCard('services')">
+                    <i class="fas fa-plus me-2"></i>Add Service
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="ai-editable" data-section="about">
+                <button class="ai-edit-btn" onclick="editContent('about')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1595501605207-72858ba0dd28?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Experienced Farmer" class="img-fluid">
+                    </div>
+                    <div class="about-text">
+                        <h2>More than 50 year experience in agriculture industry</h2>
+                        <p>With over five decades of dedication to sustainable farming, we've mastered the art of growing the finest organic produce. Our expertise ensures that every vegetable we grow meets the highest standards of quality and nutrition.</p>
+                        
+                        <div class="experience-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>More fresh tips</span>
+                        </div>
+                        <div class="experience-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Free organic foods</span>
+                        </div>
+                        <div class="experience-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Call center 24/7 support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Mission Section -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="ai-editable" data-section="mission">
+                <button class="ai-edit-btn" onclick="editContent('mission')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <div class="mission-content">
+                    <div class="mission-text">
+                        <h2>Plants Make Life Better</h2>
+                        <p>We believe in the power of nature to nourish both body and soul. Our mission is to cultivate the finest organic produce while preserving the environment for future generations.</p>
+                        <ul>
+                            <li>Sustainable farming practices</li>
+                            <li>100% organic certification</li>
+                            <li>Supporting local communities</li>
+                            <li>Environmental conservation</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary-green">Contact Us</a>
+                    </div>
+                    <div class="mission-image">
+                        <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Woman with vegetables" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Gallery -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="ai-editable" data-section="gallery-header">
+                <button class="ai-edit-btn" onclick="editContent('gallery-header')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <div class="text-center mb-5">
+                    <h2 class="text-success fw-bold">Nec velit libero erat consequatur</h2>
+                    <p>See our farm in action and the quality of our produce</p>
+                </div>
+            </div>
+
+            <div class="gallery-grid" id="dynamicGalleryContainer">
+                <!-- Gallery items will be generated by JavaScript -->
+            </div>
+
+            <div class="section-controls">
+                <button class="add-btn" onclick="addCard('gallery')">
+                    <i class="fas fa-plus me-2"></i>Add Image
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Testimonials -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <div class="ai-editable" data-section="testimonials-header">
+                <button class="ai-edit-btn" onclick="editContent('testimonials-header')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <div class="text-center mb-5">
+                    <h2 class="text-success fw-bold">What Our Customers Say</h2>
+                    <p>Hear from our satisfied customers about their experience with our organic produce</p>
+                </div>
+            </div>
+
+            <div class="row" id="dynamicTestimonialsContainer">
+                <!-- Testimonials will be generated by JavaScript -->
+            </div>
+
+            <div class="section-controls">
+                <button class="add-btn" onclick="addCard('testimonials')">
+                    <i class="fas fa-plus me-2"></i>Add Testimonial
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Recent Posts -->
+    <section id="blog" class="blog-section">
+        <div class="container">
+            <div class="ai-editable" data-section="blog-header">
+                <button class="ai-edit-btn" onclick="editContent('blog-header')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <div class="text-center mb-5">
+                    <h2 class="text-success fw-bold">Recent Posts</h2>
+                    <p>Stay updated with our latest news, tips, and insights from the farm</p>
+                </div>
+            </div>
+
+            <div class="row" id="dynamicBlogContainer">
+                <!-- Blog posts will be generated by JavaScript -->
+            </div>
+
+            <div class="section-controls">
+                <button class="add-btn" onclick="addCard('blog')">
+                    <i class="fas fa-plus me-2"></i>Add Post
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: Newsletter -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="ai-editable" data-section="newsletter">
+                <button class="ai-edit-btn" onclick="editContent('newsletter')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <h3>SUBSCRIBE TO OUR NEWSLETTER</h3>
+                <p>Stay updated with our latest news, seasonal produce, and organic farming tips</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 9: Footer -->
+    <footer id="contact" class="footer-section">
+        <div class="container">
+            <div class="ai-editable" data-section="footer">
+                <button class="ai-edit-btn" onclick="editContent('footer')">
+                    <i class="fas fa-magic me-2"></i>Change Content
+                </button>
+                <div class="footer-content">
+                    <div>
+                        <h4 class="footer-section-title">{{ business_name|default:"Agriculture Co." }}</h4>
+                        <p>{{ business_description|default:"Leading provider of fresh, organic produce with over 50 years of farming experience." }}</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="footer-section-title">Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#services">Services</a></li>
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="#gallery">Gallery</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="footer-section-title">Our Services</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Organic Vegetables</a></li>
+                            <li><a href="#">Fresh Fruits</a></li>
+                            <li><a href="#">Farm Tours</a></li>
+                            <li><a href="#">Consultation</a></li>
+                            <li><a href="#">Wholesale</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="footer-section-title">Contact Info</h4>
+                        <div class="contact-info">
+                            <p><i class="fas fa-map-marker-alt me-2"></i>{{ business_address|default:"123 Farm Road, Agriculture Valley, State 12345" }}</p>
+                            <p><i class="fas fa-phone me-2"></i>{{ business_phone|default:"+1 (555) 123-4567" }}</p>
+                            <p><i class="fas fa-envelope me-2"></i>{{ business_email|default:"info@agriculture.com" }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 {{ business_name|default:"Agriculture Co." }}. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dynamic-content.js"></script>
+</body>
+</html>

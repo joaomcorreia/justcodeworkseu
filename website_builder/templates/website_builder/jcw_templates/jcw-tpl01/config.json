@@ -1,0 +1,132 @@
+{
+    "template_id": "jcw-tpl01",
+    "template_name": "JustCodeWorks AI-Powered Template",
+    "template_version": "1.0.0",
+    "template_type": "ai_enhanced",
+    "description": "Advanced template with MagicAI integration for automatic content generation and dynamic card systems",
+    "author": "JustCodeWorks.EU",
+    "created_date": "2025-10-10",
+    
+    "features": {
+        "ai_content_generation": true,
+        "dynamic_card_system": true,
+        "magic_ai_integration": true,
+        "responsive_design": true,
+        "real_time_editing": true,
+        "sections": [
+            "hero_banner",
+            "about_content", 
+            "statistics_cards",
+            "blog_grid",
+            "navigation_sidebar",
+            "featured_content",
+            "pricing_table",
+            "faq_section",
+            "contact_footer"
+        ],
+        "dynamic_sections": {
+            "services_cards": {
+                "min_cards": 3,
+                "max_cards": 9,
+                "default_cards": 6
+            },
+            "blog_posts": {
+                "min_cards": 3,
+                "max_cards": 9,
+                "default_cards": 3
+            },
+            "team_members": {
+                "min_cards": 3,
+                "max_cards": 9,
+                "default_cards": 4
+            },
+            "testimonials": {
+                "min_cards": 3,
+                "max_cards": 9,
+                "default_cards": 3
+            },
+            "portfolio_items": {
+                "min_cards": 6,
+                "max_cards": 9,
+                "default_cards": 6
+            }
+        }
+    },
+    
+    "magic_ai_integration": {
+        "base_url": "https://tools.justcodeworks.net",
+        "supported_content_types": [
+            "hero_content",
+            "about_description",
+            "service_descriptions", 
+            "blog_posts",
+            "faq_items",
+            "pricing_descriptions",
+            "testimonials",
+            "contact_copy"
+        ],
+        "generation_prompts": {
+            "automotive": "Generate professional automotive service content",
+            "construction": "Generate construction and building industry content",
+            "healthcare": "Generate healthcare and medical service content",
+            "restaurant": "Generate restaurant and food service content", 
+            "portfolio": "Generate creative and design agency content"
+        }
+    },
+    
+    "technical_specs": {
+        "framework": "Bootstrap 5.1.3",
+        "icons": "Font Awesome 6.0.0",
+        "javascript_features": [
+            "dynamic_card_generation",
+            "ai_content_loading",
+            "real_time_editing",
+            "image_upload_handling",
+            "faq_interactions",
+            "smooth_scrolling"
+        ],
+        "api_integration": "MagicAI OpenAI Content Generator"
+    },
+    
+    "data_sources": {
+        "jcw_tpl00_integration": true,
+        "business_data_mapping": {
+            "business_name": "hero_title",
+            "business_type": "content_generation_context",
+            "services": "dynamic_service_cards",
+            "business_description": "about_section_base",
+            "contact_info": "contact_section"
+        }
+    },
+    
+    "customizable_elements": {
+        "colors": {
+            "primary": "#22c55e",
+            "secondary": "#16a34a",
+            "accent": "#10b981",
+            "text": "#374151",
+            "background": "#f8f9fa"
+        },
+        "layout_options": {
+            "card_layouts": ["2-column", "3-column", "4-column"],
+            "section_spacing": ["compact", "normal", "spacious"],
+            "hero_styles": ["gradient", "image", "video"]
+        }
+    },
+    
+    "required_context_variables": [
+        "business_name",
+        "business_type",
+        "services_data",
+        "business_description",
+        "contact_info"
+    ],
+    
+    "optional_context_variables": [
+        "hero_background_image",
+        "brand_colors",
+        "additional_content",
+        "social_media_links",
+        "custom_sections"
+    ]
+}

@@ -1,0 +1,523 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Services - JustCodeWorks.EU</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+        }
+        
+        .hero-section {
+            background: var(--primary-gradient);
+            padding: 120px 0 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .breadcrumb {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb-item a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "›";
+            color: rgba(255,255,255,0.6);
+            margin: 0 0.5rem;
+        }
+        
+        .breadcrumb-item.active {
+            color: white;
+        }
+
+        .navbar {
+            background: rgba(255,255,255,0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--text-dark) !important;
+        }
+
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #667eea !important;
+        }
+
+        .print-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .print-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .print-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .btn-order {
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-order:hover {
+            transform: translateY(-3px);
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .price-tag {
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .order-form {
+            background: #f8f9fa;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-code me-2"></i>JustCodeWorks.EU
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/en/websites/">Websites</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/en/prints/">Prints</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/login/">
+                            <i class="fas fa-sign-in-alt me-1"></i>Admin Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Breadcrumbs -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Breadcrumbs -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/"><i class="fas fa-home me-1"></i>Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Print Services</li>
+                    </ol>
+                </nav>
+
+                <h1 class="display-3 fw-bold mb-4">
+                    Professional Print Services
+                </h1>
+                <p class="lead mb-5">
+                    High-quality printing solutions for businesses and individuals. 
+                    From business cards to large format prints - we've got you covered.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="#order" class="btn-order">
+                        <i class="fas fa-shopping-cart me-2"></i>Order Now
+                    </a>
+                    <a href="#services" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-info-circle me-2"></i>View Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: Print Services -->
+    <section class="py-5 bg-light" id="services">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Our Print Services</h2>
+                <p class="lead text-muted">Professional quality prints for all your business needs</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Business Cards -->
+                <div class="col-lg-4">
+                    <div class="print-card">
+                        <div class="print-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="price-tag">From €15/100pcs</div>
+                        <h3 class="text-center mb-4">Business Cards</h3>
+                        <p class="text-center text-muted mb-4">
+                            Professional business cards on premium paper. 
+                            Multiple finishes available including matte, gloss, and premium textured.
+                        </p>
+                        <ul class="list-unstyled mb-4">
+                            <li><i class="fas fa-check text-success me-2"></i>350gsm premium cardstock</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Full color printing</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Matte or gloss finish</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Standard 85x55mm size</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Fast 3-5 day delivery</li>
+                        </ul>
+                        <div class="text-center">
+                            <a href="#order" class="btn-order">
+                                <i class="fas fa-cart-plus me-2"></i>Order Business Cards
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flyers & Brochures -->
+                <div class="col-lg-4">
+                    <div class="print-card">
+                        <div class="print-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="price-tag">From €25/100pcs</div>
+                        <h3 class="text-center mb-4">Flyers & Brochures</h3>
+                        <p class="text-center text-muted mb-4">
+                            Eye-catching flyers and professional brochures. 
+                            Perfect for marketing campaigns and promotional materials.
+                        </p>
+                        <ul class="list-unstyled mb-4">
+                            <li><i class="fas fa-check text-success me-2"></i>A4, A5, A6 sizes available</li>
+                            <li><i class="fas fa-check text-success me-2"></i>170gsm-300gsm paper options</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Single or double sided</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Folding options available</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Bulk discounts available</li>
+                        </ul>
+                        <div class="text-center">
+                            <a href="#order" class="btn-order">
+                                <i class="fas fa-cart-plus me-2"></i>Order Flyers
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Large Format -->
+                <div class="col-lg-4">
+                    <div class="print-card">
+                        <div class="print-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="price-tag">From €50/m²</div>
+                        <h3 class="text-center mb-4">Large Format Prints</h3>
+                        <p class="text-center text-muted mb-4">
+                            Banners, posters, and signage for events and storefronts. 
+                            Weather-resistant materials available for outdoor use.
+                        </p>
+                        <ul class="list-unstyled mb-4">
+                            <li><i class="fas fa-check text-success me-2"></i>Up to 1.5m width</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Vinyl, canvas, paper options</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Indoor/outdoor materials</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Mounting options available</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Custom sizes welcome</li>
+                        </ul>
+                        <div class="text-center">
+                            <a href="#order" class="btn-order">
+                                <i class="fas fa-cart-plus me-2"></i>Order Large Format
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Why Choose Our Print Services -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Why Choose Our Print Services?</h2>
+                <p class="lead text-muted">Quality, speed, and competitive pricing</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <div class="print-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h5>Premium Quality</h5>
+                        <p class="text-muted">High-end printing equipment and premium materials for professional results</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <div class="print-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h5>Fast Delivery</h5>
+                        <p class="text-muted">Quick turnaround times with reliable delivery across Europe</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <div class="print-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-euro-sign"></i>
+                        </div>
+                        <h5>Competitive Pricing</h5>
+                        <p class="text-muted">Fair prices with bulk discounts and no hidden fees</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <div class="print-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h5>Design Support</h5>
+                        <p class="text-muted">Free design assistance and file preparation services</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Order Form -->
+    <section class="py-5 bg-light" id="order">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Order Your Prints</h2>
+                <p class="lead text-muted">Get a quote or place your order directly</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="order-form">
+                        <form id="printOrderForm">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Your Name *</label>
+                                    <input type="text" class="form-control" name="customer_name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Email Address *</label>
+                                    <input type="email" class="form-control" name="customer_email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Phone Number</label>
+                                    <input type="tel" class="form-control" name="customer_phone">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Print Service *</label>
+                                    <select class="form-control" name="print_service" required>
+                                        <option value="">Select service...</option>
+                                        <option value="business_cards">Business Cards</option>
+                                        <option value="flyers">Flyers & Brochures</option>
+                                        <option value="large_format">Large Format Prints</option>
+                                        <option value="other">Other (specify in message)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Quantity</label>
+                                    <input type="number" class="form-control" name="quantity" placeholder="e.g., 100, 500, 1000">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Size/Format</label>
+                                    <input type="text" class="form-control" name="print_size" placeholder="e.g., A4, 85x55mm, custom">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label fw-bold">Project Details</label>
+                                    <textarea class="form-control" name="project_details" rows="4" 
+                                             placeholder="Describe your print project, special requirements, deadlines, etc."></textarea>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label fw-bold">Delivery Address</label>
+                                    <textarea class="form-control" name="delivery_address" rows="3" 
+                                             placeholder="Full delivery address for shipping quote"></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn-order btn-lg">
+                                    <i class="fas fa-paper-plane me-2"></i>Request Quote
+                                </button>
+                                <p class="text-muted mt-3 mb-0">
+                                    We'll respond within 24 hours with pricing and timeline
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-print me-2"></i>JustCodeWorks.EU Print Services</h5>
+                    <p class="text-muted">
+                        Professional printing solutions for European businesses. 
+                        Quality prints, fast delivery, competitive prices.
+                    </p>
+                </div>
+                <div class="col-md-6" id="contact">
+                    <h5>Contact Information</h5>
+                    <p class="text-muted mb-1">
+                        <i class="fas fa-envelope me-2"></i>prints@justcodeworks.eu
+                    </p>
+                    <p class="text-muted mb-1">
+                        <i class="fas fa-phone me-2"></i>+31 (0) 20 123 4567
+                    </p>
+                    <div class="mt-3">
+                        <a href="#order" class="btn btn-outline-light">
+                            <i class="fas fa-shopping-cart me-2"></i>Order Prints
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center text-muted">
+                <p>&copy; 2025 JustCodeWorks.EU - Professional Print Services</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('printOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get the submit button
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Simple validation
+            if (!data.customer_name || !data.customer_email || !data.print_service) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Set loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending Request...';
+            submitBtn.disabled = true;
+            
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                             document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
+            
+            // Submit to API
+            fetch('/en/api/submit-print-order/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken || ''
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // Success
+                    alert(result.message);
+                    this.reset();
+                } else {
+                    // Error
+                    alert('Error: ' + result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error: Failed to submit order. Please try again.');
+            })
+            .finally(() => {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

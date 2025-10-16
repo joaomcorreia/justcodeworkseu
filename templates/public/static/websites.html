@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Building Services - JustCodeWorks.EU</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+        }
+        
+        .hero-section {
+            background: var(--primary-gradient);
+            padding: 120px 0 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .breadcrumb {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb-item a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "›";
+            color: rgba(255,255,255,0.6);
+            margin: 0 0.5rem;
+        }
+        
+        .breadcrumb-item.active {
+            color: white;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .btn-cta {
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .process-step {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+        
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .table-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .navbar {
+            background: rgba(255,255,255,0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--text-dark) !important;
+        }
+
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #667eea !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-code me-2"></i>JustCodeWorks.EU
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/en/websites/">Websites</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/en/prints/">Prints</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/login/">
+                            <i class="fas fa-sign-in-alt me-1"></i>Admin Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Breadcrumbs -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Breadcrumbs -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/"><i class="fas fa-home me-1"></i>Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Website Services</li>
+                    </ol>
+                </nav>
+
+                <h1 class="display-3 fw-bold mb-4">
+                    Professional Website Solutions
+                </h1>
+                <p class="lead mb-5">
+                    We build custom websites and provide AI-powered tools so users can create their websites and go online fast.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="/en/website-builder/" class="btn-cta">
+                        <i class="fas fa-magic me-2"></i>Start AI Builder
+                    </a>
+                    <a href="#custom-websites" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-palette me-2"></i>Custom Websites
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: Our Two Main Services -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Two Ways to Get Your Website</h2>
+                <p class="lead text-muted">Choose the solution that fits your needs and timeline</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- AI Website Builder -->
+                <div class="col-lg-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="text-center mb-4">AI Website Builder</h3>
+                        <p class="text-center text-muted mb-4">
+                            Build your professional website in minutes using our AI-powered platform. 
+                            Perfect for small businesses who need to get online quickly.
+                        </p>
+                        <ul class="list-unstyled mb-4">
+                            <li><i class="fas fa-check text-success me-2"></i>Live in under 30 minutes</li>
+                            <li><i class="fas fa-check text-success me-2"></i>AI-generated content</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Mobile-responsive design</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Easy to edit and maintain</li>
+                            <li><i class="fas fa-check text-success me-2"></i>€29-99/month subscription</li>
+                        </ul>
+                        <div class="text-center">
+                            <a href="/en/website-builder/" class="btn-cta">
+                                <i class="fas fa-rocket me-2"></i>Start Building Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Website Development -->
+                <div class="col-lg-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3 class="text-center mb-4">Custom Website Development</h3>
+                        <p class="text-center text-muted mb-4">
+                            Fully custom websites designed and developed specifically for your business. 
+                            Perfect for companies with unique requirements.
+                        </p>
+                        <ul class="list-unstyled mb-4">
+                            <li><i class="fas fa-check text-success me-2"></i>Completely custom design</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Advanced functionality</li>
+                            <li><i class="fas fa-check text-success me-2"></i>SEO optimization</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Professional development</li>
+                            <li><i class="fas fa-check text-success me-2"></i>€500-2000 one-time cost</li>
+                        </ul>
+                        <div class="text-center">
+                            <a href="#contact" class="btn-cta">
+                                <i class="fas fa-envelope me-2"></i>Get Quote
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: How Our AI Builder Works -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">How Our AI Builder Works</h2>
+                <p class="lead text-muted">Get online in 3 simple steps</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h5>Tell Us About Your Business</h5>
+                        <p class="text-muted">
+                            Provide your business details, industry, and services. 
+                            Our AI will understand your needs.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h5>AI Creates Your Website</h5>
+                        <p class="text-muted">
+                            Our AI assistant generates professional content, 
+                            selects the perfect template, and builds your site.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h5>Go Live Instantly</h5>
+                        <p class="text-muted">
+                            Review, customize if needed, and publish. 
+                            Your professional website is live in minutes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="/en/website-builder/" class="btn-cta btn-lg">
+                    <i class="fas fa-magic me-2"></i>Try Our AI Builder Free
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Why Choose JustCodeWorks.EU -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Why Choose JustCodeWorks.EU?</h2>
+                <p class="lead text-muted">Built specifically for European businesses</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <div class="service-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-euro-sign"></i>
+                        </div>
+                        <h5>European Focus</h5>
+                        <p class="text-muted">GDPR compliant, European hosting, and local support</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <div class="service-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h5>Fast Delivery</h5>
+                        <p class="text-muted">AI builds in minutes, custom sites in days not weeks</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <div class="service-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h5>Mobile First</h5>
+                        <p class="text-muted">All websites optimized for mobile devices and tablets</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <div class="service-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h5>Expert Support</h5>
+                        <p class="text-muted">Professional support team and AI assistant guidance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Comparison Table -->
+    <section class="py-5" id="comparison">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Compare Our Services</h2>
+                <p class="lead text-muted">Choose the right solution for your business needs</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="comparison-table">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <div class="table-header">Features</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="table-header">AI Website Builder</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="table-header">Custom Development</div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4">
+                            <div class="row border-bottom py-3">
+                                <div class="col-md-4"><strong>Time to Launch</strong></div>
+                                <div class="col-md-4 text-center">
+                                    <span class="badge bg-success">Under 30 minutes</span>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <span class="badge bg-primary">1-2 weeks</span>
+                                </div>
+                            </div>
+                            
+                            <div class="row border-bottom py-3">
+                                <div class="col-md-4"><strong>Design Customization</strong></div>
+                                <div class="col-md-4 text-center">Template-based</div>
+                                <div class="col-md-4 text-center">Fully custom</div>
+                            </div>
+                            
+                            <div class="row border-bottom py-3">
+                                <div class="col-md-4"><strong>Content Creation</strong></div>
+                                <div class="col-md-4 text-center">AI-generated</div>
+                                <div class="col-md-4 text-center">Professional copywriting</div>
+                            </div>
+                            
+                            <div class="row border-bottom py-3">
+                                <div class="col-md-4"><strong>Maintenance</strong></div>
+                                <div class="col-md-4 text-center">Self-service + AI help</div>
+                                <div class="col-md-4 text-center">Professional support</div>
+                            </div>
+                            
+                            <div class="row py-3">
+                                <div class="col-md-4"><strong>Investment</strong></div>
+                                <div class="col-md-4 text-center">€29-99/month</div>
+                                <div class="col-md-4 text-center">€500-2000 one-time</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <h4>Ready to Get Started?</h4>
+                        <p class="text-muted mb-4">
+                            Contact us to discuss your project or try our AI builder for free.
+                        </p>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="/en/website-builder/" class="btn-cta">
+                                <i class="fas fa-robot me-2"></i>Try AI Builder
+                            </a>
+                            <a href="#contact" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-envelope me-2"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-code me-2"></i>JustCodeWorks.EU</h5>
+                    <p class="text-muted">
+                        Professional website solutions for European businesses. 
+                        Get online fast with AI or get a custom solution.
+                    </p>
+                </div>
+                <div class="col-md-6" id="contact">
+                    <h5>Contact Information</h5>
+                    <p class="text-muted mb-1">
+                        <i class="fas fa-envelope me-2"></i>info@justcodeworks.eu
+                    </p>
+                    <p class="text-muted mb-1">
+                        <i class="fas fa-globe me-2"></i>www.justcodeworks.eu
+                    </p>
+                    <div class="mt-3">
+                        <a href="/en/website-builder/" class="btn btn-outline-light">
+                            <i class="fas fa-magic me-2"></i>Start Building
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center text-muted">
+                <p>&copy; 2025 JustCodeWorks.EU - Professional Website Solutions</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
