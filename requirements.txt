@@ -2,7 +2,8 @@
 
 # Core Django & Databasedjango-tenants==3.9.0
 
-Django>=5.0.0psycopg2-binary==2.9.9
+Django>=5.0.0
+psycopg2-binary==2.9.9
 
 psycopg2-binary>=2.9.0python-decouple==3.8
 
